@@ -15,7 +15,7 @@ import socket
 import sys
 
 
-
+# TODO: add udp full functionality for sendto recvfrom and test with on cs1
 
 # define the size of the table
 def distance(a, b):
