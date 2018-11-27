@@ -11,12 +11,7 @@
 
 # define the size of the table
 def distance(a, b):
-    if a==b:
-        return 0
-    elif a<b:
-        return b-a;
-    else:
-        return (2**k)+(b-a);
+    return a^b
 
 # find the node
 def findNode(start, key):
@@ -27,7 +22,7 @@ def findNode(start, key):
     return current
 
 # get the value
-def lookup(start, key):
+def getValue(start, key):
     node=findNode(start, key)
     return node.data[key]
 
@@ -36,6 +31,9 @@ def store(start, key, value):
     node=findNode(start, key)
     node.data[key]=value
 
+
+
+#  ***************** Functions for updating tables after joins/leaves ******** #
 # update finger table
 def update(node):
     for x in range(k):
@@ -43,7 +41,7 @@ def update(node):
         node.finger[x]=findNode(oldEntry,
                           (node.id+(2**x)) % (2**k))
 
-# 
+# find the correct finger
 def findFinger(node, key):
     current=node
     for x in range(k):
@@ -52,6 +50,7 @@ def findFinger(node, key):
             current=node.finger[x]
     return current
 
+# look up the correct finger
 def lookup(start, key):
     current=findFinger(start, key)
     next=findFinger(current, key)
