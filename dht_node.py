@@ -9,7 +9,7 @@
 #   Distributed Hash Table Node
 
 
-# define the size of the table 
+# define the size of the table
 def distance(a, b):
     if a==b:
         return 0
@@ -35,5 +35,30 @@ def lookup(start, key):
 def store(start, key, value):
     node=findNode(start, key)
     node.data[key]=value
+
+# update finger table
+def update(node):
+    for x in range(k):
+        oldEntry=node.finger[x]
+        node.finger[x]=findNode(oldEntry,
+                          (node.id+(2**x)) % (2**k))
+
+# 
+def findFinger(node, key):
+    current=node
+    for x in range(k):
+        if distance(current.id, key) > \
+           distance(node.finger[x].id, key):
+            current=node.finger[x]
+    return current
+
+def lookup(start, key):
+    current=findFinger(start, key)
+    next=findFinger(current, key)
+    while distance(current.id, key) > \
+          distance(next.id, key):
+        current=next
+        next=findFinger(current, key)
+    return current
 
 #   eof
