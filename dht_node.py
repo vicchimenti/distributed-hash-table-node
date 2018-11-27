@@ -40,11 +40,11 @@ def putValue(start, key, value):
 
 UDP_IP = "127.0.0.1"
 UDP_PORT = 10109
-MESSAGE = "Hello World"
-
-sock = socket.socket(socket.AF_INET, socket.SOCK_DRGAM)
-
-sock.sento(MESSAGE, (UDP_IP, UDP_PORT))
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.bind((UDP_IP, UDP_PORT))
+while True:
+ data, addr = sock.recvfrom(1024)
+ print "received message:", data
 
 
 
