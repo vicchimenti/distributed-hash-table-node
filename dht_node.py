@@ -9,6 +9,13 @@
 #   Distributed Hash Table Node
 
 
+
+
+import socket
+
+
+
+
 # define the size of the table
 def distance(a, b):
     return a^b
@@ -27,37 +34,61 @@ def getValue(start, key):
     return node.data[key]
 
 # put the value
-def store(start, key, value):
+def putValue(start, key, value):
     node=findNode(start, key)
     node.data[key]=value
+
+UDP_IP = "127.0.0.1"
+UDP_PORT = 10109
+MESSAGE = "Hello World"
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DRGAM)
+
+sock.sento(MESSAGE, (UDP_IP, UDP_PORT))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 #  ***************** Functions for updating tables after joins/leaves ******** #
 # update finger table
-def update(node):
-    for x in range(k):
-        oldEntry=node.finger[x]
-        node.finger[x]=findNode(oldEntry,
-                          (node.id+(2**x)) % (2**k))
-
-# find the correct finger
-def findFinger(node, key):
-    current=node
-    for x in range(k):
-        if distance(current.id, key) > \
-           distance(node.finger[x].id, key):
-            current=node.finger[x]
-    return current
-
-# look up the correct finger
-def lookup(start, key):
-    current=findFinger(start, key)
-    next=findFinger(current, key)
-    while distance(current.id, key) > \
-          distance(next.id, key):
-        current=next
-        next=findFinger(current, key)
-    return current
+# def update(node):
+#     for x in range(k):
+#         oldEntry=node.finger[x]
+#         node.finger[x]=findNode(oldEntry,
+#                           (node.id+(2**x)) % (2**k))
+#
+# # find the correct finger
+# def findFinger(node, key):
+#     current=node
+#     for x in range(k):
+#         if distance(current.id, key) > \
+#            distance(node.finger[x].id, key):
+#             current=node.finger[x]
+#     return current
+#
+# # look up the correct finger
+# def lookup(start, key):
+#     current=findFinger(start, key)
+#     next=findFinger(current, key)
+#     while distance(current.id, key) > \
+#           distance(next.id, key):
+#         current=next
+#         next=findFinger(current, key)
+#     return current
 
 #   eof
