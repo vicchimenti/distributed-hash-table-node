@@ -20,27 +20,27 @@ import argparse         # for parsing command line arguments
 #   ***************     function definitions     ***************   #
 
 
-# define the size of the table
-def distance(a, b):
-    return a^b
-
-# find the node
-def findNode(start, key):
-    current=start
-    while distance(current.id, key) > \
-          distance(current.next.id, key):
-        current=current.next
-    return current
-
-# get the value
-def getValue(start, key):
-    node=findNode(start, key)
-    return node.data[key]
-
-# put the value
-def putValue(start, key, value):
-    node=findNode(start, key)
-    node.data[key]=value
+# # define the size of the table
+# def distance(a, b):
+#     return a^b
+#
+# # find the node
+# def findNode(start, key):
+#     current=start
+#     while distance(current.id, key) > \
+#           distance(current.next.id, key):
+#         current=current.next
+#     return current
+#
+# # get the value
+# def getValue(start, key):
+#     node=findNode(start, key)
+#     return node.data[key]
+#
+# # put the value
+# def putValue(start, key, value):
+#     node=findNode(start, key)
+#     node.data[key]=value
 
 
 #   ***************     end function definitions     ***************   #
@@ -57,7 +57,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument('hostfile', type=str, nargs=1, required=True)
 parser.add_argument('linenum', type=int, nargs=1, required=True)
 args = parser.parse_args()
-
+print ('hostfile : ' + hostfile)
+print ('linenum : ' + str(linenum))
 
 # create a udp socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
