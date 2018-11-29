@@ -71,7 +71,8 @@ def getIP(h) :
 
 
 
-
+# define defaults
+charset = "UTF-8"                       # default encoding protocol
 UDP_PORT = 10109
 
 
@@ -80,6 +81,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument('hostfile', type=str, nargs=1)
 parser.add_argument('linenum', type=int, nargs=1)
 args = parser.parse_args()
+
+#  *** prints args as list elements *** #
 print ('hostfile : ' + str(args.hostfile))
 print ('linenum : ' + str(args.linenum))
 
@@ -98,13 +101,20 @@ sock.bind((host_ip, UDP_PORT))
 
 # listen for communication
 while True:
- message, address = sock.recvfrom(4096)
- print ('received {} bytes from {}'.format(len(message), address))
- print ('message : ' + message)
+    message, address = sock.recvfrom(4096)
+    msg = str(message.decode(charset))
+    print ('received {} bytes from {}'.format(len(message), address))
+    print ('message : ' + msg)
 
- if message :
+    if message :
      bytes_sent = sock.sendto(message, address)
      print ('sent {} bytes back to {}'.format(bytes_sent, address))
+
+# TODO:
+#   send address to cs2 instance of dht_node and have that instance respond
+#   use hostfile to assign portno
+#   use hostfile to find cs2 instance of dht_node
+
 
 
 
