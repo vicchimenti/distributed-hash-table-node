@@ -4,15 +4,18 @@
 #   dht_node.py
 #   created         11/26/2018
 #   last modified   11/29/2018
-
-
 #   Distributed Hash Table Node
+#   /usr/local/python3/bin/python3
 
 
 
 
-import socket
-import sys
+
+
+
+import sys              # for system calls
+import socket           # for udp socket functionality
+import argparse         # for parsing command line arguments
 
 
 # TODO: add udp full functionality for sendto recvfrom and test with on cs1
