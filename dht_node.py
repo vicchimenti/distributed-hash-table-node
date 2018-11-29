@@ -21,7 +21,7 @@ import argparse         # for parsing command line arguments
 
 
 # get the hostname
-def getHost()
+def getHost() :
     try :
         h = socket.gethostname()
     except AttributeError :
@@ -33,7 +33,7 @@ def getHost()
 
 
 # get the host IP number
-def getIP(h)
+def getIP(h) :
     try :
         h_ip = socket.gethostbyname(h)
     except AttributeError :
