@@ -51,6 +51,7 @@ def putValue(start, key, value):
 UDP_IP = "127.0.0.1"
 UDP_PORT = 10109
 
+
 # parse and assign command-line input
 parser = argparse.ArgumentParser()
 parser.add_argument('hostfile', type=str, nargs=1, required=True)
@@ -58,14 +59,21 @@ parser.add_argument('linenum', type=int, nargs=1, required=True)
 args = parser.parse_args()
 
 
-
-
-
+# create a udp socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((UDP_IP, UDP_PORT))
+
+
+# listen for communication
 while True:
- data, addr = sock.recvfrom(1024)
- print "received message:", data
+ message, address = sock.recvfrom(4096)
+ print ('received {} bytes from {}'.format(len(message), address))
+ print ('message : ' + message)
+
+ if message :
+     bytes_sent = sock.sendto(message, address)
+     print ('sent {} bytes back to {}'.format(bytes_sent, address))
+
 
 
 
