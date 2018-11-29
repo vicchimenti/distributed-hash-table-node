@@ -10,15 +10,15 @@
 
 
 
-
-
-
 import sys              # for system calls
 import socket           # for udp socket functionality
 import argparse         # for parsing command line arguments
 
 
-# TODO: add udp full functionality for sendto recvfrom and test with on cs1
+
+
+#   ***************     function definitions     ***************   #
+
 
 # define the size of the table
 def distance(a, b):
@@ -43,10 +43,24 @@ def putValue(start, key, value):
     node.data[key]=value
 
 
+#   ***************     end function definitions     ***************   #
+
+
 
 
 UDP_IP = "127.0.0.1"
 UDP_PORT = 10109
+
+# parse and assign command-line input
+parser = argparse.ArgumentParser()
+parser.add_argument('hostfile', type=str, nargs=1, required=True)
+parser.add_argument('linenum', type=int, nargs=1, required=True)
+args = parser.parse_args()
+
+
+
+
+
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((UDP_IP, UDP_PORT))
 while True:
