@@ -54,8 +54,8 @@ UDP_PORT = 10109
 
 # parse and assign command-line input
 parser = argparse.ArgumentParser()
-parser.add_argument('hostfile', type=str, nargs=1, required=True)
-parser.add_argument('linenum', type=int, nargs=1, required=True)
+parser.add_argument('hostfile', type=str, nargs=1)
+parser.add_argument('linenum', type=int, nargs=1)
 args = parser.parse_args()
 print ('hostfile : ' + hostfile)
 print ('linenum : ' + str(linenum))
