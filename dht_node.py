@@ -128,7 +128,7 @@ while True :
         # assign request components to local varariables
         cli_addr, cli_port, hops, operation, key, value = getRequest(request)
         # increment each hop
-        hops += hops
+        hops += 1
 
         # if the value matches current node return directly to the client
         if value == args.linenum[0] :
