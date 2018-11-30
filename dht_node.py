@@ -14,7 +14,7 @@ import sys                  # for system calls
 import socket               # for udp socket functionality
 import pickle               # for sending a list over socket
 import argparse             # for parsing command line arguments
-import hashlib.sha1()       # SHA-1 hash functionality
+import hashlib.sha1()       # SHA1 hash functionality
 
 
 
@@ -23,12 +23,19 @@ import hashlib.sha1()       # SHA-1 hash functionality
 
 
 # get the address and port for next node from hosfile contents
+# def getPath(c, v) :
+#     host_addr, host_port_str = c[v].split()
+#     host_port = int(host_port_str)
+#     node_addr = host_addr, host_port
+#
+#     return node_addr
+
+
 def getPath(c, v) :
     host_addr, host_port_str = c[v].split()
     host_port = int(host_port_str)
-    node_addr = host_addr, host_port
 
-    return node_addr
+    return host_addr, host_port
 
 
 # extract the request attributes
@@ -50,6 +57,11 @@ def getClient(r) :
     cli = (a, p)
 
     return cli
+
+
+# calculate the node ID
+def getID(a, p) :
+    mh = hashlib.sha1()
 
 
 
@@ -84,7 +96,7 @@ def getClient(r) :
 
 # define defaults
 charset = "UTF-8"       # default encoding protocol
-my_node_ID = 99999      # default node ID as long
+#my_node_ID = 99999      # default node ID as long
 #UDP_PORT = 10109
 
 
@@ -106,14 +118,20 @@ with open (args.hostfile[0], 'r') as file :
     content = file.readlines()
 
 # get the socket address and port number from file contents
-listen = getPath(content, args.linenum[0])
-#host_addr, host_port_str = content[args.linenum[0]].split()
-#host_port = int(host_port_str)
+#listen = getPath(content, args.linenum[0])
+
+# split addr port info of my node
+host_addr, host_port = getPath(content, args.linenum[0])
+
+# calculate my current node hash value
+my_node_ID = getID(host_addr, host_port)
+
+
 
 # create a udp socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind(listen)
-print ("Listening on Address, Port : " + str(listen))
+sock.bind((host_addr, host_port))
+print ("Listening on Address, Port : " + str((host_addr, host_port)))
 
 
 
