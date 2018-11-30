@@ -12,6 +12,7 @@
 
 import sys              # for system calls
 import socket           # for udp socket functionality
+import pickle           # for sending a list over socket
 import argparse         # for parsing command line arguments
 
 
@@ -20,28 +21,37 @@ import argparse         # for parsing command line arguments
 #   ***************     function definitions     ***************   #
 
 
-# get the hostname
-def getHost() :
-    try :
-        h = socket.gethostname()
-    except AttributeError :
-        error_message = "ERROR Failed to Get Hostname"
-        print (error_message)
-        sys.exit ("Exiting Program")
+# get the address and port for next node from hosfile contents
+def getPath(c, v) :
+    host_addr, host_port_str = c[v].split()
+    host_port = int(host_port_str)
+    node_addr = host_addr, host_port
 
-    return h
+    return node_addr
 
 
-# get the host IP number
-def getIP(h) :
-    try :
-        h_ip = socket.gethostbyname(h)
-    except AttributeError :
-        error_message = "ERROR Failed to Get Host IP Number"
-        print (error_message)
-        sys.exit ("Exiting Program")
+# extract the request attributes
+def getRequest(r) :
+    a = str(r[0])
+    p = int(r[1])
+    h = int(r[2])
+    op = str(r[3])
+    k = str(r[4])
+    v = int(r[5])
 
-    return h_ip
+    return a, p, h, op, k, v
+
+
+# extract the client address from the request
+def getClient(r) :
+    a = str(r[0])
+    p = int(r[1])
+    cli = (a, p)
+
+    return cli
+
+
+
 
 # # define the size of the table
 # def distance(a, b):
@@ -89,31 +99,60 @@ print ('linenum : ' + str(args.linenum))
 
 
 
-# get the local host and ip address
-host = getHost()
-host_ip = getIP(host)
+# open file and assign to list
+with open (args.hostfile[0], 'r') as file :
+    content = file.readlines()
 
+# get the socket address and port number from file contents
+listen = getPath(content, args.linenum[0])
+#host_addr, host_port_str = content[args.linenum[0]].split()
+#host_port = int(host_port_str)
 
 # create a udp socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind((host_ip, UDP_PORT))
+sock.bind(listen)
+print ("Listening on Address, Port : " + str(listen))
+
+
 
 
 # listen for communication
-while True:
+while True :
     message, address = sock.recvfrom(4096)
-    msg = str(message.decode(charset))
+    request = pickle.loads(message)
     print ('received {} bytes from {}'.format(len(message), address))
-    print ('message : ' + msg)
+    print ('request : ' + str(request))
 
+    # if a valid message arrived
     if message :
-     bytes_sent = sock.sendto(message, address)
-     print ('sent {} bytes back to {}'.format(bytes_sent, address))
+        # assign request components to local varariables
+        cli_addr, cli_port, hops, operation, key, value = getRequest(request)
+        # increment each hop
+        hops += 1
 
-# TODO:
-#   send address to cs2 instance of dht_node and have that instance respond
-#   use hostfile to assign portno
-#   use hostfile to find cs2 instance of dht_node
+        # if the value matches current node return directly to the client
+        if value == args.linenum[0] :
+            next_addr = getClient(request)
+            # return to client hash-key, hash-node, hops, key_str, value_str
+            response = key, listen, hops, str(key), str(value)
+        # or else get the address of the next node
+        else :
+            next_addr = getPath(content, value)
+            # forward to next node hash-key, hash-node, hops, key_str, value_str
+            response = cli_addr, cli_port, hops, operation, key, value
+
+        # pickle the response and send
+        message = pickle.dumps(response)
+        bytes_sent = sock.sendto(message, next_addr)
+        print ('sent {} bytes to {}'.format(bytes_sent, next_addr))
+
+
+
+
+
+# close socket and exit program
+sock.close
+sys.exit()
 
 
 
