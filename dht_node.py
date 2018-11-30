@@ -21,27 +21,27 @@ import argparse         # for parsing command line arguments
 
 
 # get the hostname
-def getHost() :
-    try :
-        h = socket.gethostname()
-    except AttributeError :
-        error_message = "ERROR Failed to Get Hostname"
-        print (error_message)
-        sys.exit ("Exiting Program")
-
-    return h
-
-
-# get the host IP number
-def getIP(h) :
-    try :
-        h_ip = socket.gethostbyname(h)
-    except AttributeError :
-        error_message = "ERROR Failed to Get Host IP Number"
-        print (error_message)
-        sys.exit ("Exiting Program")
-
-    return h_ip
+# def getHost() :
+#     try :
+#         h = socket.gethostname()
+#     except AttributeError :
+#         error_message = "ERROR Failed to Get Hostname"
+#         print (error_message)
+#         sys.exit ("Exiting Program")
+#
+#     return h
+#
+#
+# # get the host IP number
+# def getIP(h) :
+#     try :
+#         h_ip = socket.gethostbyname(h)
+#     except AttributeError :
+#         error_message = "ERROR Failed to Get Host IP Number"
+#         print (error_message)
+#         sys.exit ("Exiting Program")
+#
+#     return h_ip
 
 # # define the size of the table
 # def distance(a, b):
@@ -87,16 +87,21 @@ print ('hostfile : ' + str(args.hostfile))
 print ('linenum : ' + str(args.linenum))
 
 
-
+# open file and assign
+with open (args.hostfile[0], 'r') as file :
+    content = file.readlines()
+#host_addr = content[args.linenum[0]]
+host_addr, host_port_str = content[args.linenum[0]].split()
+host_port = int(host_ip_str)
 
 # get the local host and ip address
-host = getHost()
-host_ip = getIP(host)
+# host = getHost()
+# host_ip = getIP(host)
 
 
 # create a udp socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind((host_ip, UDP_PORT))
+sock.bind(host_addr, host_port)
 print ("Listening on Port : " + str(host_port))
 
 
