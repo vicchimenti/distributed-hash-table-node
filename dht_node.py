@@ -62,8 +62,6 @@ def getClient(r) :
 # calculate the node ID
 def getID(s, a, p) :
     a = a.encode(charset)
-    a = s.htonl(a)
-    p = bytes(p)
     p = s.htonl(p)
     mh = hashlib.sha1()
     mh.update(a)
