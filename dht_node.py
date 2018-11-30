@@ -21,6 +21,17 @@ import argparse         # for parsing command line arguments
 #   ***************     function definitions     ***************   #
 
 
+# get the address and port for next node from hosfile contents
+def getPath(c, v) :
+    host_addr, host_port_str = c[v].split()
+    host_port = int(host_port_str)
+    node_addr = host_addr, host_port
+
+    return node_addr
+
+
+
+
 # # define the size of the table
 # def distance(a, b):
 #     return a^b
@@ -72,15 +83,16 @@ with open (args.hostfile[0], 'r') as file :
     content = file.readlines()
 
 # split list and assign address and port number
-host_addr, host_port_str = content[args.linenum[0]].split()
-host_port = int(host_port_str)
+address = getPath(content, args.linenum[0])
+#host_addr, host_port_str = content[args.linenum[0]].split()
+#host_port = int(host_port_str)
 
 
 
 
 # create a udp socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind((host_addr, host_port))
+sock.bind(address)
 print ("Listening on Port : " + str(host_port))
 
 
@@ -92,6 +104,9 @@ while True :
     request = pickle.loads(message)
     print ('received {} bytes from {}'.format(len(message), address))
     print ('request : ' + str(request))
+
+    if value != args.linenum[0] :
+        address = getPath(content, value)
 
 
     if message :
