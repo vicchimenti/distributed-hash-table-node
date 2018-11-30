@@ -32,11 +32,14 @@ def getPath(c, v) :
 
 # extract the request attributes
 def getRequest(r) :
-    op = str(r[2])
-    k = str(r[3])
-    v = int(r[4])
+    a = str(r[0])
+    p = int(r[1])
+    h = int(r[2])
+    op = str(r[3])
+    k = str(r[4])
+    v = int(r[5])
 
-    return op, k, v
+    return a, p, h, op, k, v
 
 
 # extract the client address from the request
@@ -120,23 +123,36 @@ while True :
     print ('received {} bytes from {}'.format(len(message), address))
     print ('request : ' + str(request))
 
-    # assign request components to local varariables
-    operation, key, value = getRequest(request)
-
-    if value != args.linenum[0] :
-        next_addr = getPath(content, value)
-    else :
-        next_addr = getClient(request)
-
-
+    # if a valid message arrived
     if message :
-        message = pickle.dumps(request)
+        # assign request components to local varariables
+        cli_addr, cli_port, hops, operation, key, value = getRequest(request)
+        # increment each hop
+        hops += hops
+
+        # if the value matches current node return directly to the client
+        if value == args.linenum[0] :
+            next_addr = getClient(request)
+            # return to client hash-key, hash-node, hops, key_str, value_str
+            response = key, listen, hops, str(key), str(value)
+        # or else get the address of the next node
+        else :
+            next_addr = getPath(content, value)
+            # forward to next node hash-key, hash-node, hops, key_str, value_str
+            response = cli_addr, cli_port, hops, operation, key, value
+
+        # pickle the response and send
+        message = pickle.dumps(response)
         bytes_sent = sock.sendto(message, next_addr)
         print ('sent {} bytes to {}'.format(bytes_sent, next_addr))
 
-# TODO:
-#   send address to cs2 instance of dht_node and have that instance respond
-#   use hostfile to find cs2 instance of dht_node
+
+
+
+
+# close socket and exit program
+sock.close
+sys.exit()
 
 
 
