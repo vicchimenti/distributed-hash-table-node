@@ -83,8 +83,9 @@ def getClient(r) :
 
 
 # define defaults
-charset = "UTF-8"                       # default encoding protocol
-UDP_PORT = 10109
+charset = "UTF-8"       # default encoding protocol
+my_node_ID = 99999      # default node ID as long
+#UDP_PORT = 10109
 
 
 # parse and assign command-line input
