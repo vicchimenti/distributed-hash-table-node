@@ -10,10 +10,11 @@
 
 
 
-import sys              # for system calls
-import socket           # for udp socket functionality
-import pickle           # for sending a list over socket
-import argparse         # for parsing command line arguments
+import sys                  # for system calls
+import socket               # for udp socket functionality
+import pickle               # for sending a list over socket
+import argparse             # for parsing command line arguments
+import hashlib.sha1()       # SHA-1 hash functionality
 
 
 
