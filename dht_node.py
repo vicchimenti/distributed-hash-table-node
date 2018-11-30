@@ -107,17 +107,17 @@ print ("Listening on Port : " + str(host_port))
 
 
 # listen for communication
-while True:
+while True :
     message, address = sock.recvfrom(4096)
     request = pickle.loads(message)
-    msg = str(request)
     print ('received {} bytes from {}'.format(len(message), address))
-    print ('message : ' + msg)
+    print ('request : ' + str(request))
 
 
     if message :
-     bytes_sent = sock.sendto(message, address)
-     print ('sent {} bytes to {}'.format(bytes_sent, address))
+        message = pickle.dumps(request)
+        bytes_sent = sock.sendto(message, address)
+        print ('sent {} bytes to {}'.format(bytes_sent, address))
 
 # TODO:
 #   send address to cs2 instance of dht_node and have that instance respond
