@@ -14,7 +14,7 @@ import sys                  # for system calls
 import socket               # for udp socket functionality
 import pickle               # for sending a list over socket
 import argparse             # for parsing command line arguments
-import hashlib.sha1()       # SHA1 hash functionality
+import hashlib              # SHA1 hash functionality
 
 
 
@@ -60,11 +60,11 @@ def getClient(r) :
 
 
 # calculate the node ID
-def getID(a, p) :
+def getID(s, a, p) :
     a = a.encode(charset)
-    a = htonl(a)
+    a = s.htonl(a)
     p = bytes(p)
-    p = htonl(p)
+    p = s.htonl(p)
     mh = hashlib.sha1()
     mh.update(a)
     mh.update(p)
@@ -131,14 +131,16 @@ with open (args.hostfile[0], 'r') as file :
 # split addr port info of my node
 host_addr, host_port = getPath(content, args.linenum[0])
 
-# calculate my current node hash value
-my_node_ID = getID(host_addr, host_port)
+
 
 
 
 # create a udp socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((host_addr, host_port))
+
+# calculate my current node hash value
+my_node_ID = getID(sock, host_addr, host_port)
 print ("Listening on Address, Port : " + str((host_addr, host_port)))
 
 
