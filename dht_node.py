@@ -30,6 +30,24 @@ def getPath(c, v) :
     return node_addr
 
 
+# extract the request attributes
+def getRequest(r) :
+    op = str(r[2])
+    k = str(r[3])
+    v = int(r[4])
+
+    return op, k, v
+
+
+# extract the client address from the request
+def getClient(r) :
+    a = str(r[0])
+    p = int(r[1])
+    cli = a, p 
+
+    return cli
+
+
 
 
 # # define the size of the table
@@ -82,18 +100,15 @@ print ('linenum : ' + str(args.linenum))
 with open (args.hostfile[0], 'r') as file :
     content = file.readlines()
 
-# split list and assign address and port number
-address = getPath(content, args.linenum[0])
+# get the socket address and port number from file contents
+listen = getPath(content, args.linenum[0])
 #host_addr, host_port_str = content[args.linenum[0]].split()
 #host_port = int(host_port_str)
 
-
-
-
 # create a udp socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind(address)
-print ("Listening on Port : " + str(host_port))
+sock.bind(listen)
+print ("Listening on Address, Port : " + str(listen))
 
 
 
@@ -105,8 +120,13 @@ while True :
     print ('received {} bytes from {}'.format(len(message), address))
     print ('request : ' + str(request))
 
+    # assign request components to local varariables
+    operation, key, value = getRequest(request)
+
     if value != args.linenum[0] :
         address = getPath(content, value)
+    else :
+        address = getClient(request)
 
 
     if message :
