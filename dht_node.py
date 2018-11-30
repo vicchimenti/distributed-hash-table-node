@@ -61,7 +61,15 @@ def getClient(r) :
 
 # calculate the node ID
 def getID(a, p) :
+    a = a.encode(charset)
+    a = htonl(a)
+    p = bytes(p)
+    p = htonl(p)
     mh = hashlib.sha1()
+    mh.update(a)
+    mh.update(p)
+
+    return mh.hexdigest()
 
 
 
@@ -154,7 +162,7 @@ while True :
         if value == args.linenum[0] :
             next_addr = getClient(request)
             # return to client hash-key, hash-node, hops, key_str, value_str
-            response = key, listen, hops, str(key), str(value)
+            response = key, my_node_ID, hops, str(key), str(value)
         # or else get the address of the next node
         else :
             next_addr = getPath(content, value)
