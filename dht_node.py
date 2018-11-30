@@ -43,7 +43,7 @@ def getRequest(r) :
 def getClient(r) :
     a = str(r[0])
     p = int(r[1])
-    cli = a, p 
+    cli = (a, p)
 
     return cli
 
@@ -124,15 +124,15 @@ while True :
     operation, key, value = getRequest(request)
 
     if value != args.linenum[0] :
-        address = getPath(content, value)
+        next_addr = getPath(content, value)
     else :
-        address = getClient(request)
+        next_addr = getClient(request)
 
 
     if message :
         message = pickle.dumps(request)
-        bytes_sent = sock.sendto(message, address)
-        print ('sent {} bytes to {}'.format(bytes_sent, address))
+        bytes_sent = sock.sendto(message, next_addr)
+        print ('sent {} bytes to {}'.format(bytes_sent, next_addr))
 
 # TODO:
 #   send address to cs2 instance of dht_node and have that instance respond
