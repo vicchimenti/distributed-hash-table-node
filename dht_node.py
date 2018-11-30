@@ -97,6 +97,7 @@ host_ip = getIP(host)
 # create a udp socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((host_ip, UDP_PORT))
+print ("Listening on Port : " + str(host_port))
 
 
 # listen for communication
