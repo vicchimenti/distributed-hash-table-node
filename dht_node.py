@@ -109,7 +109,8 @@ print ("Listening on Port : " + str(host_port))
 # listen for communication
 while True:
     message, address = sock.recvfrom(4096)
-    msg = str(message.decode(charset))
+    request = pickle.loads(message)
+    msg = str(request)
     print ('received {} bytes from {}'.format(len(message), address))
     print ('message : ' + msg)
 
