@@ -12,6 +12,7 @@
 
 import sys              # for system calls
 import socket           # for udp socket functionality
+import pickle           # for sending a list over socket
 import argparse         # for parsing command line arguments
 
 
@@ -112,13 +113,13 @@ while True:
     print ('received {} bytes from {}'.format(len(message), address))
     print ('message : ' + msg)
 
+
     if message :
      bytes_sent = sock.sendto(message, address)
-     print ('sent {} bytes back to {}'.format(bytes_sent, address))
+     print ('sent {} bytes to {}'.format(bytes_sent, address))
 
 # TODO:
 #   send address to cs2 instance of dht_node and have that instance respond
-#   use hostfile to assign portno
 #   use hostfile to find cs2 instance of dht_node
 
 
