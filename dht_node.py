@@ -61,9 +61,9 @@ def getClient(r) :
 
 # calculate the node ID
 def getID(a, p) :
-    a = a.encode(charset)
+    p = socket.htonl(p)
     mh = hashlib.sha1()
-    mh.update(a)
+    mh.update(repr(a).encode(charset))
     mh.update(repr(p).encode(charset))
 
     return mh.hexdigest()
@@ -137,8 +137,8 @@ host_addr, host_port = getPath(content, args.linenum[0])
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((host_addr, host_port))
 # calculate my current node hash value
-network_order_port = socket.htonl(host_port)
-my_node_ID = getID(host_addr, network_order_port)
+#network_order_port = socket.htonl(host_port)
+my_node_ID = getID(host_addr, host_port)
 
 print ("Listening on Address, Port : " + str((host_addr, host_port)))
 
