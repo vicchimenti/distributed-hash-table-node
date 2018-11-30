@@ -92,7 +92,7 @@ with open (args.hostfile[0], 'r') as file :
     content = file.readlines()
 #host_addr = content[args.linenum[0]]
 host_addr, host_port_str = content[args.linenum[0]].split()
-host_port = int(host_ip_str)
+host_port = int(host_port_str)
 
 # get the local host and ip address
 # host = getHost()
@@ -101,7 +101,7 @@ host_port = int(host_ip_str)
 
 # create a udp socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind(host_addr, host_port)
+sock.bind((host_addr, host_port))
 print ("Listening on Port : " + str(host_port))
 
 
