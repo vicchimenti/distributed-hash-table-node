@@ -82,6 +82,16 @@ def getHash(k, v) :
     return mh.digest()
 
 
+# calculate the node ID in hex
+def getHashHex(k, v) :
+    v = socket.htonl(v)
+    mh = hashlib.sha1()
+    mh.update(repr(k).encode(charset))
+    mh.update(repr(v).encode(charset))
+
+    return mh.hexdigest()
+
+
 # find current place in the ring
 def getIndex(li, id) :
     i = li.index(id)
@@ -276,7 +286,7 @@ while True :
         # assign request components to local varariables
         cli_addr, cli_port, hops, operation, key, value = getRequest(request)
         # get hash value of user key value pair
-        client_key = getHash(key, value)
+        client_hex_key = getHashHex(key, value)
         # increment each hop
         hops += 1
 
@@ -300,7 +310,7 @@ while True :
         if node == my_ID :
             next_addr = getClient(request)
             # return to client hash-key-hex, hash-node, hops, key_str, value_str-or-error_msg
-            response = client_key, my_ID, hops, key, str(value)
+            response = client_hex_key, my_hex_ID, hops, key, str(value)
         # or else get the address of the next node
         elif node == successor_ID :
             next_addr = getNodeAddr(addressList, fingerList, node)
