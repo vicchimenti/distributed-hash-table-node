@@ -267,7 +267,7 @@ while True :
             node = putValue(start, key, value)
         else :
             key = "ERROR Invalid Operation Requested : OP : " + operation
-            print ('ERROR : ' + response)
+            print ('ERROR : ' + key)
 
 
 
