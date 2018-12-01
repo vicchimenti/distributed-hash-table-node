@@ -16,6 +16,7 @@ import pickle                       # for sending a list over socket
 import argparse                     # for parsing command line arguments
 import hashlib                      # SHA1 hash functionality
 from collections import OrderedDict # for dictionary sorting
+from collections import Sequence
 
 
 
@@ -163,10 +164,13 @@ file.close()
 
 # make a sorted dictionary from the hostTable
 fingerTable = OrderedDict(sorted(hostTable.items()))
-fingerList = fingerTable.items()
+fingerList = list(fingerTable.items())
 # ts print of fingerTable
 for i in (fingerTable) :
     print ("fingerTable : " + str(i))
+for j in (fingerList) :
+    print ("fingerList : " + str(j))
+
 
 
 
@@ -179,13 +183,18 @@ my_ID = getID(host_addr, host_port)
 my_hex_ID = hexID(host_addr, host_port)
 
 # find my place in the ring
-my_Index = getIndex(fingerList, my_ID)
+#i = li.index(id)
+my_value = fingerTable.get(my_ID)
+my_Index = fingerList.index(my_ID)
+print ("my_Index : " + str(my_Index))
+sys.exit()
+#my_Index = getIndex(fingerList, my_ID)
 
 # get successors ID
 successor_ID = getSuccessor(fingerList, my_Index, count)
 
 # get hash value
-my_value = fingerTable.get(successor_ID)
+#my_value = fingerTable.get(my_ID)
 print ("successor_ID : " + str(my_value))
 sys.exit()
 
