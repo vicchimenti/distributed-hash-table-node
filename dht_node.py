@@ -59,8 +59,8 @@ def getClient(r) :
     return cli
 
 
-# calculate the node ID
-def getID(a, p) :
+# calculate the node ID in hex
+def hexID(a, p) :
     p = socket.htonl(p)
     mh = hashlib.sha1()
     mh.update(repr(a).encode(charset))
@@ -68,6 +68,15 @@ def getID(a, p) :
 
     return mh.hexdigest()
 
+
+# calculate the node ID in hex
+def getID(a, p) :
+    p = socket.htonl(p)
+    mh = hashlib.sha1()
+    mh.update(repr(a).encode(charset))
+    mh.update(repr(p).encode(charset))
+
+    return mh.digest()
 
 
 
@@ -122,28 +131,28 @@ print ('linenum : ' + str(args.linenum))
 with open (args.hostfile[0], 'r') as file :
     content = file.readlines()
 
-# get the socket address and port number from file contents
-#listen = getPath(content, args.linenum[0])
+# create dictionary of the finger table
+count = len(content.readlines())
+print ('count : ' + str(count))
+sys.exit()
+
+
+
+
 
 # split addr port info of my node
 host_addr, host_port = getPath(content, args.linenum[0])
 
-
-
-
-
-
 # create a udp socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((host_addr, host_port))
-# calculate my current node hash value
-#network_order_port = socket.htonl(host_port)
-my_node_ID = getID(host_addr, host_port)
-
 print ("Listening on Address, Port : " + str((host_addr, host_port)))
 
 
 
+
+# calculate my current node hash value
+my_node_ID = hexID(host_addr, host_port)
 
 # listen for communication
 while True :
