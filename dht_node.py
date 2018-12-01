@@ -168,6 +168,7 @@ def putValue(start, key, value):
 GET = 'get'
 PUT = 'put'
 WHITESPACE = ' '
+INVALID = 'INVALID'
 
 # define defaults
 charset = "UTF-8"       # default encoding protocol
@@ -307,9 +308,9 @@ while True :
         # or else put the value
         elif operation.lower() == PUT :
             node = putValue(start, key, value)
-        # or else the operation is invalid so prepare error message for client 
+        # or else the operation is invalid so prepare error message for client
         else :
-            node = my_ID
+            node = INVALID
             key = "ERROR Invalid Operation Requested : OP : " + operation
             print ('ERROR : ' + key)
 
@@ -318,15 +319,25 @@ while True :
 
         # if the value matches current node return directly to the client
         if node == my_ID :
+            # gather client address for response
             next_addr = getClient(request)
             # return to client hash-key-hex, hash-node, hops, key_str, value_str-or-error_msg
             response = client_hex_key, my_hex_ID, hops, key, str(value)
+
         # or else get the address of the successor node
         elif node == successor_ID :
             s_addr, s_port = getNodeAddr(keyList, valueList, node)
             next_addr = s_addr, s_port
             # forward to next node hash-key, hash-node, hops, key_str, value_str
             response = cli_addr, cli_port, hops, operation, key, value
+
+        # or else the client requested invalid operation
+        elif node == INVALID :
+            # gather client address for error response
+            next_addr = getClient(request)
+            # return to client hash-key-hex, hash-node, hops, key_str, value_str-or-error_msg
+            response = client_hex_key, my_hex_ID, hops, key, str(value)
+
         # or else get the address of the next node
         else :
             n_addr, n_port = getNodeAddr(addressList, fingerList, node)
