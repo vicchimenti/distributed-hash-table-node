@@ -72,6 +72,15 @@ def hexID(a, p) :
     return mh.hexdigest()
 
 
+# calculate the node ID in hex
+def getHash(k, v) :
+    hv = k + v
+    mh = hashlib.sha1()
+    mh.update(repr(hv).encode(charset))
+
+    return mh.digest()
+
+
 # find current place in the ring
 def getIndex(li, id) :
     i = li.index(id)
