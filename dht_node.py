@@ -76,6 +76,8 @@ def hexID(a, p) :
 
 
 
+
+
 # # define the size of the table
 # def distance(a, b):
 #     return a^b
@@ -129,6 +131,7 @@ hostTable = {}
 with open (args.hostfile[0], 'r') as file :
     content = file.readlines()
 file.close()
+
 # open the file and zip list into dictionary with hashed key
 file = open(args.hostfile[0], 'r')
 for line in file.readlines() :
@@ -140,21 +143,26 @@ for line in file.readlines() :
     hostTable.update(d)
     count += 1
 file.close()
-print ('count : ' + str(count))
-
 
 # make a sorted dictionary from the hostTable
 fingerTable = OrderedDict(sorted(hostTable.items()))
+# ts print of fingerTable
+for i in (fingerTable) :
+    print ("fingerTable : " + str(i))
+
+
+
 
 # split addr port info of my node
 host_addr, host_port = getPath(content, args.linenum[0])
 
 # calculate my current node hash value
 my_hex_ID = hexID(host_addr, host_port)
+my_ID = getID(host_addr, host_port)
 
-# ts print of fingerTable
-for i in (fingerTable) :
-    print ("fingerTable : " + str(i))
+# get my hash key
+my_value = fingerTable.get(my_ID)
+print ("my_key : " + str(my_value))
 sys.exit()
 
 
