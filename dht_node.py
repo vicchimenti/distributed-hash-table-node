@@ -124,12 +124,18 @@ print ('linenum : ' + str(args.linenum))
 
 
 # open file and assign to list
+fingerTable = {}
 with open (args.hostfile[0], 'r') as file :
     content = file.readlines()
+for line in file.readlines() :
+    fingerTable.update([getID(line), str(content[count])])
+    count += 1
+
 file.close()
+
 # get total number of lines in the hostfile
-count = len(open(args.hostfile[0]).readlines())
-file.close()
+#count = len(open(args.hostfile[0]).readlines())
+#file.close()
 print ('count : ' + str(count))
 
 
@@ -140,12 +146,12 @@ host_addr, host_port = getPath(content, args.linenum[0])
 my_hex_ID = hexID(host_addr, host_port)
 
 # create dictionary of the finger table
-my_ID = getID(host_addr, host_port)
-my_value = host_addr + str(host_port)
-fingerTable = {my_ID : my_value}
+# my_ID = getID(host_addr, host_port)
+# my_value = host_addr + str(host_port)
+# fingerTable = {my_ID : my_value}
 for i in (fingerTable) :
     print ("fingerTable : " + str(i))
-
+sys.exit()
 
 
 
