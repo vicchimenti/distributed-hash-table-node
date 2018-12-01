@@ -307,6 +307,7 @@ while True :
         # or else put the value
         elif operation.lower() == PUT :
             node = putValue(start, key, value)
+        # or else the operation is invalid so prepare error message for client 
         else :
             node = my_ID
             key = "ERROR Invalid Operation Requested : OP : " + operation
