@@ -127,10 +127,11 @@ print ('linenum : ' + str(args.linenum))
 fingerTable = {}
 with open (args.hostfile[0], 'r') as file :
     content = file.readlines()
+file.close()
+file = open(args.hostfile[0], 'r')
 for line in file.readlines() :
     fingerTable.update([getID(line), str(content[count])])
     count += 1
-
 file.close()
 
 # get total number of lines in the hostfile
