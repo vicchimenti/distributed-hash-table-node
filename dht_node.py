@@ -164,7 +164,7 @@ file.close()
 
 # make a sorted dictionary from the hostTable
 fingerTable = OrderedDict(sorted(hostTable.items()))
-fingerList = list(fingerTable.items())
+fingerList = list(fingerTable.keys())
 # ts print of fingerTable
 for i in (fingerTable) :
     print ("fingerTable : " + str(i))
