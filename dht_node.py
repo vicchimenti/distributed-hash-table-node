@@ -112,14 +112,13 @@ def getSuccessor(li, i, c) :
 
 # return the full address of the node
 def getNodeAddr(kl, vl, nd) :
-    # get the index of the node from the sorted fingerList
+    # get the index of the node from the sorted keyList
     i = kl.index(nd)
-    # make a shallow copy of the address list
+    # make a shallow copy of the value list
     temp = vl.copy()
     # pop element and get value
     v = temp.pop(i)
     # split the contents on whitespace and scrub
-    #ignore, ignore_ws, v = v.partition(WHITESPACE)
     host_addr, host_port_str = v.split()
     # cast portno to int
     host_port = int(host_port_str)
@@ -214,9 +213,7 @@ file.close()
 fingerTable = OrderedDict(sorted(hostTable.items()))
 # make an iterable list of the sorted keys
 keyList = list(fingerTable.keys())
-# make a dictionary of the search keys from the sorted dictionary
-#fingerTable = dict.fromkeys(addressTable)
-# make an iterable list of the sorted keys
+# make an iterable list of the sorted values
 valueList = list(fingerTable.values())
 # ts print of fingerTable
 for ii in (fingerTable) :
@@ -225,9 +222,6 @@ for i in (keyList) :
     print ("keyList : " + str(i))
 for j in (valueList) :
     print ("valueList : " + str(j))
-
-# for jj in (fingerList) :
-#     print ("fingerList : " + str(jj))
 
 
 
