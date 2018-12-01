@@ -279,11 +279,11 @@ while True :
             response = client_key, my_ID, hops, key, str(value)
         # or else get the address of the next node
         elif node == successor_ID :
-            next_addr = getPath(content, value)
+            next_addr = getNodeAddr(node)
             # forward to next node hash-key, hash-node, hops, key_str, value_str
             response = cli_addr, cli_port, hops, operation, key, value
         else :
-            next_addr = getPath(content, value)
+            next_addr = getNodeAddr(node)
             # forward to next node hash-key, hash-node, hops, key_str, value_str
             response = cli_addr, cli_port, hops, operation, key, value
 
