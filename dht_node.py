@@ -101,12 +101,16 @@ def getIndex(li, id) :
 
 # get successors ID
 def getSuccessor(li, i, c) :
-    if i < c :
-        temp = li.copy()
+    # make a shallow copy of the list
+    temp = li.copy()
+    # confirm that node is not the largest
+    if i < (c - 1) :
         s = temp.pop((i + 1))
+    # or else pop the first element
     else :
         s = temp.pop(0)
 
+    # return the successor ID
     return s
 
 
@@ -245,14 +249,14 @@ print ('host address and port from fingerlist : \n' + str(sa))
 
 
 # find my place in the ring
-my_Index = fingerList.index(my_ID)
+my_Index = keyList.index(my_ID)
 print ("my_Index : " + str(my_Index))
 
 
 
 
 # get successors ID
-successor_ID = getSuccessor(fingerList, my_Index, count)
+successor_ID = getSuccessor(valueList, my_Index, count)
 print ("successor_ID : " + str(successor_ID))
 
 
