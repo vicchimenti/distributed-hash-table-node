@@ -130,7 +130,8 @@ with open (args.hostfile[0], 'r') as file :
 file.close()
 file = open(args.hostfile[0], 'r')
 for line in file.readlines() :
-    fingerTable.update([getID(line), str(content[count])])
+    host, port = line.split
+    fingerTable.update([getID(host, port), str(content[count])])
     count += 1
 file.close()
 
