@@ -72,6 +72,24 @@ def hexID(a, p) :
     return mh.hexdigest()
 
 
+# find current place in the ring
+def getIndex(li, id) :
+    i = li.index(id)
+
+    return i
+
+
+# get successors ID
+def getSuccessor(li, i, c) :
+    if i < c :
+        temp = li.copy()
+        s = temp.pop((i + 1))
+    else :
+        s = temp.pop(0)
+
+    return s
+
+
 
 
 
@@ -132,20 +150,20 @@ with open (args.hostfile[0], 'r') as file :
     content = file.readlines()
 file.close()
 
-# open the file and zip list into dictionary with hashed key
+# open the file and assign dictionary keys
 file = open(args.hostfile[0], 'r')
 for line in file.readlines() :
     host, port = line.split()
     port = int(port)
     k = getID(host, port)
-    v = str(content[count])
-    d = {k : v}
+    d = {k : ''}
     hostTable.update(d)
     count += 1
 file.close()
 
 # make a sorted dictionary from the hostTable
 fingerTable = OrderedDict(sorted(hostTable.items()))
+fingerList = fingerTable.items()
 # ts print of fingerTable
 for i in (fingerTable) :
     print ("fingerTable : " + str(i))
@@ -156,13 +174,19 @@ for i in (fingerTable) :
 # split addr port info of my node
 host_addr, host_port = getPath(content, args.linenum[0])
 
-# calculate my current node hash value
-my_hex_ID = hexID(host_addr, host_port)
+# calculate my current node hash value digest and hex
 my_ID = getID(host_addr, host_port)
+my_hex_ID = hexID(host_addr, host_port)
 
-# get my hash key
-my_value = fingerTable.get(my_ID)
-print ("my_key : " + str(my_value))
+# find my place in the ring
+my_Index = getIndex(fingerList, my_ID)
+
+# get successors ID
+successor_ID = getSuccessor(fingerList, my_Index, count)
+
+# get hash value
+my_value = fingerTable.get(successor_ID)
+print ("successor_ID : " + str(my_value))
 sys.exit()
 
 
