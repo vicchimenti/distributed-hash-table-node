@@ -246,6 +246,8 @@ while True :
     if message :
         # assign request components to local varariables
         cli_addr, cli_port, hops, operation, key, value = getRequest(request)
+        # get hash value of user key value pair
+        client_hash = getHash(key, value)
         # increment each hop
         hops += 1
 
@@ -256,7 +258,7 @@ while True :
         if value == args.linenum[0] :
             next_addr = getClient(request)
             # return to client hash-key-hex, hash-node, hops, key_str, value_str-or-error_msg
-            response = key, my_ID, hops, str(key), str(value)
+            response = client_hash, my_ID, hops, str(key), str(value)
         # or else get the address of the next node
         else :
             next_addr = getPath(content, value)
