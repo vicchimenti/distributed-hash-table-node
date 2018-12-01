@@ -106,33 +106,37 @@ def getSuccessor(li, i, c) :
 
 
 
-# # define the size of the table
-# def distance(a, b):
-#     return a^b
-#
-# # find the node
-# def findNode(start, key):
-#     current=start
-#     while distance(current.id, key) > \
-#           distance(current.next.id, key):
-#         current=current.next
-#     return current
-#
-# # get the value
-# def getValue(start, key):
-#     node=findNode(start, key)
-#     return node.data[key]
-#
-# # put the value
-# def putValue(start, key, value):
-#     node=findNode(start, key)
-#     node.data[key]=value
+# define the size of the ring
+def distance(a, b):
+    return a^b
+
+# find the node
+def findNode(start, key):
+    current=start
+    while distance(current.id, key) > \
+          distance(current.next.id, key):
+        current=current.next
+    return current
+
+# get the value
+def getValue(start, key):
+    node=findNode(start, key)
+    return node.data[key]
+
+# put the value
+def putValue(start, key, value):
+    node=findNode(start, key)
+    node.data[key]=value
 
 
 #   ***************     end function definitions     ***************   #
 
 
 
+
+# DEFINE CONSTANTS
+GET = 'get'
+PUT = 'put'
 
 # define defaults
 charset = "UTF-8"       # default encoding protocol
