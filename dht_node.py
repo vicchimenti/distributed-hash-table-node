@@ -213,7 +213,7 @@ file.close()
 # make a sorted dictionary from the hostTable
 addressTable = OrderedDict(sorted(hostTable.items()))
 # make an iterable list of the sorted keys
-addressList = list(addressTable.values())
+addressList = list(addressTable.items())
 # make a dictionary of the search keys from the sorted dictionary
 fingerTable = dict.fromkeys(addressTable)
 # make an iterable list of the sorted keys
