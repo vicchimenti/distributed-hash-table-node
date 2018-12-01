@@ -114,7 +114,22 @@ def getSuccessor(li, i, c) :
     return s
 
 
-# return the full address of the node
+# get a full address from the value list with an index
+def getAddr(vl, i) :
+    # make a shallow copy of the of the list
+    temp = vl.copy()
+    # pop the element and get the value
+    v = temp.pop(i)
+    # split the contents on whitespace and scrub
+    host_addr, host_port_str = v.split()
+    # cast portno to int
+    host_port = int(host_port_str)
+
+    # return the address and port that matches the node
+    return host_addr, host_port
+
+
+# return the full address of the node from the node id
 def getNodeAddr(kl, vl, nd) :
     # get the index of the node from the sorted keyList
     i = kl.index(nd)
@@ -256,11 +271,14 @@ print ("my_index : " + str(my_index))
 
 
 
-# get successors ID
-successor_ID = getSuccessor(valueList, my_Index, count)
+# get successor information
+successor_ID = getSuccessor(valueList, my_index, count)
 successor_index = (my_Index + 1)
+successor_addr, successor_port = getAddr(valueList, successor_index)
 print ("successor_ID : " + str(successor_ID))
 print ("successor_index : " + str(successor_index))
+print ("successor_addr : " + successor_addr)
+print ("successor_port : " + str(successor_port))
 
 
 
@@ -308,45 +326,38 @@ while True :
 
 
 
-        # # determine operation
-        # if operation.lower() == GET :
-        #     node_index = getIndex(keyList, client_key)
-        # # or else put the value
-        # elif operation.lower() == PUT :
-        #     node_index = getIndex(keyList, client_key, value)
-        # # or else the operation is invalid so prepare error message for client
-        # else :
-        #     node_index = INVALID
-        #     key = "ERROR Invalid Operation Requested : OP : " + operation
-        #     print ('ERROR : ' + key)
-
-
-
-
         # if the value matches current node return directly to the client
         if node_index == my_index :
+
+            # determine operation
+            if operation.lower() == GET :
+                value = getValue(my_ID, key)
+
+            # or else put the value
+            elif operation.lower() == PUT :
+                # put the value
+                putValue(my_ID, key, value)
+
+            # or else the operation is invalid so prepare error message for client
+            else :
+                key = "ERROR Invalid Operation Requested : OP : " + operation
+                print ('ERROR : ' + key)
+
             # gather client address for response
             next_addr = getClient(request)
-            # return to client hash-key-hex, hash-node, hops, key_str, value_str-or-error_msg
+
+            # return to client cli-hex, node-hex, hops, key_str, value_str
             response = client_hex_key, my_hex_ID, hops, key, str(value)
 
         # or else get the address of the successor node
         elif node_index == successor_index :
-            s_addr, s_port = getNodeAddr(keyList, valueList, node)
-            next_addr = s_addr, s_port
+            next_addr = successor_addr, successor_port
             # forward to next node hash-key, hash-node, hops, key_str, value_str
             response = cli_addr, cli_port, hops, operation, key, value
 
-        # # or else the client requested invalid operation
-        # elif node == INVALID :
-        #     # gather client address for error response
-        #     next_addr = getClient(request)
-        #     # return to client hash-key-hex, hash-node, hops, key_str, value_str-or-error_msg
-        #     response = client_hex_key, my_hex_ID, hops, key, str(value)
-
         # or else get the address of the next node
         else :
-            n_addr, n_port = getNodeAddr(addressList, fingerList, node)
+            n_addr, n_port = getAddr(valueList, node_index)
             next_addr = n_addr, n_port
             # forward to next node hash-key, hash-node, hops, key_str, value_str
             response = cli_addr, cli_port, hops, operation, key, value
