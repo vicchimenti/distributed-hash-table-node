@@ -193,13 +193,14 @@ for line in file.readlines() :
     host, port = line.split()
     port = int(port)
     k = getID(host, port)
-    d = {k : ''}
+    v = str(content[count])
+    d = {k : v}
     hostTable.update(d)
     count += 1
 file.close()
 
 
-#TODO *********** FIX FINGERLIST
+#TODO *********** consider only one list and one OrderedDict
 
 # make a sorted dictionary from the hostTable
 addressTable = OrderedDict(sorted(hostTable.items()))
