@@ -10,11 +10,12 @@
 
 
 
-import sys                  # for system calls
-import socket               # for udp socket functionality
-import pickle               # for sending a list over socket
-import argparse             # for parsing command line arguments
-import hashlib              # SHA1 hash functionality
+import sys                          # for system calls
+import socket                       # for udp socket functionality
+import pickle                       # for sending a list over socket
+import argparse                     # for parsing command line arguments
+import hashlib                      # SHA1 hash functionality
+from collections import OrderedDict # for dictionary sorting
 
 
 
@@ -124,10 +125,11 @@ print ('linenum : ' + str(args.linenum))
 
 
 # open file and assign to list
-fingerTable = {}
+hostTable = {}
 with open (args.hostfile[0], 'r') as file :
     content = file.readlines()
 file.close()
+# open the file and zip list into dictionary with hashed key
 file = open(args.hostfile[0], 'r')
 for line in file.readlines() :
     host, port = line.split()
@@ -135,15 +137,14 @@ for line in file.readlines() :
     k = getID(host, port)
     v = str(content[count])
     d = {k : v}
-    fingerTable.update(d)
+    hostTable.update(d)
     count += 1
 file.close()
-
-# get total number of lines in the hostfile
-#count = len(open(args.hostfile[0]).readlines())
-#file.close()
 print ('count : ' + str(count))
 
+
+# make a sorted dictionary from the hostTable
+fingerTable = OrderedDict(sorted(hostTable.items()))
 
 # split addr port info of my node
 host_addr, host_port = getPath(content, args.linenum[0])
@@ -151,10 +152,7 @@ host_addr, host_port = getPath(content, args.linenum[0])
 # calculate my current node hash value
 my_hex_ID = hexID(host_addr, host_port)
 
-# create dictionary of the finger table
-# my_ID = getID(host_addr, host_port)
-# my_value = host_addr + str(host_port)
-# fingerTable = {my_ID : my_value}
+# ts print of fingerTable
 for i in (fingerTable) :
     print ("fingerTable : " + str(i))
 sys.exit()
