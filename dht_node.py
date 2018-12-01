@@ -213,7 +213,7 @@ for j in (fingerList) :
 # split addr port info of my node
 host_addr, host_port = getPath(content, args.linenum[0])
 sc = host_addr, host_port
-print ('host address and port from content : \n' + sc)
+print ('host address and port from content : \n' + str(sc))
 
 
 
