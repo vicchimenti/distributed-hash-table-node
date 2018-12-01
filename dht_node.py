@@ -111,15 +111,15 @@ def getSuccessor(li, i, c) :
 
 
 # return the full address of the node
-def getNodeAddr(al, nd) :
+def getNodeAddr(kl, vl, nd) :
     # get the index of the node from the sorted fingerList
-    i = al.index(nd)
+    i = kl.index(nd)
     # make a shallow copy of the address list
-    temp = al.copy()
+    temp = vl.copy()
     # pop element and get value
     v = temp.pop(i)
     # split the contents on whitespace and scrub
-    ignore, ignore_ws, v = v.partition(WHITESPACE)
+    #ignore, ignore_ws, v = v.partition(WHITESPACE)
     host_addr, host_port_str = v.split()
     # cast portno to int
     host_port = int(host_port_str)
@@ -211,22 +211,23 @@ file.close()
 #TODO *********** consider only one list and one OrderedDict
 
 # make a sorted dictionary from the hostTable
-addressTable = OrderedDict(sorted(hostTable.items()))
+fingerTable = OrderedDict(sorted(hostTable.items()))
 # make an iterable list of the sorted keys
-addressList = list(addressTable.items())
+keyList = list(fingerTable.fromkeys())
 # make a dictionary of the search keys from the sorted dictionary
-fingerTable = dict.fromkeys(addressTable)
+#fingerTable = dict.fromkeys(addressTable)
 # make an iterable list of the sorted keys
-fingerList = list(fingerTable.keys())
+valueList = list(fingerTable.values())
 # ts print of fingerTable
-for i in (addressTable) :
-    print ("addressTable : " + str(i))
-for j in (addressList) :
-    print ("addressList : " + str(j))
 for ii in (fingerTable) :
     print ("fingerTable : " + str(ii))
-for jj in (fingerList) :
-    print ("fingerList : " + str(jj))
+for i in (keyList) :
+    print ("keyList : " + str(i))
+for j in (valueList) :
+    print ("valueList : " + str(j))
+
+# for jj in (fingerList) :
+#     print ("fingerList : " + str(jj))
 
 
 
@@ -243,7 +244,7 @@ print ('host address and port from content : \n' + str(sc))
 # calculate my current node hash value digest and hex
 my_ID = getID(host_addr, host_port)
 my_hex_ID = hexID(host_addr, host_port)
-ha, hp = getNodeAddr(addressList, my_ID)
+ha, hp = getNodeAddr(keyList, valueList, my_ID)
 sa = ha, hp
 print ('host address and port from fingerlist : \n' + str(sa))
 sys.exit()
