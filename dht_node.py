@@ -191,7 +191,11 @@ successor_ID = getSuccessor(fingerList, my_Index, count)
 print ("successor_ID : " + str(successor_ID))
 
 
-
+# TODO :
+#   add hash functionality to the client sent key
+#   update logic for routing response
+#   create new variable for the hash cli key
+#   redo next_addr if sending to a new node if not successor
 
 
 # create a udp socket
@@ -221,7 +225,7 @@ while True :
         # if the value matches current node return directly to the client
         if value == args.linenum[0] :
             next_addr = getClient(request)
-            # return to client hash-key, hash-node, hops, key_str, value_str
+            # return to client hash-key-hex, hash-node, hops, key_str, value_str-or-error_msg
             response = key, my_hex_ID, hops, str(key), str(value)
         # or else get the address of the next node
         else :
