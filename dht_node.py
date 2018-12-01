@@ -252,9 +252,22 @@ while True :
         # assign request components to local varariables
         cli_addr, cli_port, hops, operation, key, value = getRequest(request)
         # get hash value of user key value pair
-        client_hash = getHash(key, value)
+        client_key = getHash(key, value)
         # increment each hop
         hops += 1
+
+
+
+
+        # determine operation
+        if operation.lower() == GET :
+            node = getValue(start, key)
+        # or else put the value
+        elif operation.lower() == PUT :
+            node = putValue(start, key, value)
+        else :
+            key = "ERROR Invalid Operation Requested : OP : " + operation
+            print ('ERROR : ' + response)
 
 
 
@@ -263,7 +276,7 @@ while True :
         if value == args.linenum[0] :
             next_addr = getClient(request)
             # return to client hash-key-hex, hash-node, hops, key_str, value_str-or-error_msg
-            response = client_hash, my_ID, hops, str(key), str(value)
+            response = client_key, my_ID, hops, key, str(value)
         # or else get the address of the next node
         else :
             next_addr = getPath(content, value)
