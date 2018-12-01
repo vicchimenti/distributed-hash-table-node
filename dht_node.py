@@ -273,7 +273,7 @@ print ("my_index : " + str(my_index))
 
 # get successor information
 successor_ID = getSuccessor(valueList, my_index, count)
-successor_index = (my_index + 1)
+successor_index = keyList.index(successor_ID)
 successor_addr, successor_port = getAddr(valueList, successor_index)
 print ("successor_ID : " + str(successor_ID))
 print ("successor_index : " + str(successor_index))
