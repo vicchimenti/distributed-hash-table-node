@@ -241,7 +241,6 @@ my_hex_ID = hexID(host_addr, host_port)
 ha, hp = getNodeAddr(keyList, valueList, my_ID)
 sa = ha, hp
 print ('host address and port from fingerlist : \n' + str(sa))
-sys.exit()
 
 
 
@@ -305,6 +304,7 @@ while True :
         elif operation.lower() == PUT :
             node = putValue(start, key, value)
         else :
+            node = my_ID
             key = "ERROR Invalid Operation Requested : OP : " + operation
             print ('ERROR : ' + key)
 
@@ -316,13 +316,16 @@ while True :
             next_addr = getClient(request)
             # return to client hash-key-hex, hash-node, hops, key_str, value_str-or-error_msg
             response = client_hex_key, my_hex_ID, hops, key, str(value)
-        # or else get the address of the next node
+        # or else get the address of the successor node
         elif node == successor_ID :
-            next_addr = getNodeAddr(addressList, fingerList, node)
+            s_addr, s_port = getNodeAddr(keyList, valueList, node)
+            next_addr = s_addr, s_port
             # forward to next node hash-key, hash-node, hops, key_str, value_str
             response = cli_addr, cli_port, hops, operation, key, value
+        # or else get the address of the next node
         else :
-            next_addr = getNodeAddr(addressList, fingerList, node)
+            n_addr, n_port = getNodeAddr(addressList, fingerList, node)
+            next_addr = n_addr, n_port
             # forward to next node hash-key, hash-node, hops, key_str, value_str
             response = cli_addr, cli_port, hops, operation, key, value
 
