@@ -116,9 +116,15 @@ def getNodeAddr(al, fl, nd) :
     i = fl.index(nd)
     # make a shallow copy of the address list
     temp = al.copy()
+    # pop element and get value
+    v = temp.pop(i)
+    # split the contents on whitespace and scrub
+    host_addr, host_port_str = v.split()
+    # cast portno to int
+    host_port = int(host_port_str)
 
-    # return the address that matches the index
-    return temp.pop(i)
+    # return the address and port that matches the node
+    return host_addr, host_port
 
 
 
