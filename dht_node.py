@@ -183,20 +183,13 @@ my_ID = getID(host_addr, host_port)
 my_hex_ID = hexID(host_addr, host_port)
 
 # find my place in the ring
-#i = li.index(id)
-my_value = fingerTable.get(my_ID)
 my_Index = fingerList.index(my_ID)
 print ("my_Index : " + str(my_Index))
-sys.exit()
-#my_Index = getIndex(fingerList, my_ID)
 
 # get successors ID
 successor_ID = getSuccessor(fingerList, my_Index, count)
+print ("successor_ID : " + str(successor_ID))
 
-# get hash value
-#my_value = fingerTable.get(my_ID)
-print ("successor_ID : " + str(my_value))
-sys.exit()
 
 
 
