@@ -212,6 +212,8 @@ for j in (fingerList) :
 
 # split addr port info of my node
 host_addr, host_port = getPath(content, args.linenum[0])
+print ('host address and port : ' + host_addr ', ' + str(host_port))
+
 
 
 
@@ -219,7 +221,9 @@ host_addr, host_port = getPath(content, args.linenum[0])
 # calculate my current node hash value digest and hex
 my_ID = getID(host_addr, host_port)
 my_hex_ID = hexID(host_addr, host_port)
-
+ha, hp = getNodeAddr(addressList, fingerList, my_ID)
+print ('host address and port : ' + host_addr ', ' + str(host_port))
+sys.exit()
 
 
 
