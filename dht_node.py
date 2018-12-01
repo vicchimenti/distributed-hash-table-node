@@ -189,7 +189,7 @@ for line in file.readlines() :
 file.close()
 
 
-
+#TODO *********** FIX FINGERLIST
 
 # make a sorted dictionary from the hostTable
 addressTable = OrderedDict(sorted(hostTable.items()))
