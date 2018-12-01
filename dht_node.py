@@ -23,14 +23,6 @@ import hashlib              # SHA1 hash functionality
 
 
 # get the address and port for next node from hosfile contents
-# def getPath(c, v) :
-#     host_addr, host_port_str = c[v].split()
-#     host_port = int(host_port_str)
-#     node_addr = host_addr, host_port
-#
-#     return node_addr
-
-
 def getPath(c, v) :
     host_addr, host_port_str = c[v].split()
     host_port = int(host_port_str)
@@ -60,6 +52,16 @@ def getClient(r) :
 
 
 # calculate the node ID in hex
+def getID(a, p) :
+    p = socket.htonl(p)
+    mh = hashlib.sha1()
+    mh.update(repr(a).encode(charset))
+    mh.update(repr(p).encode(charset))
+
+    return mh.digest()
+
+
+# calculate the node ID in hex
 def hexID(a, p) :
     p = socket.htonl(p)
     mh = hashlib.sha1()
@@ -69,14 +71,7 @@ def hexID(a, p) :
     return mh.hexdigest()
 
 
-# calculate the node ID in hex
-def getID(a, p) :
-    p = socket.htonl(p)
-    mh = hashlib.sha1()
-    mh.update(repr(a).encode(charset))
-    mh.update(repr(p).encode(charset))
 
-    return mh.digest()
 
 
 
@@ -110,6 +105,7 @@ def getID(a, p) :
 
 # define defaults
 charset = "UTF-8"       # default encoding protocol
+count = 0               # line counter for hostfile
 #my_node_ID = 99999      # default node ID as long
 #UDP_PORT = 10109
 
@@ -130,18 +126,29 @@ print ('linenum : ' + str(args.linenum))
 # open file and assign to list
 with open (args.hostfile[0], 'r') as file :
     content = file.readlines()
-
-# create dictionary of the finger table
-count = len(content.readlines())
+file.close()
+# get total number of lines in the hostfile
+count = len(open(args.hostfile[0]).readlines())
+file.close()
 print ('count : ' + str(count))
-sys.exit()
-
-
-
 
 
 # split addr port info of my node
 host_addr, host_port = getPath(content, args.linenum[0])
+
+# calculate my current node hash value
+my_hex_ID = hexID(host_addr, host_port)
+
+# create dictionary of the finger table
+my_ID = getID(host_addr, host_port)
+my_value = host_addr + str(host_port)
+fingerTable = {my_ID : my_value}
+for i in (fingerTable) :
+    print ("fingerTable : " + str(i))
+
+
+
+
 
 # create a udp socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -151,8 +158,7 @@ print ("Listening on Address, Port : " + str((host_addr, host_port)))
 
 
 
-# calculate my current node hash value
-my_node_ID = hexID(host_addr, host_port)
+
 
 # listen for communication
 while True :
@@ -172,7 +178,7 @@ while True :
         if value == args.linenum[0] :
             next_addr = getClient(request)
             # return to client hash-key, hash-node, hops, key_str, value_str
-            response = key, my_node_ID, hops, str(key), str(value)
+            response = key, my_hex_ID, hops, str(key), str(value)
         # or else get the address of the next node
         else :
             next_addr = getPath(content, value)
