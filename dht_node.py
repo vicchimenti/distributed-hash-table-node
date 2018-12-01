@@ -16,7 +16,6 @@ import pickle                       # for sending a list over socket
 import argparse                     # for parsing command line arguments
 import hashlib                      # SHA1 hash functionality
 from collections import OrderedDict # for dictionary sorting
-#from collections import Sequence
 
 
 
@@ -128,8 +127,8 @@ def getSuccessor(li, i, c) :
 # define defaults
 charset = "UTF-8"       # default encoding protocol
 count = 0               # line counter for hostfile
-#my_node_ID = 99999      # default node ID as long
-#UDP_PORT = 10109
+
+
 
 
 # parse and assign command-line input
@@ -151,6 +150,9 @@ with open (args.hostfile[0], 'r') as file :
     content = file.readlines()
 file.close()
 
+
+
+
 # open the file and assign dictionary keys
 file = open(args.hostfile[0], 'r')
 for line in file.readlines() :
@@ -161,6 +163,9 @@ for line in file.readlines() :
     hostTable.update(d)
     count += 1
 file.close()
+
+
+
 
 # make a sorted dictionary from the hostTable
 fingerTable = OrderedDict(sorted(hostTable.items()))
@@ -174,21 +179,31 @@ for j in (fingerList) :
 
 
 
-
 # split addr port info of my node
 host_addr, host_port = getPath(content, args.linenum[0])
+
+
+
 
 # calculate my current node hash value digest and hex
 my_ID = getID(host_addr, host_port)
 my_hex_ID = hexID(host_addr, host_port)
 
+
+
+
 # find my place in the ring
 my_Index = fingerList.index(my_ID)
 print ("my_Index : " + str(my_Index))
 
+
+
+
 # get successors ID
 successor_ID = getSuccessor(fingerList, my_Index, count)
 print ("successor_ID : " + str(successor_ID))
+
+
 
 
 # TODO :
@@ -196,6 +211,8 @@ print ("successor_ID : " + str(successor_ID))
 #   update logic for routing response
 #   create new variable for the hash cli key
 #   redo next_addr if sending to a new node if not successor
+
+
 
 
 # create a udp socket
@@ -206,14 +223,15 @@ print ("Listening on Address, Port : " + str((host_addr, host_port)))
 
 
 
-
-
 # listen for communication
 while True :
     message, address = sock.recvfrom(4096)
     request = pickle.loads(message)
-    print ('received {} bytes from {}'.format(len(message), address))
-    print ('request : ' + str(request))
+    print ('\nreceived {} bytes from {}'.format(len(message), address))
+    print ('request received : ' + str(request))
+
+
+
 
     # if a valid message arrived
     if message :
@@ -222,22 +240,28 @@ while True :
         # increment each hop
         hops += 1
 
+
+
+
         # if the value matches current node return directly to the client
         if value == args.linenum[0] :
             next_addr = getClient(request)
             # return to client hash-key-hex, hash-node, hops, key_str, value_str-or-error_msg
-            response = key, my_hex_ID, hops, str(key), str(value)
+            response = key, my_ID, hops, str(key), str(value)
         # or else get the address of the next node
         else :
             next_addr = getPath(content, value)
             # forward to next node hash-key, hash-node, hops, key_str, value_str
             response = cli_addr, cli_port, hops, operation, key, value
 
+
+
+
         # pickle the response and send
         message = pickle.dumps(response)
         bytes_sent = sock.sendto(message, next_addr)
-        print ('sent {} bytes to {}'.format(bytes_sent, next_addr))
-
+        print ('\nsent {} bytes to {}'.format(bytes_sent, next_addr))
+        print ('response sent : ' + str(response))
 
 
 
