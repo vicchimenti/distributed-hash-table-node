@@ -222,8 +222,7 @@ print ('host address and port from content : \n' + str(sc))
 # calculate my current node hash value digest and hex
 my_ID = getID(host_addr, host_port)
 my_hex_ID = hexID(host_addr, host_port)
-ha, hp = getNodeAddr(addressList, fingerList, my_ID)
-sa = ha, hp
+sa = getNodeAddr(addressList, fingerList, my_ID)
 print ('host address and port from fingerlist : \n' + str(sa))
 sys.exit()
 
