@@ -290,11 +290,28 @@ while True :
 
 
 
-        # pickle the response and send
+        # pickle the valid response
         message = pickle.dumps(response)
-        bytes_sent = sock.sendto(message, next_addr)
-        print ('\nsent {} bytes to {}'.format(bytes_sent, next_addr))
-        print ('response sent : ' + str(response))
+
+
+
+
+    # or else there was no valid message received
+    else :
+        # generate error message
+        response = "ERROR : Invalid Message: Please Resend... "
+        # attempt to retreive receive from address for error reply
+        next_addr = address
+        # pickle the error message
+        message = pickle.dumps(response)
+
+
+
+
+    # send the message
+    bytes_sent = sock.sendto(message, next_addr)
+    print ('\nsent {} bytes to {}'.format(bytes_sent, next_addr))
+    print ('response sent : ' + str(response))
 
 
 
