@@ -200,12 +200,14 @@ fingerTable = dict.fromkeys(addressTable)
 # make an iterable list of the sorted keys
 fingerList = list(fingerTable.keys())
 # ts print of fingerTable
-for i in (fingerTable) :
+for i in (addressTable) :
     print ("addressTable : " + str(i))
-for i in (fingerTable) :
-    print ("fingerTable : " + str(i))
-for j in (fingerList) :
-    print ("fingerList : " + str(j))
+for j in (addressList) :
+    print ("addressList : " + str(j))
+for ii in (fingerTable) :
+    print ("fingerTable : " + str(ii))
+for jj in (fingerList) :
+    print ("fingerList : " + str(jj))
 
 
 
