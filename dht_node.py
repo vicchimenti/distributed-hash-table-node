@@ -74,9 +74,10 @@ def hexID(a, p) :
 
 # calculate the node ID in hex
 def getHash(k, v) :
-    hv = k + v
+    v = socket.htonl(v)
     mh = hashlib.sha1()
-    mh.update(repr(hv).encode(charset))
+    mh.update(repr(k).encode(charset))
+    mh.update(repr(v).encode(charset))
 
     return mh.digest()
 
