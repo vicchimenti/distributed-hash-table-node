@@ -273,11 +273,15 @@ while True :
 
 
         # if the value matches current node return directly to the client
-        if value == args.linenum[0] :
+        if node == my_ID :
             next_addr = getClient(request)
             # return to client hash-key-hex, hash-node, hops, key_str, value_str-or-error_msg
             response = client_key, my_ID, hops, key, str(value)
         # or else get the address of the next node
+        elif node == successor_ID :
+            next_addr = getPath(content, value)
+            # forward to next node hash-key, hash-node, hops, key_str, value_str
+            response = cli_addr, cli_port, hops, operation, key, value
         else :
             next_addr = getPath(content, value)
             # forward to next node hash-key, hash-node, hops, key_str, value_str
