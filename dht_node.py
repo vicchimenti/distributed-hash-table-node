@@ -111,14 +111,15 @@ def getSuccessor(li, i, c) :
 
 
 # return the full address of the node
-def getNodeAddr(al, fl, nd) :
+def getNodeAddr(al, nd) :
     # get the index of the node from the sorted fingerList
-    i = fl.index(nd)
+    i = al.index(nd)
     # make a shallow copy of the address list
     temp = al.copy()
     # pop element and get value
     v = temp.pop(i)
     # split the contents on whitespace and scrub
+    ignore, ignore_ws, v = v.partition(WHITESPACE)
     host_addr, host_port_str = v.split()
     # cast portno to int
     host_port = int(host_port_str)
@@ -163,6 +164,7 @@ def putValue(start, key, value):
 # DEFINE CONSTANTS
 GET = 'get'
 PUT = 'put'
+WHITESPACE = ' '
 
 # define defaults
 charset = "UTF-8"       # default encoding protocol
@@ -241,7 +243,7 @@ print ('host address and port from content : \n' + str(sc))
 # calculate my current node hash value digest and hex
 my_ID = getID(host_addr, host_port)
 my_hex_ID = hexID(host_addr, host_port)
-ha, hp = getNodeAddr(addressList, fingerList, my_ID)
+ha, hp = getNodeAddr(addressList, my_ID)
 sa = ha, hp
 print ('host address and port from fingerlist : \n' + str(sa))
 sys.exit()
