@@ -100,9 +100,15 @@ def getSuccessor(li, i, c) :
     return s
 
 
-def getNodeAddr(at, nd) :
+# return the full address of the node
+def getNodeAddr(al, fl, nd) :
+    # get the index of the node from the sorted fingerList
+    i = fl.index(nd)
+    # make a shallow copy of the address list
+    temp = al.copy()
 
-    return na
+    # return the address that matches the index
+    return temp.pop(i)
 
 
 
@@ -187,6 +193,8 @@ file.close()
 
 # make a sorted dictionary from the hostTable
 addressTable = OrderedDict(sorted(hostTable.items()))
+# make an iterable list of the sorted keys
+addressList = list(addressTable.values())
 # make a dictionary of the search keys from the sorted dictionary
 fingerTable = dict.fromkeys(addressTable)
 # make an iterable list of the sorted keys
@@ -288,11 +296,11 @@ while True :
             response = client_key, my_ID, hops, key, str(value)
         # or else get the address of the next node
         elif node == successor_ID :
-            next_addr = getNodeAddr(addressTable, node)
+            next_addr = getNodeAddr(addressList, fingerList, node)
             # forward to next node hash-key, hash-node, hops, key_str, value_str
             response = cli_addr, cli_port, hops, operation, key, value
         else :
-            next_addr = getNodeAddr(addressTable, node)
+            next_addr = getNodeAddr(addressList, fingerList, node)
             # forward to next node hash-key, hash-node, hops, key_str, value_str
             response = cli_addr, cli_port, hops, operation, key, value
 
