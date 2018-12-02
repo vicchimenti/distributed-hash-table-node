@@ -71,10 +71,10 @@ def hexID(a, p) :
 
     return mh.hexdigest()
 
-
+# **************** TRACE THIS TO SEE WHO USES IT ******************** #
 # calculate the node ID in hex
 def getHash(k, v) :
-    v = socket.htonl(v)
+    #v = socket.htonl(v)
     mh = hashlib.sha1()
     mh.update(repr(k).encode(charset))
     mh.update(repr(v).encode(charset))
@@ -164,6 +164,19 @@ def getValue(fingerList, my_index) :
 def putValue(fingerList, my_index, my_ID, value) :
     v = my_ID, value
     fingerList[my_index] = v
+
+
+def findNode(kl, key):
+    i = 0
+    if key > kl[i] :
+        while key > kl[i] :
+            i+=i
+        id = kl.index(i)
+    else :
+        id = kl.index(i)
+
+    return id
+
 
 
 
@@ -342,7 +355,7 @@ while True :
         client_hex_key = getHashHex(key, value)
         client_key = getHash(key, value)
         # find the node's place in the ring
-        node_index = findNode(my_ID, client_key)
+        node_index = findNode(keyList, client_key)
         print ("node_index : " + str(node_index))
         # increment each hop
         hops += 1
