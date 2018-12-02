@@ -284,10 +284,7 @@ print ("successor_port : " + str(successor_port))
 
 
 # TODO :
-#   add hash functionality to the client sent key
-#   update logic for routing response
-#   create new variable for the hash cli key
-#   redo next_addr if sending to a new node if not successor
+#   search for client_key using chord, not exact match 
 
 
 
