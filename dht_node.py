@@ -166,12 +166,14 @@ def putValue(fingerList, my_index, my_ID, value) :
     fingerList[my_index] = v
 
 
-def findNode(kl, key):
+def findNode(kl, key) :
     i = 0
-    if key > kl[i] :
-        while key > kl[i] :
-            i += i
-            
+    print ('i2 : ' + str(i))
+    while key > kl[i] :
+        print ('i3 : ' + str(i))
+        i += i
+        print ('i4 : ' + str(i))
+    print ('i5 : ' + str(i))
     return i
 
 
