@@ -146,7 +146,13 @@ def getNodeAddr(kl, vl, nd) :
     return host_addr, host_port
 
 
-
+# find the node
+def findNode(start, key):
+    current=start
+    while distance(current.id, key) > \
+          distance(current.next.id, key):
+        current=current.next
+    return current
 
 
 
@@ -242,8 +248,10 @@ for i in (keyList) :
     print ("keyList : " + str(i))
 for j in (valueList) :
     print ("valueList : " + str(j))
+for jj in (hostTable) :
+    print ("hostTable: " + str(jj))
 
-
+sys.exit()
 
 
 # split addr port info of my node
@@ -315,7 +323,7 @@ while True :
         client_hex_key = getHashHex(key, value)
         client_key = getHash(key, value)
         # find the node's place in the ring
-        node_index = findNode(my_index, client_key)
+        node_index = findNode(my_ID, client_key)
         print ("node_index : " + str(node_index))
         # increment each hop
         hops += 1
