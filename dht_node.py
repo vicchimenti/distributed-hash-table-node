@@ -170,12 +170,9 @@ def findNode(kl, key):
     i = 0
     if key > kl[i] :
         while key > kl[i] :
-            i+=i
-        id = kl.index(i)
-    else :
-        id = kl.index(i)
-
-    return id
+            i += i
+            
+    return i
 
 
 
