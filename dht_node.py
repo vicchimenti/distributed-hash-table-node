@@ -356,7 +356,7 @@ while True :
         client_hex_key = getHashHex(key, value)
         print ("client_hex_key : " + str(client_hex_key))
         client_key = getHash(key, value)
-        print ("cli_key : " + str(cli_key))
+        print ("client_key : " + str(client_key))
         # find the node's place in the ring
         node_index = findNode(keyList, client_key)
         print ("node_index : " + str(node_index))
