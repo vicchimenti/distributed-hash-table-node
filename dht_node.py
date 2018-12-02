@@ -153,7 +153,8 @@ def getValue(fingerList, my_index) :
         value = "ERROR : There value is empty"
 
     try :
-        ignore, value = value.split()
+        ignore, value = value
+    #attribute error
     except OSError :
         value = "ERROR : There value is empty"
 
@@ -161,9 +162,8 @@ def getValue(fingerList, my_index) :
 
 
 # put the value
-def putValue(fingerList, my_index, my_ID, value) :
-    v = my_ID, value
-    fingerList[my_index] = v
+def putValue(fingerList, my_index, value) :
+    fingerList[my_index] = value
 
 
 def findNode(kl, key) :
@@ -375,7 +375,7 @@ while True :
             # or else put the value
             elif operation.lower() == PUT :
                 # put the value
-                putValue(fingerList, my_index, my_ID, value)
+                putValue(fingerList, my_index, value)
 
             # or else the operation is invalid so prepare error message for client
             else :
