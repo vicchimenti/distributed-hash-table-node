@@ -18,6 +18,8 @@ import hashlib                      # SHA1 hash functionality
 from collections import OrderedDict # for dictionary sorting
 
 
+#***TODO make sure it will work even badly
+#   review dictionary, list, map data types
 
 
 #   ***************     function definitions     ***************   #
@@ -259,6 +261,7 @@ file.close()
 
 
 #TODO *********** consider only one list and one OrderedDict
+# or no list and dict for address lookup and dict for storage
 
 # make a sorted dictionary from the hostTable
 addressTable = OrderedDict(sorted(hostTable.items()))
