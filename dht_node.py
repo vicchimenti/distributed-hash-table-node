@@ -269,7 +269,7 @@ for jj in (hostTable) :
     print ("hostTable: " + str(jj))
 for j in (valueList) :
     print ("valueList : " + str(j))
-sys.exit()
+
 
 
 
