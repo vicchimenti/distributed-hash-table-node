@@ -236,20 +236,24 @@ file.close()
 #TODO *********** consider only one list and one OrderedDict
 
 # make a sorted dictionary from the hostTable
-fingerTable = OrderedDict(sorted(hostTable.items()))
+addressTable = OrderedDict(sorted(hostTable.items()))
 # make an iterable list of the sorted keys
-keyList = list(fingerTable.keys())
+keyList = list(addressTable.keys())
 # make an iterable list of the sorted values
-valueList = list(fingerTable.values())
+valueList = list(addressTable.values())
+# make a sorted dictionary from the hostTable
+fingerTable = OrderedDict(sorted(hostTable.keys()))
 # ts print of fingerTable
-for ii in (fingerTable) :
-    print ("fingerTable : " + str(ii))
+for ii in (addressTable) :
+    print ("addressTable : " + str(ii))
 for i in (keyList) :
     print ("keyList : " + str(i))
 for j in (valueList) :
     print ("valueList : " + str(j))
 for jj in (hostTable) :
     print ("hostTable: " + str(jj))
+for k in (fingerTable) :
+    print ("fingerTable: " + str(k))
 
 sys.exit()
 
