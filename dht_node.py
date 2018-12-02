@@ -81,10 +81,10 @@ def getHash(k, v) :
 
     return mh.digest()
 
-
+# **************** TRACE THIS TO SEE WHO USES IT ******************** #
 # calculate the node ID in hex
 def getHashHex(k, v) :
-    v = socket.htonl(v)
+    #v = socket.htonl(v)
     mh = hashlib.sha1()
     mh.update(repr(k).encode(charset))
     mh.update(repr(v).encode(charset))
