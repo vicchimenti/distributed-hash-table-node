@@ -375,7 +375,7 @@ while True :
             # or else put the value
             elif operation.lower() == PUT :
                 # put the value
-                putValue(fingerList, my_index, value)
+                putValue(fingerList, my_index, my_ID, value)
 
             # or else the operation is invalid so prepare error message for client
             else :
