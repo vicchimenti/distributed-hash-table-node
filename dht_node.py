@@ -351,9 +351,12 @@ while True :
     if message :
         # assign request components to local varariables
         cli_addr, cli_port, hops, operation, key, value = getRequest(request)
+        print ("cli_addr : " + str(cli_addr))
         # get hash and hex value of user key value pair
         client_hex_key = getHashHex(key, value)
+        print ("client_hex_key : " + str(client_hex_key))
         client_key = getHash(key, value)
+        print ("cli_key : " + str(cli_key))
         # find the node's place in the ring
         node_index = findNode(keyList, client_key)
         print ("node_index : " + str(node_index))
