@@ -284,7 +284,7 @@ print ("successor_port : " + str(successor_port))
 
 
 # TODO :
-#   search for client_key using chord, not exact match 
+#   search for client_key using chord, not exact match
 
 
 
@@ -315,7 +315,7 @@ while True :
         client_hex_key = getHashHex(key, value)
         client_key = getHash(key, value)
         # find the node's place in the ring
-        node_index = keyList.index(client_key)
+        node_index = findNode(my_index, client_key)
         print ("node_index : " + str(node_index))
         # increment each hop
         hops += 1
