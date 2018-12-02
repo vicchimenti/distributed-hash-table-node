@@ -242,7 +242,7 @@ keyList = list(addressTable.keys())
 # make an iterable list of the sorted values
 valueList = list(addressTable.values())
 # make a sorted dictionary from the hostTable
-fingerTable = OrderedDict(sorted(hostTable.keys()))
+fingerTable = OrderedDict(sorted(hostTable.fromkeys()))
 # ts print of fingerTable
 for ii in (addressTable) :
     print ("addressTable : " + str(ii))
