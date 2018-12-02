@@ -146,38 +146,49 @@ def getNodeAddr(kl, vl, nd) :
     return host_addr, host_port
 
 
-# find the node
-def findNode(start, key):
-    current=start
-    while distance(current.id, key) > \
-          distance(current.next.id, key):
-        current=current.next
-    return current
+def getValue(fingerList, my_index) :
+    try :
+        value = fingerList.value(my_index)
+    except OSError :
+        value = "ERROR : There value is empty"
 
+    try :
+        ignore, value = value.split()
+    except OSError :
+        value = "ERROR : There value is empty"
 
+    return value
 
-
-# define the size of the ring
-def distance(a, b):
-    return a^b
-
-# find the node
-def findNode(start, key):
-    current=start
-    while distance(current.id, key) > \
-          distance(current.next.id, key):
-        current=current.next
-    return current
-
-# get the value
-def getValue(start, key):
-    node=findNode(start, key)
-    return node.data[key]
 
 # put the value
-def putValue(start, key, value):
-    node=findNode(start, key)
-    node.data[key]=value
+def putValue(fingerList, my_index, my_ID, value) :
+    v = my_ID, value
+    fingerList[my_index] = v
+
+
+
+
+# # define the size of the ring
+# def distance(a, b):
+#     return a^b
+#
+# # find the node
+# def findNode(start, key):
+#     current=start
+#     while distance(current.id, key) > \
+#           distance(current.next.id, key):
+#         current=current.next
+#     return current
+#
+# # get the value
+# def getValue(start, key):
+#     node=findNode(start, key)
+#     return node.data[key]
+#
+# # put the value
+# def putValue(start, key, value):
+#     node=findNode(start, key)
+#     node.data[key]=value
 
 
 #   ***************     end function definitions     ***************   #
@@ -241,8 +252,10 @@ addressTable = OrderedDict(sorted(hostTable.items()))
 keyList = list(addressTable.keys())
 # make an iterable list of the sorted values
 valueList = list(addressTable.values())
-# make a sorted dictionary from the hostTable
-fingerTable = dict.fromkeys(keyList)
+# make an ordered dictionary from the key list
+fingerTable = OrderedDict.fromkeys(keyList)
+# make an ordered list from the key list
+fingerList = list(fingerTable.keys())
 # ts print of fingerTable
 for ii in (addressTable) :
     print ("addressTable : " + str(ii))
@@ -250,12 +263,14 @@ for i in (keyList) :
     print ("keyList : " + str(i))
 for k in (fingerTable) :
     print ("fingerTable: " + str(k))
+for kk in (fingerList) :
+    print ("fingerList: " + str(kk))
 for jj in (hostTable) :
     print ("hostTable: " + str(jj))
 for j in (valueList) :
     print ("valueList : " + str(j))
-
 sys.exit()
+
 
 
 # split addr port info of my node
@@ -317,7 +332,7 @@ while True :
     print ('request received : ' + str(request))
 
 
-
+# ****************** ENSURE GET OPERATION WITH NO VALUE IS VALID *********** #
 
     # if a valid message arrived
     if message :
@@ -340,16 +355,16 @@ while True :
 
             # determine operation
             if operation.lower() == GET :
-                value = getValue(my_ID, key)
+                value = getValue(fingerList, my_index)
 
             # or else put the value
             elif operation.lower() == PUT :
                 # put the value
-                putValue(my_ID, key, value)
+                putValue(fingerList, my_index, value)
 
             # or else the operation is invalid so prepare error message for client
             else :
-                key = "ERROR Invalid Operation Requested : OP : " + operation
+                value = "ERROR Invalid Operation Requested : OP : " + operation
                 print ('ERROR : ' + key)
 
             # gather client address for response
