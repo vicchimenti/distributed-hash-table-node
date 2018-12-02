@@ -148,7 +148,7 @@ def getNodeAddr(kl, vl, nd) :
 
 def getValue(fingerList, my_index) :
     try :
-        value = fingerList.value(my_index)
+        value = fingerList[my_index]
     except OSError :
         value = "ERROR : There value is empty"
 
