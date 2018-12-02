@@ -151,14 +151,16 @@ def getValue(fingerList, my_index) :
         value = fingerList[my_index]
     except OSError :
         value = "ERROR : There value is empty"
+    finally :
+        return value
 
-    try :
-        ignore, value = value
-    #attribute error
-    except OSError :
-        value = "ERROR : There value is empty"
-
-    return value
+    # # try :
+    # #     ignore, value = value
+    # # #attribute error
+    # # except OSError :
+    # #     value = "ERROR : There value is empty"
+    #
+    # return value
 
 
 # put the value
