@@ -38,7 +38,7 @@ def getRequest(r) :
     h = int(r[2])
     op = str(r[3])
     k = str(r[4])
-    v = int(r[5])
+    v = str(r[5])
 
     return a, p, h, op, k, v
 
