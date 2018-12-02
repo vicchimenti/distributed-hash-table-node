@@ -248,12 +248,12 @@ for ii in (addressTable) :
     print ("addressTable : " + str(ii))
 for i in (keyList) :
     print ("keyList : " + str(i))
-for j in (valueList) :
-    print ("valueList : " + str(j))
-for jj in (hostTable) :
-    print ("hostTable: " + str(jj))
 for k in (fingerTable) :
     print ("fingerTable: " + str(k))
+for jj in (hostTable) :
+    print ("hostTable: " + str(jj))
+for j in (valueList) :
+    print ("valueList : " + str(j))
 
 sys.exit()
 
