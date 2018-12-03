@@ -173,11 +173,15 @@ def putValue(fingerList, my_index, value) :
 def findNode(kl, key) :
     i = 0
     print ('i2 : ' + str(i))
-    while key > kl[i] :
+    while i < (count - 1) :
         print ('i3 : ' + str(i))
-        i += i
-        print ('i4 : ' + str(i))
-    print ('i5 : ' + str(i))
+        if key > kl[i] :
+            print ('i4 : ' + str(i))
+            i += 1
+        else :
+            print ('i5 : ' + str(i))
+            break
+            
     return i
 
 
@@ -187,6 +191,16 @@ def findNode(kl, key) :
 # # define the size of the ring
 # def distance(a, b):
 #     return a^b
+# # This is a clockwise ring distance function.
+# It depends on a globally defined k, the key size.
+# The largest possible node id is 2**k.
+# def distance(a, b):
+#     if a==b:
+#         return 0
+#     elif a<b:
+#         return b-a;
+#     else:
+#         return (2**k)+(b-a);
 #
 # # find the node
 # def findNode(start, key):
