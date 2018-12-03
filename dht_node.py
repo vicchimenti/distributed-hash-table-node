@@ -19,7 +19,8 @@ from collections import OrderedDict # for dictionary sorting
 
 
 #***TODO make sure it will work even badly
-#   review dictionary, list, map data types
+#   convert to chord search
+#   return value from dictionary not list
 
 
 #   ***************     function definitions     ***************   #
@@ -156,14 +157,6 @@ def getValue(fingerList, my_index) :
     finally :
         return value
 
-    # # try :
-    # #     ignore, value = value
-    # # #attribute error
-    # # except OSError :
-    # #     value = "ERROR : There value is empty"
-    #
-    # return value
-
 
 # put the value
 def putValue(fingerList, my_index, value) :
@@ -181,7 +174,7 @@ def findNode(kl, key) :
         else :
             print ('i5 : ' + str(i))
             break
-            
+
     return i
 
 
@@ -338,12 +331,6 @@ print ("successor_ID : " + str(successor_ID))
 print ("successor_index : " + str(successor_index))
 print ("successor_addr : " + successor_addr)
 print ("successor_port : " + str(successor_port))
-
-
-
-
-# TODO :
-#   search for client_key using chord, not exact match
 
 
 
