@@ -217,6 +217,7 @@ GET = 'get'
 PUT = 'put'
 WHITESPACE = ' '
 INVALID = 'INVALID'
+NEWLINE = '\n'
 
 # define defaults
 charset = "UTF-8"       # default encoding protocol
