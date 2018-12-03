@@ -370,7 +370,7 @@ while True :
         hops += 1
 
 
-
+# **** This logic may have to change with chord ****** #
 
         # if the value matches current node return directly to the client
         if node_index == my_index :
