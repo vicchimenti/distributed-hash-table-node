@@ -136,6 +136,19 @@ def getAddr(vl, i) :
     return host_addr, host_port
 
 
+# get a full address using the node_ID from the address dictionary
+def getAddress(ID, d) :
+    # get the value from the adress table
+    a = d.get(ID)
+    # split the contents on whitespace
+    node_addr, node_port_str = a.split()
+    # cast the port to an int
+    node_port = int(node_port_str)
+
+    # return the address and port that matches the node
+    return node_addr, node_port
+
+
 # return the full address of the node from the node id
 def getNodeAddr(kl, vl, nd) :
     # get the index of the node from the sorted keyList
@@ -210,7 +223,7 @@ def findNode(start, key, successor, d) :
     return node
 
 
-# get the value
+# get the value when the node is not found yet
 def getValue(start, key, successor, d) :
     # find the correct node ID
     node = findNode(start, key, successor, d)
@@ -228,19 +241,36 @@ def getValue(start, key, successor, d) :
         return value
 
 
-# put the value
-def putValue(start, key, successor, d, value) :
+# or put the value when correct node ID is already found
+
+
+
+# put the value when the node is not found yet
+def putValue(ID, key, successor, d, v) :
     # find the correct node ID
-    node = findNode(start, key, successor, d)
+    node = findNode(ID, key, successor, d)
     # search for delete command
-    if switch(value) == 1 :
+    if switch(v) == 1 :
         # if valid value, put value into dictionary
-        d[node] = value
+        d[node] = v
     else :
         # if delete parameter found then delete the key and return its value
         #value = d.pop(node)
         del d[node]
 
+
+# or put the value when correct node ID is already found
+def putValue (ID, d, v) :
+    # assign the correct node ID
+    node = ID
+    # search for delete command
+    if switch(v) == 1 :
+        # if valid value, put value into dictionary
+        d[node] = v
+    else :
+        # if delete parameter found then delete the key and return its value
+        #value = d.pop(node)
+        del d[node]
 
 
 
@@ -446,14 +476,19 @@ while True :
             response = client_hex_key, my_hex_ID, hops, key, str(value)
 
         # or else get the address of the successor node
-        elif node_index == successor_index :
+        elif node_ID == successor_ID :
+
+            # set the next address for outgoing response
             next_addr = successor_addr, successor_port
             # forward to next node hash-key, hash-node, hops, key_str, value_str
             response = cli_addr, cli_port, hops, operation, key, value
 
         # or else get the address of the next node
         else :
-            n_addr, n_port = getAddr(valueList, node_index)
+
+            # call for the address of the correct node ID
+            n_addr, n_port = getAddress(node_ID, addressTable)#(valueList, node_index)
+            # set the next address for outgoing response
             next_addr = n_addr, n_port
             # forward to next node hash-key, hash-node, hops, key_str, value_str
             response = cli_addr, cli_port, hops, operation, key, value
