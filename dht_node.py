@@ -210,11 +210,9 @@ def getNodeAddr(kl, vl, nd) :
 #     return i
 
 
-
 # exclusive either-or bit comaparison to determine the ring distance
 def distance(node, key, d):
     return (d[node] ^ key)
-
 
 
 # # the ring distance
@@ -226,16 +224,39 @@ def distance(node, key, d):
 #     else :
 #         return ((2**s) + (b - d[a]))
 
-# find the node
+
+# find the node from the full dictionary
 def findNode(ID, key, successor, d) :
     # assign the current node
     node = ID
     # compare the search key to the current and successor IDs
-    while distance (node, key, d) > distance (successor, key, d) :
+    while distance (d[node], key, d) > distance (d[successor], key, d) :
         # assign the success to the node when the key is greater than current
         node = successor
 
     return node
+
+
+#make a finger table from the full table
+def makeFingers(my_ID, successor_ID, fullTable) :
+    d = {
+            my_ID : get(fullTable[my_ID]), \
+            successor_ID : get(fullTable[successor_ID])
+        }
+
+    return d
+
+
+# # find the node
+# def findFinger(ID, key, successor, d) :
+#     # assign the current node
+#     node = ID
+#     # compare the search key to the current and successor IDs
+#     while distance (d[node], key, d) > distance (d[successor], key, d) :
+#         # assign the success to the node when the key is greater than current
+#         node = successor
+#
+#     return node
 
 
 # get the value when the node is not found yet
@@ -387,7 +408,7 @@ keyList = list(addressTable.keys())
 # make an iterable list of the sorted values
 valueList = list(addressTable.values())
 # make an ordered dictionary from the key list
-fingerTable = OrderedDict.fromkeys(keyList)  # change to hostTable
+fullTable = OrderedDict.fromkeys(keyList)  # change to hostTable
 # make an ordered list from the key list
 fingerList = list(fingerTable.keys())
 # ts print of fingerTable
@@ -485,7 +506,10 @@ while True :
         client_key = getHash(key, value)
         print ("client_key : " + str(client_key))
         # find the node's place in the ring
-        node_ID = findNode(my_ID, key, successor_ID, fingerTable) #(keyList, client_key)
+        #node_ID = findNode(my_ID, client_key, successor_ID, fullTable) #(keyList, client_key)
+        # make fingerTable
+        fingerTable = makeFingers(my_ID, successor_ID, predecessor_ID, fullTable)
+        node_ID = findNode(my_ID, client_key, fingerTable)
         print ("node_index : " + str(node_index))
         # increment each hop
         hops += 1
@@ -525,14 +549,14 @@ while True :
             response = cli_addr, cli_port, hops, operation, key, value
 
         # or else get the address of the next node
-        else :
-
-            # call for the address of the correct node ID
-            n_addr, n_port = getAddress(node_ID, addressTable)#(valueList, node_index)
-            # set the next address for outgoing response
-            next_addr = n_addr, n_port
-            # forward to next node hash-key, hash-node, hops, key_str, value_str
-            response = cli_addr, cli_port, hops, operation, key, value
+        # else :
+        #
+        #     # call for the address of the correct node ID
+        #     n_addr, n_port = getAddress(node_ID, addressTable)#(valueList, node_index)
+        #     # set the next address for outgoing response
+        #     next_addr = n_addr, n_port
+        #     # forward to next node hash-key, hash-node, hops, key_str, value_str
+        #     response = cli_addr, cli_port, hops, operation, key, value
 
 
 
