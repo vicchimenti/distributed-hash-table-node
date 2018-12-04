@@ -189,15 +189,15 @@ def findNode(kl, key) :
 # def distance(a, b):
 #     return a^b
 # This is a clockwise ring distance function.
-# It depends on a globally defined k, the key size.
-# The largest possible node id is 2**k.
+
+# The largest possible node id is 2**s
 def distance(a, b, s, d) :
-    if (d[a]==d[b]) :
+    if (d[a] == d[b]) :
         return 0
     elif (d[a] < d[b]) :
         return (d[b] - d[a])
     else :
-        return ((2**s) + (d[b]-d[a]))
+        return ((2**s) + (d[b] - d[a]))
 
 # find the node
 def findNode(start, key, successor, s, d):
@@ -205,28 +205,50 @@ def findNode(start, key, successor, s, d):
     while distance ((node, key, s, d) > distance(successor, key, s, d)) :
         node = successor
 
-    return current
+    return node
+
 
 # get the value
 def getValue(start, key, successor, s, d):
-    node = findNode(start, key, successor, s)
+    # find the correct node ID
+    node = findNode(start, key, successor, s, d)
+    # get the value from the node pair
     value = d[node]
 
     return value
 
 
 # put the value
-def putValue(start, key, successor, s, d, v):
+def putValue(start, key, successor, s, d, value):
+    # find the correct node ID
     node = findNode(start, key, successor, s, d)
-    if v !=
-    d[key] = value
+    # search for delete command
+    if switch(value) == 1 :
+        # if valid value, put value into dictionary
+        d[node] = value
+    else :
+        # if delete parameter found then delete the key and return its value
+        value = d.pop(node)
 
+    return value
+
+
+# determine if put contains a valid value or a delete parameter
 def switch(v) :
-    case = {'a' : NEWLINE, 'b' : WHITESPACE }
-    return {
-        'a': 1,
-        'b': 2,
-    }[x]
+    # if newline
+    if v == CASE.get(a, 'default') :
+        return 0
+    # if whitespace
+    elif v == CASE.get(b, 'default') :
+        return 0
+    # if empty string
+    elif v == CASE.get(c, 'default') :
+        return 0
+    else :
+        return 1
+
+
+
 
 
 #   ***************     end function definitions     ***************   #
@@ -237,10 +259,11 @@ def switch(v) :
 # DEFINE CONSTANTS
 GET = 'get'
 PUT = 'put'
-WHITESPACE = ' '
 INVALID = 'INVALID'
+WHITESPACE = ' '
 NEWLINE = '\n'
 EMPTY = ''
+CASE = {'a' : NEWLINE, 'b' : WHITESPACE, 'c' : EMPTY }
 
 # define defaults
 charset = "UTF-8"       # default encoding protocol
