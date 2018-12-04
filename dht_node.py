@@ -121,6 +121,21 @@ def getSuccessor(li, i, c) :
     return s
 
 
+# get predecessors ID
+getPredecessor(li, i, c)
+    # make a shallow copy of the list
+    temp = li.copy()
+    # confirm that node is not the largest
+    if i > 0 :
+        p = temp.pop((i - 1))
+    # or else pop the first element
+    else :
+        p = temp.pop(c - 1)
+
+    # return the predecessor ID
+    return p
+
+
 # get a full address from the value list with an index
 def getAddr(vl, i) :
     # make a shallow copy of the of the list
@@ -426,6 +441,18 @@ print ("successor_index : " + str(successor_index))
 print ("successor_addr : " + successor_addr)
 print ("successor_port : " + str(successor_port))
 
+
+
+
+# get predecessor information
+predecessor_ID = getPredecessor(keyList, my_index, count)
+predecessor_index = keyList.index(predecessor_ID)
+predecessor_addr, predecessor_port = getAddr(valueList, predecessor_index)
+print ("predecessor_ID : " + str(predecessor_ID))
+print ("predecessor_index : " + str(predecessor_index))
+print ("predecessor_addr : " + predecessor_addr)
+print ("predecessor_port : " + str(predecessor_port))
+sys.exit()
 
 
 
