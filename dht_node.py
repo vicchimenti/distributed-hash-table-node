@@ -508,7 +508,7 @@ while True :
         # find the node's place in the ring
         #node_ID = findNode(my_ID, client_key, successor_ID, fullTable) #(keyList, client_key)
         # make fingerTable
-        fingerTable = makeFingers(my_ID, successor_ID, predecessor_ID, fullTable)
+        fingerTable = makeFingers(my_ID, successor_ID, fullTable)
         node_ID = findNode(my_ID, client_key, successor_ID, fingerTable)
         print ("node_index : " + str(node_index))
         # increment each hop
