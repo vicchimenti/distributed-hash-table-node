@@ -218,8 +218,15 @@ def getValue(start, key, successor, s, d):
 # put the value
 def putValue(start, key, successor, s, d, v):
     node = findNode(start, key, successor, s, d)
+    if v !=
     d[key] = value
-    #node.data[key]=value
+
+def switch(v) :
+    case = {'a' : NEWLINE, 'b' : WHITESPACE }
+    return {
+        'a': 1,
+        'b': 2,
+    }[x]
 
 
 #   ***************     end function definitions     ***************   #
@@ -233,6 +240,7 @@ PUT = 'put'
 WHITESPACE = ' '
 INVALID = 'INVALID'
 NEWLINE = '\n'
+EMPTY = ''
 
 # define defaults
 charset = "UTF-8"       # default encoding protocol
