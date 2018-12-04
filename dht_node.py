@@ -238,21 +238,21 @@ def findNode(ID, key, successor, d) :
 
 
 #make a finger table from the full table
-def makeFingers(my_ID, successor_ID, fullTable) :
-    d = {my_ID : 'default', successor_ID : 'default'}
-    d[my_ID] = fullTable.get(my_ID)
-    d[successor_ID] = fullTable.get(successor_ID)
+def makeFingers(idx, s_idx, li) :
+    list2[0] = li[idx]
+    list2[1] = li[s_idx]
 
-    return d
+    return list2
 
 
 # find the node
 
-def findFinger(ID, key, successor, d) :
-    if key > d[ID].keys() :
-        return successor
+def findFinger(k, li) :
+    key, data = li[0].split()
+    if key >= k :
+        return 1
     else :
-        return ID
+        return 0
 
 
 # get the value when the node is not found yet
@@ -501,12 +501,14 @@ while True :
         print ("client_hex_key : " + str(client_hex_key))
         client_key = getHash(key, value)
         print ("client_key : " + str(client_key))
-        # find the node's place in the ring
-        #node_ID = findNode(my_ID, client_key, successor_ID, fullTable) #(keyList, client_key)
-        # make fingerTable
-        fingerTable = makeFingers(my_ID, successor_ID, fullTable)
-        node_ID = findFinger(my_ID, client_key, successor_ID, fingerTable)
-        print ("node_index : " + str(node_ID))
+
+        # get the node_ID
+        node_ID = findNode(my_ID, client_key, successor_ID, fullTable) #(keyList, client_key)
+
+        # make fingerTable as a list of two nodes
+        fingerTable = makeFingers(my_index, successor_index, fullList)
+        num = findFinger(my_index, client_key, successor_index, fingerTable)
+        #print ("node_index : " + str(node_ID))
         # increment each hop
         hops += 1
 
@@ -514,16 +516,16 @@ while True :
 # **** This logic may have to change with chord ****** #
 
         # if the value matches current node return directly to the client
-        if node_ID == my_ID :
+        if num == 0 : #node_ID == my_ID :
 
             # determine operation
             if operation.lower() == GET :
-                value = getValue(node_ID, fingerTable)#(fingerList, my_index)
+                value = getValue(node_ID, fullTable)#(fingerList, my_index)
 
             # or else put the value
             elif operation.lower() == PUT :
                 # put the value
-                putValue(node_ID, fingerTable, value)#(fingerList, my_index, value)
+                putValue(node_ID, fullTable, value)#(fingerList, my_index, value)
 
             # or else the operation is invalid so prepare error message for client
             else :
@@ -537,7 +539,7 @@ while True :
             response = client_hex_key, my_hex_ID, hops, key, str(value)
 
         # or else get the address of the successor node
-        elif node_ID == successor_ID :
+    elif num == 1 : #node_ID == successor_ID :
 
             # set the next address for outgoing response
             next_addr = successor_addr, successor_port
