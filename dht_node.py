@@ -211,26 +211,26 @@ def getNodeAddr(kl, vl, nd) :
 
 
 # exclusive either-or bit comaparison to determine the ring distance
-def distance(node, key, d):
-    return (d[node] ^ key)
+# def distance(node, key, d):
+#     return (d[node] ^ key)
 
 
-# # the ring distance
-# def distance(a, b, s, d) :
-#     if (d[a] == b) :
-#         return 0
-#     elif (d[a] < b) :
-#         return (b - d[a])
-#     else :
-#         return ((2**s) + (b - d[a]))
+# the ring distance
+def distance(a, b, c, d) :
+    if (d[a] == b) :
+        return 0
+    elif (d[a] < b) :
+        return (b - d[a])
+    else :
+        return ((2**c) + (b - d[a]))
 
 
 # find the node from the full dictionary
-def findNode(ID, key, successor, d) :
+def findNode(ID, key, successor, c, d) :
     # assign the current node
     node = ID
     # compare the search key to the current and successor IDs
-    while distance (d[node], key, d) > distance (d[successor], key, d) :
+    while distance (d[node], key, c, d) > distance (d[successor], key, c, d) :
         # assign the success to the node when the key is greater than current
         node = successor
 
@@ -256,9 +256,9 @@ def findFinger(k, li) :
 
 
 # get the value when the node is not found yet
-def getValue(ID, key, successor, d) :
+def getValue(ID, key, successor, c, d) :
     # find the correct node ID
-    node = findNode(ID, key, successor, d)
+    node = findNode(ID, key, successor, c, d)
     # get the value from the node pair
     try :
         value = d[node]
@@ -292,9 +292,9 @@ def getValue(ID, d) :
 
 
 # put the value when the node is not found yet
-def putValue(ID, key, successor, d, v) :
+def putValue(ID, key, successor, c, d, v) :
     # find the correct node ID
-    node = findNode(ID, key, successor, d)
+    node = findNode(ID, key, successor, c, d)
     # search for delete command
     if switch(v) == 1 :
         # if valid value, put value into dictionary
@@ -503,7 +503,7 @@ while True :
         print ("client_key : " + str(client_key))
 
         # get the node_ID
-        node_ID = findNode(my_ID, client_key, successor_ID, fullTable) #(keyList, client_key)
+        node_ID = findNode(my_ID, client_key, successor_ID, count, fullTable) #(keyList, client_key)
 
         # make fingerTable as a list of two nodes
         fingerTable = makeFingers(my_index, successor_index, fullList)
@@ -539,7 +539,7 @@ while True :
             response = client_hex_key, my_hex_ID, hops, key, str(value)
 
         # or else get the address of the successor node
-    elif num == 1 : #node_ID == successor_ID :
+        elif num == 1 : #node_ID == successor_ID :
 
             # set the next address for outgoing response
             next_addr = successor_addr, successor_port
