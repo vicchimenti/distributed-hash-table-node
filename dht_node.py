@@ -242,6 +242,8 @@ def putValue(start, key, successor, d, value) :
         del d[node]
 
 
+
+
 # determine if put contains a valid value or a delete parameter
 def switch(v) :
     # if newline
@@ -412,7 +414,7 @@ while True :
         client_key = getHash(key, value)
         print ("client_key : " + str(client_key))
         # find the node's place in the ring
-        node_index = findNode(keyList, client_key)
+        node_ID = findNode(my_ID, key, successor_ID, fingerTable) #(keyList, client_key)
         print ("node_index : " + str(node_index))
         # increment each hop
         hops += 1
@@ -421,16 +423,16 @@ while True :
 # **** This logic may have to change with chord ****** #
 
         # if the value matches current node return directly to the client
-        if node_index == my_index :
+        if node_ID == my_ID :
 
             # determine operation
             if operation.lower() == GET :
-                value = getValue(fingerList, my_index)
+                value = getValue(node_ID, fingerTable)#(fingerList, my_index)
 
             # or else put the value
             elif operation.lower() == PUT :
                 # put the value
-                putValue(fingerList, my_index, value)
+                putValue(node_ID, fingerTable, value)#(fingerList, my_index, value)
 
             # or else the operation is invalid so prepare error message for client
             else :
