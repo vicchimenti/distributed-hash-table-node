@@ -246,16 +246,13 @@ def makeFingers(my_ID, successor_ID, fullTable) :
     return d
 
 
-# # find the node
-# def findFinger(ID, key, successor, d) :
-#     # assign the current node
-#     node = ID
-#     # compare the search key to the current and successor IDs
-#     while distance (d[node], key, d) > distance (d[successor], key, d) :
-#         # assign the success to the node when the key is greater than current
-#         node = successor
-#
-#     return node
+# find the node
+
+def findFinger(ID, key, successor, d) :
+    if key > d[ID].keys() :
+        return successor
+    else :
+        return ID
 
 
 # get the value when the node is not found yet
@@ -508,8 +505,8 @@ while True :
         #node_ID = findNode(my_ID, client_key, successor_ID, fullTable) #(keyList, client_key)
         # make fingerTable
         fingerTable = makeFingers(my_ID, successor_ID, fullTable)
-        node_ID = findNode(my_ID, client_key, successor_ID, fingerTable)
-        print ("node_index : " + str(node_index))
+        node_ID = findFinger(my_ID, client_key, successor_ID, fingerTable)
+        print ("node_index : " + str(node_ID))
         # increment each hop
         hops += 1
 
