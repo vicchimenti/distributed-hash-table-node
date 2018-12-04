@@ -240,8 +240,8 @@ def findNode(ID, key, successor, d) :
 #make a finger table from the full table
 def makeFingers(my_ID, successor_ID, fullTable) :
     d = {my_ID : 'default', successor_ID : 'default'}
-    d[my_ID].get(fullTable[my_ID])
-    d[successor_ID].get(fullTable[successor_ID])
+    d[my_ID] = get(fullTable[my_ID])
+    d[successor_ID] = get(fullTable[successor_ID])
 
     return d
 
@@ -507,7 +507,7 @@ while True :
         # find the node's place in the ring
         #node_ID = findNode(my_ID, client_key, successor_ID, fullTable) #(keyList, client_key)
         # make fingerTable
-        fingerTable = makeFingers(my_ID, successor_ID, fullTable)
+        fingerTable = makeFingers(my_ID, successor_ID, fullList)
         node_ID = findNode(my_ID, client_key, successor_ID, fingerTable)
         print ("node_index : " + str(node_index))
         # increment each hop
