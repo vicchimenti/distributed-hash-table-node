@@ -8,6 +8,10 @@
 #   /usr/local/python3/bin/python3
 
 
+ # *********** TODO : Error checking : Try except
+ #      IN node please check for 0 and deletes of values
+ #      In node please return false when value not found
+
 
 
 import sys                          # for system calls
