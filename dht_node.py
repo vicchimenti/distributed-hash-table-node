@@ -410,16 +410,16 @@ valueList = list(addressTable.values())
 # make an ordered dictionary from the key list
 fullTable = OrderedDict.fromkeys(keyList)  # change to hostTable
 # make an ordered list from the key list
-fingerList = list(fingerTable.keys())
+fullList = list(fullTable.keys())
 # ts print of fingerTable
 for ii in (addressTable) :
     print ("addressTable : " + str(ii))
 for i in (keyList) :
     print ("keyList : " + str(i))
-for k in (fingerTable) :
-    print ("fingerTable: " + str(k))
-for kk in (fingerList) :
-    print ("fingerList: " + str(kk))
+for k in (fullTable) :
+    print ("fullTable: " + str(k))
+for kk in (fullList) :
+    print ("fullList: " + str(kk))
 for jj in (hostTable) :
     print ("hostTable: " + str(jj))
 for j in (valueList) :
@@ -442,7 +442,7 @@ my_ID = getID(host_addr, host_port)
 my_hex_ID = hexID(host_addr, host_port)
 ha, hp = getNodeAddr(keyList, valueList, my_ID)
 sa = ha, hp
-print ('host address and port from fingerlist : \n' + str(sa))
+print ('host address and port from fulllist : \n' + str(sa))
 
 
 
@@ -509,7 +509,7 @@ while True :
         #node_ID = findNode(my_ID, client_key, successor_ID, fullTable) #(keyList, client_key)
         # make fingerTable
         fingerTable = makeFingers(my_ID, successor_ID, predecessor_ID, fullTable)
-        node_ID = findNode(my_ID, client_key, fingerTable)
+        node_ID = findNode(my_ID, client_key, successor_ID, fingerTable)
         print ("node_index : " + str(node_index))
         # increment each hop
         hops += 1
@@ -549,7 +549,8 @@ while True :
             response = cli_addr, cli_port, hops, operation, key, value
 
         # or else get the address of the next node
-        # else :
+        else :
+            print ('oops : ')
         #
         #     # call for the address of the correct node ID
         #     n_addr, n_port = getAddress(node_ID, addressTable)#(valueList, node_index)
