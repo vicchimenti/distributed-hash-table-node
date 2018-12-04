@@ -153,33 +153,33 @@ def getNodeAddr(kl, vl, nd) :
     return host_addr, host_port
 
 
-def getValue(fingerList, my_index) :
-    try :
-        value = fingerList[my_index]
-    except OSError :
-        value = "ERROR : There value is empty"
-    finally :
-        return value
+# def getValue(fingerList, my_index) :
+#     try :
+#         value = fingerList[my_index]
+#     except OSError :
+#         value = "ERROR : There value is empty"
+#     finally :
+#         return value
 
 
 # put the value
-def putValue(fingerList, my_index, value) :
-    fingerList[my_index] = value
+# def putValue(fingerList, my_index, value) :
+#     fingerList[my_index] = value
 
 
-def findNode(kl, key) :
-    i = 0
-    print ('i2 : ' + str(i))
-    while i < (count - 1) :
-        print ('i3 : ' + str(i))
-        if key > kl[i] :
-            print ('i4 : ' + str(i))
-            i += 1
-        else :
-            print ('i5 : ' + str(i))
-            break
-
-    return i
+# def findNode(kl, key) :
+#     i = 0
+#     print ('i2 : ' + str(i))
+#     while i < (count - 1) :
+#         print ('i3 : ' + str(i))
+#         if key > kl[i] :
+#             print ('i4 : ' + str(i))
+#             i += 1
+#         else :
+#             print ('i5 : ' + str(i))
+#             break
+#
+#     return i
 
 
 
@@ -215,9 +215,17 @@ def getValue(start, key, successor, d) :
     # find the correct node ID
     node = findNode(start, key, successor, d)
     # get the value from the node pair
-    value = d[node]
-
-    return value
+    try :
+        value = d[node]
+    except KeyError :
+        # if the key is missing throw an error message
+        value = 'ERROR: The Requested Search Key Does Not Exist'
+    finally :
+        # return whatever is in value:
+            # either a true value
+            # or an empty and-or whitespace/newline
+            # or the error message
+        return value
 
 
 # put the value
@@ -230,9 +238,8 @@ def putValue(start, key, successor, d, value) :
         d[node] = value
     else :
         # if delete parameter found then delete the key and return its value
-        value = d.pop(node)
-
-    return value
+        #value = d.pop(node)
+        del d[node]
 
 
 # determine if put contains a valid value or a delete parameter
