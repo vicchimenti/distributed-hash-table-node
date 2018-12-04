@@ -183,10 +183,10 @@ def findNode(kl, key) :
 
 
 
-# the ring distance
-def distance(a, b, d):
-    return d[a]^b # In Python, this means a XOR b,
-               # not a to the power of b.
+# exclusive either-or bit comaparison to determine the ring distance
+def distance(node, key, d):
+    return (d[node] ^ key)
+
 
 
 # # the ring distance
@@ -200,8 +200,11 @@ def distance(a, b, d):
 
 # find the node
 def findNode(start, key, successor, d) :
+    # assign the current node
     node = start
+    # compare the search key to the current and successor IDs
     while distance (node, key, d) > distance (successor, key, d) :
+        # assign the success to the node when the key is greater than current
         node = successor
 
     return node
