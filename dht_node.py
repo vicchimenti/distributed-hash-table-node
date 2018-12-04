@@ -122,7 +122,7 @@ def getSuccessor(li, i, c) :
 
 
 # get predecessors ID
-getPredecessor(li, i, c)
+getPredecessor(li, i, c) :
     # make a shallow copy of the list
     temp = li.copy()
     # confirm that node is not the largest
