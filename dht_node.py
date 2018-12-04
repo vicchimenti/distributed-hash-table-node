@@ -185,37 +185,41 @@ def findNode(kl, key) :
 
 
 
-# # define the size of the ring
+# define the size of the ring
 # def distance(a, b):
 #     return a^b
-# # This is a clockwise ring distance function.
+# This is a clockwise ring distance function.
 # It depends on a globally defined k, the key size.
 # The largest possible node id is 2**k.
-# def distance(a, b):
-#     if a==b:
-#         return 0
-#     elif a<b:
-#         return b-a;
-#     else:
-#         return (2**k)+(b-a);
-#
-# # find the node
-# def findNode(start, key):
-#     current=start
-#     while distance(current.id, key) > \
-#           distance(current.next.id, key):
-#         current=current.next
-#     return current
-#
-# # get the value
-# def getValue(start, key):
-#     node=findNode(start, key)
-#     return node.data[key]
-#
-# # put the value
-# def putValue(start, key, value):
-#     node=findNode(start, key)
-#     node.data[key]=value
+def distance(a, b, s, d) :
+    if (d[a]==d[b]) :
+        return 0
+    elif (d[a] < d[b]) :
+        return (d[b] - d[a])
+    else :
+        return ((2**s) + (d[b]-d[a]))
+
+# find the node
+def findNode(start, key, successor, s, d):
+    node = start
+    while distance ((node, key, s, d) > distance(successor, key, s, d)) :
+        node = successor
+
+    return current
+
+# get the value
+def getValue(start, key, successor, s, d):
+    node = findNode(start, key, successor, s)
+    value = d[node]
+
+    return value
+
+
+# put the value
+def putValue(start, key, successor, s, d, v):
+    node = findNode(start, key, successor, s, d)
+    d[key] = value
+    #node.data[key]=value
 
 
 #   ***************     end function definitions     ***************   #
