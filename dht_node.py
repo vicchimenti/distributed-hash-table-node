@@ -183,35 +183,34 @@ def findNode(kl, key) :
 
 
 
+# the ring distance
+def distance(a, b, d):
+    return d[a]^b # In Python, this means a XOR b,
+               # not a to the power of b.
 
 
-# define the size of the ring
-# def distance(a, b):
-#     return a^b
-# This is a clockwise ring distance function.
-
-# The largest possible node id is 2**s
-def distance(a, b, s, d) :
-    if (d[a] == d[b]) :
-        return 0
-    elif (d[a] < d[b]) :
-        return (d[b] - d[a])
-    else :
-        return ((2**s) + (d[b] - d[a]))
+# # the ring distance
+# def distance(a, b, s, d) :
+#     if (d[a] == b) :
+#         return 0
+#     elif (d[a] < b) :
+#         return (b - d[a])
+#     else :
+#         return ((2**s) + (b - d[a]))
 
 # find the node
-def findNode(start, key, successor, s, d):
+def findNode(start, key, successor, d) :
     node = start
-    while distance ((node, key, s, d) > distance(successor, key, s, d)) :
+    while distance (node, key, d) > distance (successor, key, d) :
         node = successor
 
     return node
 
 
 # get the value
-def getValue(start, key, successor, s, d):
+def getValue(start, key, successor, d) :
     # find the correct node ID
-    node = findNode(start, key, successor, s, d)
+    node = findNode(start, key, successor, d)
     # get the value from the node pair
     value = d[node]
 
@@ -219,9 +218,9 @@ def getValue(start, key, successor, s, d):
 
 
 # put the value
-def putValue(start, key, successor, s, d, value):
+def putValue(start, key, successor, d, value) :
     # find the correct node ID
-    node = findNode(start, key, successor, s, d)
+    node = findNode(start, key, successor, d)
     # search for delete command
     if switch(value) == 1 :
         # if valid value, put value into dictionary
@@ -317,7 +316,7 @@ keyList = list(addressTable.keys())
 # make an iterable list of the sorted values
 valueList = list(addressTable.values())
 # make an ordered dictionary from the key list
-fingerTable = OrderedDict.fromkeys(keyList)
+fingerTable = OrderedDict.fromkeys(keyList)  # change to hostTable
 # make an ordered list from the key list
 fingerList = list(fingerTable.keys())
 # ts print of fingerTable
