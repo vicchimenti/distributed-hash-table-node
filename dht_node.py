@@ -212,9 +212,9 @@ def distance(node, key, d):
 #         return ((2**s) + (b - d[a]))
 
 # find the node
-def findNode(start, key, successor, d) :
+def findNode(ID, key, successor, d) :
     # assign the current node
-    node = start
+    node = ID
     # compare the search key to the current and successor IDs
     while distance (node, key, d) > distance (successor, key, d) :
         # assign the success to the node when the key is greater than current
@@ -224,9 +224,9 @@ def findNode(start, key, successor, d) :
 
 
 # get the value when the node is not found yet
-def getValue(start, key, successor, d) :
+def getValue(ID, key, successor, d) :
     # find the correct node ID
-    node = findNode(start, key, successor, d)
+    node = findNode(ID, key, successor, d)
     # get the value from the node pair
     try :
         value = d[node]
@@ -242,7 +242,21 @@ def getValue(start, key, successor, d) :
 
 
 # or put the value when correct node ID is already found
-
+def getValue(ID, d) :
+    # find the correct node ID
+    node = ID
+    # get the value from the node pair
+    try :
+        v = d[node]
+    except KeyError :
+        # if the key is missing throw an error message
+        v = 'ERROR: The Requested Search Key Does Not Exist'
+    finally :
+        # return whatever is in value:
+            # either a true value
+            # or an empty and-or whitespace/newline
+            # or the error message
+        return v
 
 
 # put the value when the node is not found yet
