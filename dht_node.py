@@ -473,7 +473,7 @@ print ("predecessor_ID : " + str(predecessor_ID))
 print ("predecessor_index : " + str(predecessor_index))
 print ("predecessor_addr : " + predecessor_addr)
 print ("predecessor_port : " + str(predecessor_port))
-sys.exit()
+
 
 
 
