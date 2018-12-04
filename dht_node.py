@@ -214,7 +214,7 @@ def getNodeAddr(kl, vl, nd) :
 # def distance(node, key, d):
 #     return (d[node] ^ key)
 
-
+#TODO ***** not comparing KEY values, comparing key to value directly, need key
 # the ring distance
 def distance(a, b, c, d) :
     if (d[a] == b) :
