@@ -219,6 +219,15 @@ def getNodeAddr(kl, vl, nd) :
 #     return current
 
 
+# # The largest possible node id is 2**k.
+# def distance(a, b):
+#     if a==b:
+#         return 0
+#     elif a<b:
+#         return b-a;
+#     else:
+#         return (2**k)+(b-a);
+
 
 # exclusive either-or bit comaparison to determine the ring distance
 # def distance(node, key, d):
@@ -247,15 +256,28 @@ def findNode(ID, key, successor, c, d) :
     return node
 
 
+# return the highest-key-value possible of the furthest node reachable
 def findFurthest(i, s, c, l) :
     node = i
-    while distance (l[node])
+    return ((2**c) + (s - l[i]))
 
+
+def getNode(f, c, lk) :
+    current = (c-1)
+    next = (c-2)
+    while lk[current] > f :
+        current = next
+        if next == 0 : break
+        else : next -= 1
+
+    idx = getIndex(lk, lk[current])
 
 
 # find the furtherest node available 2**m
 def getFurthest(ID, successor c, lv, lk) :
     furthest = findFurthest(ID, successor, c, lv)
+
+    return (getNode(furthest, c, lk))
 
 
 #make a finger table from the full table
@@ -264,6 +286,13 @@ def makeFingers(idx, s_idx, lk, my_ID, successor_ID, c, lv) :
     list2[1] = lk[s_idx]
     list2[2] = getFurthest(my_ID, successor_ID c, lv, lk)
 
+    # get the new node's predecessor index via the id
+    predecessor_ID = getPredecessor(lk, list2[2], c)
+    list2[3] = keyList.index(predecessor_ID)
+
+    # sort the new list items
+    list2.sort()
+    
     return list2
 
 
