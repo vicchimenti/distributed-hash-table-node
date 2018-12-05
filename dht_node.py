@@ -170,52 +170,52 @@ def getNodeAddr(kl, vl, nd) :
 
 
 
-#TODO ***** not comparing KEY values, comparing key to value directly, need key
-# the ring distance
-def distance(a, b, c, li) :
-    if (li[a] == b) :
-        return 0
-    elif (li[a] < b) :
-        return (b - li[a])
-    else :
-        return ((2**c) + (b - li[a]))
-
-
-# find the node from the full dictionary
-def findNode(ID, key, successor, c, d) :
-    # assign the current node
-    node = ID
-    # compare the search key to the current and successor IDs
-    while distance (d[node], key, c, d) > distance (d[successor], key, c, d) :
-        # assign the success to the node when the key is greater than current
-        node = successor
-    return node
-
-
-# return the highest-key-value possible of the furthest node reachable
-def findFurthest(i, s, c, l) :
-    num = getHash(2**c)
-    return (num + (s - l[i]))
-
-
-
-
-def getNode(f, c, lk) :
-    current = (c-1)
-    next = (c-2)
-    while lk[current] > f :
-        current = next
-        if next == 0 : break
-        else : next -= 1
-    idx = getIndex(lk, lk[current])
-    return idx
-
-
-# find the furtherest node available 2**m
-def getFurthest(ID, successor, c, lk) :
-    furthest = findFurthest(ID, successor, c, lk)
-    idx = getNode(furthest, c, lk)
-    return idx
+# #TODO ***** not comparing KEY values, comparing key to value directly, need key
+# # the ring distance
+# def distance(a, b, c, li) :
+#     if (li[a] == b) :
+#         return 0
+#     elif (li[a] < b) :
+#         return (b - li[a])
+#     else :
+#         return ((2**c) + (b - li[a]))
+#
+#
+# # find the node from the full dictionary
+# def findNode(ID, key, successor, c, d) :
+#     # assign the current node
+#     node = ID
+#     # compare the search key to the current and successor IDs
+#     while distance (d[node], key, c, d) > distance (d[successor], key, c, d) :
+#         # assign the success to the node when the key is greater than current
+#         node = successor
+#     return node
+#
+#
+# # return the highest-key-value possible of the furthest node reachable
+# def findFurthest(i, s, c, l) :
+#     num = getHash(2**c)
+#     return (num + (s - l[i]))
+#
+#
+#
+#
+# def getNode(f, c, lk) :
+#     current = (c-1)
+#     next = (c-2)
+#     while lk[current] > f :
+#         current = next
+#         if next == 0 : break
+#         else : next -= 1
+#     idx = getIndex(lk, lk[current])
+#     return idx
+#
+#
+# # find the furtherest node available 2**m
+# def getFurthest(ID, successor, c, lk) :
+#     furthest = findFurthest(ID, successor, c, lk)
+#     idx = getNode(furthest, c, lk)
+#     return idx
 
 
 #make a finger table from the full table
