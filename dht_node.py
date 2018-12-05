@@ -281,13 +281,14 @@ def getFurthest(ID, successor, c, lk) :
 
 #make a finger table from the full table
 def makeFingers(idx, s_idx, lk, my_ID, successor_ID, c) :
-    list2[0] = lk[idx]
-    list2[1] = lk[s_idx]
-    list2[2] = getFurthest(my_ID, successor_ID, c, lk)
+    list2 = []
+    list2.append(lk[idx])
+    list2.append(lk[s_idx])
+    list2.append(getFurthest(my_ID, successor_ID, c, lk))
 
     # get the new node's predecessor index via the id
     predecessor_ID = getPredecessor(lk, list2[2], c)
-    list2[3] = keyList.index(predecessor_ID)
+    list2.append(keyList.index(predecessor_ID))
 
     # sort the new list items
     list2.sort()
@@ -564,7 +565,7 @@ while True :
         #node_ID = findNode(my_ID, client_key, successor_ID, count, fullTable) #(keyList, client_key)
 
         # make fingerTable as a list of two nodes
-        fingerTable = makeFingers(my_index, successor_index, keyList, my_ID, successor_ID, c)
+        fingerTable = makeFingers(my_index, successor_index, keyList, my_ID, successor_ID, count)
         num = findFinger(my_index, client_key, successor_index, fingerTable)
         #print ("node_index : " + str(node_ID))
         # increment each hop
