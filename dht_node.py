@@ -269,7 +269,6 @@ def getNode(f, c, lk) :
         current = next
         if next == 0 : break
         else : next -= 1
-
     idx = getIndex(lk, lk[current])
     return idx
 
@@ -277,8 +276,8 @@ def getNode(f, c, lk) :
 # find the furtherest node available 2**m
 def getFurthest(ID, successor, c, lk) :
     furthest = findFurthest(ID, successor, c, lk)
-
-    return (getNode(furthest, c, lk))
+    idx = getNode(furthest, c, lk)
+    return idx
 
 
 #make a finger table from the full table
