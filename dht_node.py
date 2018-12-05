@@ -24,6 +24,7 @@ from collections import OrderedDict # for dictionary sorting
 
 #***TODO make sure it will work even badly
 #   check that successor index does not go out of bounds and instead wraps to zero
+#   ensure parallel list sytem stores and retreives values correctly
 
 
 #   ***************     function definitions     ***************   #
