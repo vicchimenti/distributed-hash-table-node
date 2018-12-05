@@ -168,57 +168,7 @@ def getNodeAddr(kl, vl, nd) :
     return host_addr, host_port
 
 
-# def getValue(fingerList, my_index) :
-#     try :
-#         value = fingerList[my_index]
-#     except OSError :
-#         value = "ERROR : There value is empty"
-#     finally :
-#         return value
 
-
-# put the value
-# def putValue(fingerList, my_index, value) :
-#     fingerList[my_index] = value
-
-
-# def findNode(kl, key) :
-#     i = 0
-#     print ('i2 : ' + str(i))
-#     while i < (count - 1) :
-#         print ('i3 : ' + str(i))
-#         if key > kl[i] :
-#             print ('i4 : ' + str(i))
-#             i += 1
-#         else :
-#             print ('i5 : ' + str(i))
-#             break
-#
-#     return i
-
-
-# # for the target key
-# def findNode(start, key):
-#     current=start
-#     while distance(current.id, key) > \
-#           distance(current.next.id, key):
-#         current=current.next
-#     return current
-
-
-# # The largest possible node id is 2**k.
-# def distance(a, b):
-#     if a==b:
-#         return 0
-#     elif a<b:
-#         return b-a;
-#     else:
-#         return (2**k)+(b-a);
-
-
-# exclusive either-or bit comaparison to determine the ring distance
-# def distance(node, key, d):
-#     return (d[node] ^ key)
 
 #TODO ***** not comparing KEY values, comparing key to value directly, need key
 # the ring distance
@@ -617,52 +567,5 @@ while True :
 # close socket and exit program
 sock.close
 sys.exit()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#  ***************** Functions for updating tables after joins/leaves ******** #
-# update finger table
-# def update(node):
-#     for x in range(k):
-#         oldEntry=node.finger[x]
-#         node.finger[x]=findNode(oldEntry,
-#                           (node.id+(2**x)) % (2**k))
-#
-# # find the correct finger
-# def findFinger(node, key):
-#     current=node
-#     for x in range(k):
-#         if distance(current.id, key) > \
-#            distance(node.finger[x].id, key):
-#             current=node.finger[x]
-#     return current
-#
-# # look up the correct finger
-# def lookup(start, key):
-#     current=findFinger(start, key)
-#     next=findFinger(current, key)
-#     while distance(current.id, key) > \
-#           distance(next.id, key):
-#         current=next
-#         next=findFinger(current, key)
-#     return current
 
 #   eof
