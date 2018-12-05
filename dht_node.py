@@ -567,7 +567,7 @@ while True :
             response = client_hex_key, my_hex_ID, hops, key, str(value)
 
         # or else get the address of the successor node
-    elif idx == 1 : #node_ID == successor_ID :
+        elif idx == 1 : #node_ID == successor_ID :
 
             # set the next address for outgoing response
             next_addr = successor_addr, successor_port
