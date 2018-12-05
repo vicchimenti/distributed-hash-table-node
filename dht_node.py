@@ -78,7 +78,7 @@ def hexID(a, p) :
 
     return mh.hexdigest()
 
-# **************** TRACE THIS TO SEE WHO USES IT ******************** #
+
 # calculate the node ID in hex
 def getHash(k, v) :
     #v = socket.htonl(v)
@@ -88,7 +88,7 @@ def getHash(k, v) :
 
     return mh.digest()
 
-# **************** TRACE THIS TO SEE WHO USES IT ******************** #
+
 # calculate the node ID in hex
 def getHashHex(k, v) :
     #v = socket.htonl(v)
@@ -216,13 +216,13 @@ def getNodeAddr(kl, vl, nd) :
 
 #TODO ***** not comparing KEY values, comparing key to value directly, need key
 # the ring distance
-def distance(a, b, c, d) :
-    if (d[a] == b) :
+def distance(a, b, c, li) :
+    if (li[a] == b) :
         return 0
-    elif (d[a] < b) :
-        return (b - d[a])
+    elif (li[a] < b) :
+        return (b - li[a])
     else :
-        return ((2**c) + (b - d[a]))
+        return ((2**c) + (b - li[a]))
 
 
 # find the node from the full dictionary
@@ -238,21 +238,30 @@ def findNode(ID, key, successor, c, d) :
 
 
 #make a finger table from the full table
-def makeFingers(idx, s_idx, li) :
+def makeFingers(idx, s_idx, c, li) :
     list2[0] = li[idx]
     list2[1] = li[s_idx]
+    list2[2] = getFurthest(idx, s_idx, c, li)
 
     return list2
 
 
-# find the node
+# find the node index in a list
+def findFinger(ID, key, successor_ID, li) :
+    node = ID
+    # compare the search key to the current and successor IDs
+    while distance (li[node], key, c, li) > distance (li[successor], key, c, li) :
+        # assign the success to the node when the key is greater than current
+        node = successor
 
-def findFinger(k, li) :
-    key, data = li[0].split()
-    if key >= k :
-        return 1
-    else :
-        return 0
+    return node
+
+
+    # key, data = li[0].split()
+    # if key >= k :
+    #     return 1
+    # else :
+    #     return 0
 
 
 # get the value when the node is not found yet
@@ -274,12 +283,12 @@ def getValue(ID, key, successor, c, d) :
 
 
 # or put the value when correct node ID is already found
-def getValue(ID, d) :
+def getValue(idx, li) :
     # find the correct node ID
-    node = ID
+    node = idx
     # get the value from the node pair
     try :
-        v = d[node]
+        v = li[node]
     except KeyError :
         # if the key is missing throw an error message
         v = 'ERROR: The Requested Search Key Does Not Exist'
@@ -306,17 +315,17 @@ def putValue(ID, key, successor, c, d, v) :
 
 
 # or put the value when correct node ID is already found
-def putValue (ID, d, v) :
+def putValue (idx, li, v) :
     # assign the correct node ID
-    node = ID
+    node = idx
     # search for delete command
     if switch(v) == 1 :
         # if valid value, put value into dictionary
-        d[node] = v
+        li[node] = v
     else :
         # if delete parameter found then delete the key and return its value
-        #value = d.pop(node)
-        del d[node]
+        v = li.pop(node)
+        #del d[node]
 
 
 
@@ -503,7 +512,7 @@ while True :
         print ("client_key : " + str(client_key))
 
         # get the node_ID
-        node_ID = findNode(my_ID, client_key, successor_ID, count, fullTable) #(keyList, client_key)
+        #node_ID = findNode(my_ID, client_key, successor_ID, count, fullTable) #(keyList, client_key)
 
         # make fingerTable as a list of two nodes
         fingerTable = makeFingers(my_index, successor_index, fullList)
