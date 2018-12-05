@@ -275,8 +275,8 @@ def getNode(f, c, lk) :
 
 
 # find the furtherest node available 2**m
-def getFurthest(ID, my_ID, successor, c, lk) :
-    furthest = findFurthest(ID, my_ID, successor, c, lk)
+def getFurthest(ID, successor, c, lk) :
+    furthest = findFurthest(ID, successor, c, lk)
 
     return (getNode(furthest, c, lk))
 
