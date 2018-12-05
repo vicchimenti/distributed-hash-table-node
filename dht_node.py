@@ -531,7 +531,7 @@ while True :
         print ("client_key : " + str(client_key))
 
         # get the node_ID
-        node_ID = findNode(my_ID, client_key, successor_ID, count, fullTable) #(keyList, client_key)
+        #node_ID = findNode(my_ID, client_key, successor_ID, count, fullTable) #(keyList, client_key)
 
         # make fingerTable as a list of two nodes
         fingerTable = makeFingers(my_ID, successor_ID)
