@@ -273,7 +273,7 @@ def getNode(f, c, lk) :
 
 
 # find the furtherest node available 2**m
-def getFurthest(ID, successor c, lk) :
+def getFurthest(ID, successor, c, lk) :
     furthest = findFurthest(ID, successor, c, lk)
 
     return (getNode(furthest, c, lk))
@@ -283,7 +283,7 @@ def getFurthest(ID, successor c, lk) :
 def makeFingers(idx, s_idx, lk, my_ID, successor_ID, c) :
     list2[0] = lk[idx]
     list2[1] = lk[s_idx]
-    list2[2] = getFurthest(my_ID, successor_ID c, lk)
+    list2[2] = getFurthest(my_ID, successor_ID, c, lk)
 
     # get the new node's predecessor index via the id
     predecessor_ID = getPredecessor(lk, list2[2], c)
@@ -564,7 +564,7 @@ while True :
         #node_ID = findNode(my_ID, client_key, successor_ID, count, fullTable) #(keyList, client_key)
 
         # make fingerTable as a list of two nodes
-        fingerTable = makeFingers(my_index, successor_index, fullList)
+        fingerTable = makeFingers(my_index, successor_index, keyList, my_ID, successor_ID, c)
         num = findFinger(my_index, client_key, successor_index, fingerTable)
         #print ("node_index : " + str(node_ID))
         # increment each hop
