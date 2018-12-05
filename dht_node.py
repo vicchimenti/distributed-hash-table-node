@@ -258,7 +258,6 @@ def findNode(ID, key, successor, c, d) :
 
 # return the highest-key-value possible of the furthest node reachable
 def findFurthest(i, s, c, l) :
-    node = i
     return ((2**c) + (s - l[i]))
 
 
@@ -274,17 +273,17 @@ def getNode(f, c, lk) :
 
 
 # find the furtherest node available 2**m
-def getFurthest(ID, successor c, lv, lk) :
-    furthest = findFurthest(ID, successor, c, lv)
+def getFurthest(ID, successor c, lk) :
+    furthest = findFurthest(ID, successor, c, lk)
 
     return (getNode(furthest, c, lk))
 
 
 #make a finger table from the full table
-def makeFingers(idx, s_idx, lk, my_ID, successor_ID, c, lv) :
+def makeFingers(idx, s_idx, lk, my_ID, successor_ID, c) :
     list2[0] = lk[idx]
     list2[1] = lk[s_idx]
-    list2[2] = getFurthest(my_ID, successor_ID c, lv, lk)
+    list2[2] = getFurthest(my_ID, successor_ID c, lk)
 
     # get the new node's predecessor index via the id
     predecessor_ID = getPredecessor(lk, list2[2], c)
@@ -292,7 +291,7 @@ def makeFingers(idx, s_idx, lk, my_ID, successor_ID, c, lv) :
 
     # sort the new list items
     list2.sort()
-    
+
     return list2
 
 
