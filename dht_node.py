@@ -480,13 +480,10 @@ while True :
         client_key = getHash(key, value)
         print ("client_key : " + str(client_key))
 
-        # get the node_ID
-        #node_ID = findNode(my_ID, client_key, successor_ID, count, fullTable) #(keyList, client_key)
-
         # make fingerTable as a list of two nodes
         fingerTable = makeFingers(my_ID, successor_ID)
         idx = findFinger(client_key, fingerTable)
-        #print ("node_index : " + str(node_ID))
+
         # increment each hop
         hops += 1
 
@@ -494,16 +491,17 @@ while True :
 # **** This logic may have to change with chord ****** #
 
         # if the value matches current node return directly to the client
-        if idx == 0 : #node_ID == my_ID :
+        if idx == 0 :
 
             # determine operation
             if operation.lower() == GET :
-                value = getValue(idx, valueList)#(fingerList, my_index)
+                # get the value
+                value = getValue(idx, valueList)
 
             # or else put the value
             elif operation.lower() == PUT :
                 # put the value
-                putValue(idx, value, valueList, keyList)#(fingerList, my_index, value)
+                putValue(idx, value, valueList, keyList)
 
             # or else the operation is invalid so prepare error message for client
             else :
@@ -517,23 +515,12 @@ while True :
             response = client_hex_key, my_hex_ID, hops, key, str(value)
 
         # or else get the address of the successor node
-        else : #idx == 1 : #node_ID == successor_ID :
+        else :
 
             # set the next address for outgoing response
             next_addr = successor_addr, successor_port
             # forward to next node hash-key, hash-node, hops, key_str, value_str
             response = cli_addr, cli_port, hops, operation, key, value
-
-        # # or else get the address of the next node
-        # else :
-        #     print ('oops : ')
-        # #
-        # #     # call for the address of the correct node ID
-        # #     n_addr, n_port = getAddress(node_ID, addressTable)#(valueList, node_index)
-        # #     # set the next address for outgoing response
-        # #     next_addr = n_addr, n_port
-        # #     # forward to next node hash-key, hash-node, hops, key_str, value_str
-        # #     response = cli_addr, cli_port, hops, operation, key, value
 
 
 
