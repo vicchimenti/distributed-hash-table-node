@@ -258,7 +258,8 @@ def findNode(ID, key, successor, c, d) :
 
 # return the highest-key-value possible of the furthest node reachable
 def findFurthest(i, s, c, l) :
-    return ((2**c) + (s - l[i]))
+    num = bignum((2**c) + (s - l[i]))
+    return num
 
 
 
@@ -285,8 +286,8 @@ def makeFingers(idx, s_idx, lk, my_ID, successor_ID, c) :
     list2 = []
     list2.append(lk[idx])
     list2.append(lk[s_idx])
-    list2.append(getFurthest(my_ID, successor_ID, c, lk))
-
+    num = (getFurthest(my_ID, successor_ID, c, lk))
+    list2.append(num)
     # get the new node's predecessor index via the id
     predecessor_ID = getPredecessor(lk, list2[2], c)
     list2.append(keyList.index(predecessor_ID))
