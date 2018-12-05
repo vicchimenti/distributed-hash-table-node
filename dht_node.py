@@ -234,22 +234,22 @@ def findFinger(key, li) :
         return 1
 
 
-# get the value when the node is not found yet
-def getValue(ID, key, successor, c, d) :
-    # find the correct node ID
-    node = findNode(ID, key, successor, c, d)
-    # get the value from the node pair
-    try :
-        value = d[node]
-    except KeyError :
-        # if the key is missing throw an error message
-        value = 'ERROR: The Requested Search Key Does Not Exist'
-    finally :
-        # return whatever is in value:
-            # either a true value
-            # or an empty and-or whitespace/newline
-            # or the error message
-        return value
+# # get the value when the node is not found yet
+# def getValue(ID, key, successor, c, d) :
+#     # find the correct node ID
+#     node = findNode(ID, key, successor, c, d)
+#     # get the value from the node pair
+#     try :
+#         value = d[node]
+#     except KeyError :
+#         # if the key is missing throw an error message
+#         value = 'ERROR: The Requested Search Key Does Not Exist'
+#     finally :
+#         # return whatever is in value:
+#             # either a true value
+#             # or an empty and-or whitespace/newline
+#             # or the error message
+#         return value
 
 
 # or put the value when correct node ID is already found
@@ -268,18 +268,18 @@ def getValue(idx, li) :
         return v
 
 
-# put the value when the node is not found yet
-def putValue(ID, key, successor, c, d, v) :
-    # find the correct node ID
-    node = findNode(ID, key, successor, c, d)
-    # search for delete command
-    if switch(v) == 1 :
-        # if valid value, put value into dictionary
-        d[node] = v
-    else :
-        # if delete parameter found then delete the key and return its value
-        #value = d.pop(node)
-        del d[node]
+# # put the value when the node is not found yet
+# def putValue(ID, key, successor, c, d, v) :
+#     # find the correct node ID
+#     node = findNode(ID, key, successor, c, d)
+#     # search for delete command
+#     if switch(v) == 1 :
+#         # if valid value, put value into dictionary
+#         d[node] = v
+#     else :
+#         # if delete parameter found then delete the key and return its value
+#         #value = d.pop(node)
+#         del d[node]
 
 
 # or put the value when correct node ID is already found
