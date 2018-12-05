@@ -517,23 +517,23 @@ while True :
             response = client_hex_key, my_hex_ID, hops, key, str(value)
 
         # or else get the address of the successor node
-        elif idx == 1 : #node_ID == successor_ID :
+        else : #idx == 1 : #node_ID == successor_ID :
 
             # set the next address for outgoing response
             next_addr = successor_addr, successor_port
             # forward to next node hash-key, hash-node, hops, key_str, value_str
             response = cli_addr, cli_port, hops, operation, key, value
 
-        # or else get the address of the next node
-        else :
-            print ('oops : ')
-        #
-        #     # call for the address of the correct node ID
-        #     n_addr, n_port = getAddress(node_ID, addressTable)#(valueList, node_index)
-        #     # set the next address for outgoing response
-        #     next_addr = n_addr, n_port
-        #     # forward to next node hash-key, hash-node, hops, key_str, value_str
-        #     response = cli_addr, cli_port, hops, operation, key, value
+        # # or else get the address of the next node
+        # else :
+        #     print ('oops : ')
+        # #
+        # #     # call for the address of the correct node ID
+        # #     n_addr, n_port = getAddress(node_ID, addressTable)#(valueList, node_index)
+        # #     # set the next address for outgoing response
+        # #     next_addr = n_addr, n_port
+        # #     # forward to next node hash-key, hash-node, hops, key_str, value_str
+        # #     response = cli_addr, cli_port, hops, operation, key, value
 
 
 
