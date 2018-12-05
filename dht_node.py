@@ -8,9 +8,14 @@
 #   /usr/local/python3/bin/python3
 
 
+
+
  # *********** TODO : Error checking : Try except
  #      IN node please check for 0 and deletes of values
  #      In node please return false when value not found
+ #      check that successor index does not go out of bounds and instead wraps to zero
+ #      ensure parallel list sytem stores and retreives values correctly
+
 
 
 
@@ -22,9 +27,6 @@ import hashlib                      # SHA1 hash functionality
 from collections import OrderedDict # for dictionary sorting
 
 
-#***TODO make sure it will work even badly
-#   check that successor index does not go out of bounds and instead wraps to zero
-#   ensure parallel list sytem stores and retreives values correctly
 
 
 #   ***************     function definitions     ***************   #
@@ -35,6 +37,8 @@ def getPath(c, v) :
     host_addr, host_port_str = c[v].split()
     host_port = int(host_port_str)
     return host_addr, host_port
+
+
 
 
 # extract the request attributes
@@ -48,12 +52,16 @@ def getRequest(r) :
     return a, p, h, op, k, v
 
 
+
+
 # extract the client address from the request
 def getClient(r) :
     a = str(r[0])
     p = int(r[1])
     cli = (a, p)
     return cli
+
+
 
 
 # calculate the node ID in hex
@@ -65,6 +73,8 @@ def getID(a, p) :
     return mh.digest()
 
 
+
+
 # calculate the node ID in hex
 def hexID(a, p) :
     p = socket.htonl(p)
@@ -72,6 +82,8 @@ def hexID(a, p) :
     mh.update(repr(a).encode(charset))
     mh.update(repr(p).encode(charset))
     return mh.hexdigest()
+
+
 
 
 # calculate the node ID in hex
@@ -83,6 +95,8 @@ def getHash(k, v) :
     return mh.digest()
 
 
+
+
 # calculate the node ID in hex
 def getHashHex(k, v) :
     #v = socket.htonl(v)
@@ -92,10 +106,14 @@ def getHashHex(k, v) :
     return mh.hexdigest()
 
 
+
+
 # find current place in the ring
 def getIndex(li, id) :
     i = li.index(id)
     return i
+
+
 
 
 # get successors ID
@@ -112,6 +130,8 @@ def getSuccessor(li, i, c) :
     return s
 
 
+
+
 # get predecessors ID
 def getPredecessor(li, i, c) :
     # make a shallow copy of the list
@@ -124,6 +144,8 @@ def getPredecessor(li, i, c) :
         p = temp.pop(c - 1)
     # return the predecessor ID
     return p
+
+
 
 
 # get a full address from the value list with an index
@@ -140,6 +162,8 @@ def getAddr(vl, i) :
     return host_addr, host_port
 
 
+
+
 # get a full address using the node_ID from the address dictionary
 def getAddress(ID, d) :
     # get the value from the adress table
@@ -150,6 +174,8 @@ def getAddress(ID, d) :
     node_port = int(node_port_str)
     # return the address and port that matches the node
     return node_addr, node_port
+
+
 
 
 # return the full address of the node from the node id
@@ -170,60 +196,14 @@ def getNodeAddr(kl, vl, nd) :
 
 
 
-# #TODO ***** not comparing KEY values, comparing key to value directly, need key
-# # the ring distance
-# def distance(a, b, c, li) :
-#     if (li[a] == b) :
-#         return 0
-#     elif (li[a] < b) :
-#         return (b - li[a])
-#     else :
-#         return ((2**c) + (b - li[a]))
-#
-#
-# # find the node from the full dictionary
-# def findNode(ID, key, successor, c, d) :
-#     # assign the current node
-#     node = ID
-#     # compare the search key to the current and successor IDs
-#     while distance (d[node], key, c, d) > distance (d[successor], key, c, d) :
-#         # assign the success to the node when the key is greater than current
-#         node = successor
-#     return node
-#
-#
-# # return the highest-key-value possible of the furthest node reachable
-# def findFurthest(i, s, c, l) :
-#     num = getHash(2**c)
-#     return (num + (s - l[i]))
-#
-#
-#
-#
-# def getNode(f, c, lk) :
-#     current = (c-1)
-#     next = (c-2)
-#     while lk[current] > f :
-#         current = next
-#         if next == 0 : break
-#         else : next -= 1
-#     idx = getIndex(lk, lk[current])
-#     return idx
-#
-#
-# # find the furtherest node available 2**m
-# def getFurthest(ID, successor, c, lk) :
-#     furthest = findFurthest(ID, successor, c, lk)
-#     idx = getNode(furthest, c, lk)
-#     return idx
-
-
 #make a finger table from the full table
 def makeFingers(idx, s_idx) :
     list2 = []
     list2.append(idx)
     list2.append(s_idx)
     return list2
+
+
 
 
 # find the node index in a list of two
@@ -234,22 +214,6 @@ def findFinger(key, li) :
         return 1
 
 
-# # get the value when the node is not found yet
-# def getValue(ID, key, successor, c, d) :
-#     # find the correct node ID
-#     node = findNode(ID, key, successor, c, d)
-#     # get the value from the node pair
-#     try :
-#         value = d[node]
-#     except KeyError :
-#         # if the key is missing throw an error message
-#         value = 'ERROR: The Requested Search Key Does Not Exist'
-#     finally :
-#         # return whatever is in value:
-#             # either a true value
-#             # or an empty and-or whitespace/newline
-#             # or the error message
-#         return value
 
 
 # or put the value when correct node ID is already found
@@ -268,18 +232,6 @@ def getValue(idx, li) :
         return v
 
 
-# # put the value when the node is not found yet
-# def putValue(ID, key, successor, c, d, v) :
-#     # find the correct node ID
-#     node = findNode(ID, key, successor, c, d)
-#     # search for delete command
-#     if switch(v) == 1 :
-#         # if valid value, put value into dictionary
-#         d[node] = v
-#     else :
-#         # if delete parameter found then delete the key and return its value
-#         #value = d.pop(node)
-#         del d[node]
 
 
 # or put the value when correct node ID is already found
@@ -298,6 +250,7 @@ def putValue (idx, v, lk, lv) :
 
 
 
+
 # determine if put contains a valid value or a delete parameter
 def switch(v) :
     # if newline
@@ -311,7 +264,6 @@ def switch(v) :
         return 0
     else :
         return 1
-
 
 
 
@@ -372,8 +324,7 @@ for line in file.readlines() :
 file.close()
 
 
-#TODO *********** consider only one list and one OrderedDict
-# or no list and dict for address lookup and dict for storage
+
 
 # make a sorted dictionary from the hostTable
 addressTable = OrderedDict(sorted(hostTable.items()))
@@ -488,7 +439,7 @@ while True :
         hops += 1
 
 
-# **** This logic may have to change with chord ****** #
+
 
         # if the value matches current node return directly to the client
         if idx == 0 :
