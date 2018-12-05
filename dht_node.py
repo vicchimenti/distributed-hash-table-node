@@ -23,8 +23,7 @@ from collections import OrderedDict # for dictionary sorting
 
 
 #***TODO make sure it will work even badly
-#   convert to chord search
-#   return value from dictionary not list
+#   check that successor index does not go out of bounds and instead wraps to zero
 
 
 #   ***************     function definitions     ***************   #
