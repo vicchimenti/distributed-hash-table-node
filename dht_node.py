@@ -210,6 +210,16 @@ def getNodeAddr(kl, vl, nd) :
 #     return i
 
 
+# # for the target key
+# def findNode(start, key):
+#     current=start
+#     while distance(current.id, key) > \
+#           distance(current.next.id, key):
+#         current=current.next
+#     return current
+
+
+
 # exclusive either-or bit comaparison to determine the ring distance
 # def distance(node, key, d):
 #     return (d[node] ^ key)
@@ -237,11 +247,22 @@ def findNode(ID, key, successor, c, d) :
     return node
 
 
+def findFurthest(i, s, c, l) :
+    node = i
+    while distance (l[node])
+
+
+
+# find the furtherest node available 2**m
+def getFurthest(ID, successor c, lv, lk) :
+    furthest = findFurthest(ID, successor, c, lv)
+
+
 #make a finger table from the full table
-def makeFingers(idx, s_idx, c, li) :
-    list2[0] = li[idx]
-    list2[1] = li[s_idx]
-    list2[2] = getFurthest(idx, s_idx, c, li)
+def makeFingers(idx, s_idx, lk, my_ID, successor_ID, c, lv) :
+    list2[0] = lk[idx]
+    list2[1] = lk[s_idx]
+    list2[2] = getFurthest(my_ID, successor_ID c, lv, lk)
 
     return list2
 
