@@ -269,10 +269,10 @@ def getFurthest(ID, successor, c, lk) :
 
 
 #make a finger table from the full table
-def makeFingers(idx, s_idx, lk) :
+def makeFingers(idx, s_idx) :
     list2 = []
-    list2.append(lk[idx])
-    list2.append(lk[s_idx])
+    list2.append(idx)
+    list2.append(s_idx)
     return list2
 
 
