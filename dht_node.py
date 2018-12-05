@@ -34,7 +34,6 @@ from collections import OrderedDict # for dictionary sorting
 def getPath(c, v) :
     host_addr, host_port_str = c[v].split()
     host_port = int(host_port_str)
-
     return host_addr, host_port
 
 
@@ -46,7 +45,6 @@ def getRequest(r) :
     op = str(r[3])
     k = str(r[4])
     v = str(r[5])
-
     return a, p, h, op, k, v
 
 
@@ -55,7 +53,6 @@ def getClient(r) :
     a = str(r[0])
     p = int(r[1])
     cli = (a, p)
-
     return cli
 
 
@@ -65,7 +62,6 @@ def getID(a, p) :
     mh = hashlib.sha1()
     mh.update(repr(a).encode(charset))
     mh.update(repr(p).encode(charset))
-
     return mh.digest()
 
 
@@ -75,7 +71,6 @@ def hexID(a, p) :
     mh = hashlib.sha1()
     mh.update(repr(a).encode(charset))
     mh.update(repr(p).encode(charset))
-
     return mh.hexdigest()
 
 
@@ -85,7 +80,6 @@ def getHash(k, v) :
     mh = hashlib.sha1()
     mh.update(repr(k).encode(charset))
     mh.update(repr(v).encode(charset))
-
     return mh.digest()
 
 
@@ -95,14 +89,12 @@ def getHashHex(k, v) :
     mh = hashlib.sha1()
     mh.update(repr(k).encode(charset))
     mh.update(repr(v).encode(charset))
-
     return mh.hexdigest()
 
 
 # find current place in the ring
 def getIndex(li, id) :
     i = li.index(id)
-
     return i
 
 
@@ -116,7 +108,6 @@ def getSuccessor(li, i, c) :
     # or else pop the first element
     else :
         s = temp.pop(0)
-
     # return the successor ID
     return s
 
@@ -131,7 +122,6 @@ def getPredecessor(li, i, c) :
     # or else pop the first element
     else :
         p = temp.pop(c - 1)
-
     # return the predecessor ID
     return p
 
@@ -146,7 +136,6 @@ def getAddr(vl, i) :
     host_addr, host_port_str = v.split()
     # cast portno to int
     host_port = int(host_port_str)
-
     # return the address and port that matches the node
     return host_addr, host_port
 
@@ -159,7 +148,6 @@ def getAddress(ID, d) :
     node_addr, node_port_str = a.split()
     # cast the port to an int
     node_port = int(node_port_str)
-
     # return the address and port that matches the node
     return node_addr, node_port
 
@@ -176,7 +164,6 @@ def getNodeAddr(kl, vl, nd) :
     host_addr, host_port_str = v.split()
     # cast portno to int
     host_port = int(host_port_str)
-
     # return the address and port that matches the node
     return host_addr, host_port
 
@@ -252,14 +239,14 @@ def findNode(ID, key, successor, c, d) :
     while distance (d[node], key, c, d) > distance (d[successor], key, c, d) :
         # assign the success to the node when the key is greater than current
         node = successor
-
     return node
 
 
 # return the highest-key-value possible of the furthest node reachable
 def findFurthest(i, s, c, l) :
-    num = bignum((2**c) + (s - l[i]))
-    return num
+    num = getHash(2**c)
+    return (num + (s - l[i]))
+
 
 
 
@@ -282,38 +269,19 @@ def getFurthest(ID, successor, c, lk) :
 
 
 #make a finger table from the full table
-def makeFingers(idx, s_idx, lk, my_ID, successor_ID, c) :
+def makeFingers(idx, s_idx, lk) :
     list2 = []
     list2.append(lk[idx])
     list2.append(lk[s_idx])
-    num = (getFurthest(my_ID, successor_ID, c, lk))
-    list2.append(num)
-    # get the new node's predecessor index via the id
-    predecessor_ID = getPredecessor(lk, list2[2], c)
-    list2.append(keyList.index(predecessor_ID))
-
-    # sort the new list items
-    list2.sort()
-
     return list2
 
 
-# find the node index in a list
-def findFinger(ID, key, successor_ID, li) :
-    node = ID
-    # compare the search key to the current and successor IDs
-    while distance (li[node], key, c, li) > distance (li[successor], key, c, li) :
-        # assign the success to the node when the key is greater than current
-        node = successor
-
-    return node
-
-
-    # key, data = li[0].split()
-    # if key >= k :
-    #     return 1
-    # else :
-    #     return 0
+# find the node index in a list of two
+def findFinger(key, li) :
+    if key < li[1] :
+        return 0
+    else :
+        return 1
 
 
 # get the value when the node is not found yet
@@ -336,11 +304,9 @@ def getValue(ID, key, successor, c, d) :
 
 # or put the value when correct node ID is already found
 def getValue(idx, li) :
-    # find the correct node ID
-    node = idx
     # get the value from the node pair
     try :
-        v = li[node]
+        v = li[idx]
     except KeyError :
         # if the key is missing throw an error message
         v = 'ERROR: The Requested Search Key Does Not Exist'
@@ -367,16 +333,17 @@ def putValue(ID, key, successor, c, d, v) :
 
 
 # or put the value when correct node ID is already found
-def putValue (idx, li, v) :
+def putValue (idx, v, lk, lv) :
     # assign the correct node ID
     node = idx
     # search for delete command
     if switch(v) == 1 :
         # if valid value, put value into dictionary
-        li[node] = v
+        lv[node] = v
     else :
         # if delete parameter found then delete the key and return its value
-        v = li.pop(node)
+        v = lv.pop(node)
+        ignore = lk.pop(node)
         #del d[node]
 
 
@@ -564,11 +531,11 @@ while True :
         print ("client_key : " + str(client_key))
 
         # get the node_ID
-        #node_ID = findNode(my_ID, client_key, successor_ID, count, fullTable) #(keyList, client_key)
+        node_ID = findNode(my_ID, client_key, successor_ID, count, fullTable) #(keyList, client_key)
 
         # make fingerTable as a list of two nodes
-        fingerTable = makeFingers(my_index, successor_index, keyList, my_ID, successor_ID, count)
-        num = findFinger(my_index, client_key, successor_index, fingerTable)
+        fingerTable = makeFingers(my_ID, successor_ID)
+        idx = findFinger(client_key, fingerTable)
         #print ("node_index : " + str(node_ID))
         # increment each hop
         hops += 1
@@ -577,16 +544,16 @@ while True :
 # **** This logic may have to change with chord ****** #
 
         # if the value matches current node return directly to the client
-        if num == 0 : #node_ID == my_ID :
+        if idx == 0 : #node_ID == my_ID :
 
             # determine operation
             if operation.lower() == GET :
-                value = getValue(node_ID, fullTable)#(fingerList, my_index)
+                value = getValue(idx, valueList)#(fingerList, my_index)
 
             # or else put the value
             elif operation.lower() == PUT :
                 # put the value
-                putValue(node_ID, fullTable, value)#(fingerList, my_index, value)
+                putValue(idx, value, valueList, keyList)#(fingerList, my_index, value)
 
             # or else the operation is invalid so prepare error message for client
             else :
@@ -600,7 +567,7 @@ while True :
             response = client_hex_key, my_hex_ID, hops, key, str(value)
 
         # or else get the address of the successor node
-        elif num == 1 : #node_ID == successor_ID :
+    elif idx == 1 : #node_ID == successor_ID :
 
             # set the next address for outgoing response
             next_addr = successor_addr, successor_port
