@@ -17,6 +17,7 @@
  #      ensure parallel list sytem stores and retreives values correctly
  # Once Done :
  #      Implement O(logn) solutions
+ #      Get used to pycharm
 
 
 
