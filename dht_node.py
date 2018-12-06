@@ -29,7 +29,7 @@ import pickle                       # for sending a list over socket
 import argparse                     # for parsing command line arguments
 import hashlib                      # SHA1 hash functionality
 from collections import OrderedDict # for dictionary sorting
-from collections.abc import Mapping
+#from collections.abc import Mapping
 
 
 
@@ -241,19 +241,40 @@ def getValue(k) :
 
 # or put the value when correct node ID is already found
 def putValue (k, v) :
-    # ensure no delete command
-    if switch(v) == 1 :
-        # if valid value, put new value into dictionary
-        crud.update(k)
-        crud[k] = v
+    # map the key value pair
+    value = range(1)
+    map(key, value)[(k, v)]
+    # ensure key does not already exist
+    if k not in crud :
+        # ensure no delete command
+        if switch(v) == 1 :
+            # if valid value, put new value into dictionary
+            crud.update(map(key, value))
+        else :
+            # if delete parameter found then delete the key and return its value
+            try :
+                confirm_deleted = crud.pop(map(key, value))
+            except KeyError :
+                print ('value deleted : ' + confirm_deleted)
+                exc = sys.exc_info()[1]
+                print (exc)
+    # or else the key already exists
     else :
-        # if delete parameter found then delete the key and return its value
-        try :
-            confirm_deleted = crud.pop(k)
-        except KeyError :
-            print ('value deleted : ' + confirm_deleted)
-            exc = sys.exc_info()[1]
-            print (exc)
+        # ensure no delete command
+        if switch(v) == 1 :
+            # if valid value, put new value into dictionary
+            del crud[k]
+            crud.update(map(key, value))
+        else :
+            # if delete parameter found then delete the key and return its value
+            try :
+                confirm_deleted = crud.pop(map(key, value))
+            except KeyError :
+                print ('value deleted : ' + confirm_deleted)
+                exc = sys.exc_info()[1]
+                print (exc)
+
+
 
 
 
