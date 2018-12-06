@@ -91,22 +91,20 @@ def hexID(a, p) :
 
 
 # calculate the node ID in hex
-def getHash(k, v) :
+def getHash(k) :
     #v = socket.htonl(v)
     mh = hashlib.sha1()
     mh.update(repr(k).encode(charset))
-    mh.update(repr(v).encode(charset))
     return mh.digest()
 
 
 
 
 # calculate the node ID in hex
-def getHashHex(k, v) :
+def getHashHex(k) :
     #v = socket.htonl(v)
     mh = hashlib.sha1()
     mh.update(repr(k).encode(charset))
-    mh.update(repr(v).encode(charset))
     return mh.hexdigest()
 
 
@@ -690,7 +688,7 @@ while True :
 
         # get hash and hex value of user key value pair
         try :
-            client_hex_key = getHashHex(key, value)
+            client_hex_key = getHashHex(key)
         except Exception :
             error_message = "ERROR: Client ID Hash Hex failed : "
             print (error_message)
@@ -702,7 +700,7 @@ while True :
 
         # get the client key hash
         try :
-            client_key = getHash(key, value)
+            client_key = getHash(key)
         except Exception :
             error_message = "ERROR: Client Key Hash failed : "
             print (error_message)
