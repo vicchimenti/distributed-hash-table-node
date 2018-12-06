@@ -713,9 +713,9 @@ while True :
             # display the client key hash
             print ("client_key : " + str(client_key))
 
-        # make fingerTable as a list of two nodes
+        # make fingerTable as a list of three nodes
         try :
-            fingerTable = makeFingers(my_ID, successor_ID)
+            fingerTable = makeFingers(predecessor_ID, my_ID, successor_ID)
         except Exception :
             error_message = "ERROR: FingerTable Assignment failed : "
             print (error_message)
