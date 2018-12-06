@@ -234,7 +234,7 @@ def putValue (idx, v, lk, lv) :
         #del d[node]
 
 
-
+# *** TODO : Switch Case ERROR ******************
 
 # determine if put contains a valid value or a delete parameter
 def switch(v) :
@@ -632,7 +632,7 @@ while True :
         print ('request received : ' + str(request))
 
 
-# ****************** ENSURE GET OPERATION WITH NO VALUE IS VALID *********** #
+# ************TODO : ENSURE GET OPERATION WITH NO VALUE IS VALID *********** #
 
     # if a valid message arrived
     if message :
@@ -711,6 +711,9 @@ while True :
                     exc = sys.exc_info()[1]
                     print (exc)
 
+
+
+#  ***** TODO : ERROR PUT name 'a' is not defined in switch case
             # or else put the value
             elif operation.lower() == PUT :
                 # put the value
@@ -726,6 +729,11 @@ while True :
             else :
                 value = "ERROR Invalid Operation Requested : OP : " + operation
                 print ('ERROR : ' + key)
+
+
+
+# ********** TODO : Ensrure that error value prints when necessary to client
+
 
             # gather client address for response
             try :
