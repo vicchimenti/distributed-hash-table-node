@@ -338,7 +338,7 @@ file.close()
 
 
 
-# open the file and assign dictionary keys
+# open the file to assign dictionary keys
 try :
     file = open(args.hostfile[0], 'r')
 except AttributeError :
@@ -346,6 +346,9 @@ except AttributeError :
     print (error_message)
     file.close()
     sys.exit ("Exiting Program")
+
+
+
 
 #  assign dictionary keys
 try :
@@ -365,6 +368,7 @@ except IndexError :
     file.close()
     sys.exit ("Exiting Program")
 file.close()
+
 
 
 
@@ -494,16 +498,50 @@ except Exception :
 
 
 # find my place in the ring
-my_index = keyList.index(my_ID)
+try :
+    my_index = keyList.index(my_ID)
+except AttributeError :
+    error_message = "ERROR: Assigning Index from list failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
 print ("my_index : " + str(my_index))
 
 
 
 
-# get successor information
-successor_ID = getSuccessor(keyList, my_index, count)
-successor_index = keyList.index(successor_ID)
-successor_addr, successor_port = getAddr(valueList, successor_index)
+# get successor ID
+try :
+    successor_ID = getSuccessor(keyList, my_index, count)
+except Exception :
+    error_message = "ERROR: Successor ID Hash Hex failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
+# get successor index
+try :
+    successor_index = keyList.index(successor_ID)
+except AttributeError :
+    error_message = "ERROR: Assigning Successor Index from list failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
+# get successor address information
+try :
+    successor_addr, successor_port = getAddr(valueList, successor_index)
+except AttributeError :
+    error_message = "ERROR: Successor Path Assignment from list failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
+# print successor information
 print ("successor_ID : " + str(successor_ID))
 print ("successor_index : " + str(successor_index))
 print ("successor_addr : " + successor_addr)
@@ -512,7 +550,7 @@ print ("successor_port : " + str(successor_port))
 
 
 
-# get predecessor information
+# get predecessor information for *** TroubleShooting Purposes Only ********* #
 predecessor_ID = getPredecessor(keyList, my_index, count)
 predecessor_index = keyList.index(predecessor_ID)
 predecessor_addr, predecessor_port = getAddr(valueList, predecessor_index)
