@@ -140,10 +140,10 @@ def getSuccessor(li, i, c) :
 def getPredecessor(li, i, c) :
     # make a shallow copy of the list
     temp = li.copy()
-    # confirm that node is not the largest
+    # confirm that node is not the smallest
     if i > 0 :
         p = temp.pop((i - 1))
-    # or else pop the first element
+    # or else pop the last element
     else :
         p = temp.pop(c - 1)
     # return the predecessor ID
@@ -183,34 +183,24 @@ def getAddress(ID, d) :
 
 
 #make a finger table from the full table
-def makeFingers(idx, s_idx, c) :
+def makeFingers(p_idx, idx, s_idx) :
     list2 = []
-    if c >= 3 :
-        if idx >= 1 :
-            if s_idx <= (c - 1) :
-                list2.append(idx - 1)
-                list2.append(idx)
-                list2.append(s_idx)
-            else :
-                list2.append(idx)
-                list2.append(s_idx)
-                list2.append(0)
-        else :
-
-
+    list2.append(p_idx)
+    list2.append(idx)
+    list2.append(s_idx)
     return list2
 
 
 
 
 # find the node index in a list of two
-def findFinger(key, successor_index, li, c) :
-    if successor_index >= (c-1) :
-
-    if key > li[0] :
-        return 1
-    else :
-        return 0
+def findFinger(key, my_index, successor_index, li) :
+        if key > li[0] :
+            # send to the successor
+            return 1
+        else :
+            # store the value myself
+            return 0
 
 
 
