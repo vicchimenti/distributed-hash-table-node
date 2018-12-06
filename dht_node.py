@@ -15,6 +15,8 @@
  #      In node please return false when value not found
  #      check that successor index does not go out of bounds and instead wraps to zero
  #      ensure parallel list sytem stores and retreives values correctly
+ # Once Done :
+ #      Implement O(logn) solutions
 
 
 
