@@ -32,6 +32,21 @@ from collections import OrderedDict # for dictionary sorting
 
 
 
+# DEFINE CONSTANTS
+GET = 'get'
+PUT = 'put'
+INVALID = 'INVALID'
+WHITESPACE = ' '
+NEWLINE = '\n'
+EMPTY = ''
+CASE = {'a' : NEWLINE, 'b' : WHITESPACE, 'c' : EMPTY }
+
+# define defaults
+charset = "UTF-8"       # default encoding protocol
+count = 0               # line counter for hostfile
+
+
+
 #   ***************     function definitions     ***************   #
 
 
@@ -239,13 +254,13 @@ def putValue (idx, v, lk, lv) :
 # determine if put contains a valid value or a delete parameter
 def switch(v) :
     # if newline
-    if v == CASE.get(a, 'default') :
+    if v == CASE.get('a', 'default') :
         return 0
     # if whitespace
-    elif v == CASE.get(b, 'default') :
+    elif v == CASE.get('b', 'default') :
         return 0
     # if empty string
-    elif v == CASE.get(c, 'default') :
+    elif v == CASE.get('c', 'default') :
         return 0
     else :
         return 1
@@ -258,18 +273,7 @@ def switch(v) :
 
 
 
-# DEFINE CONSTANTS
-GET = 'get'
-PUT = 'put'
-INVALID = 'INVALID'
-WHITESPACE = ' '
-NEWLINE = '\n'
-EMPTY = ''
-CASE = {'a' : NEWLINE, 'b' : WHITESPACE, 'c' : EMPTY }
 
-# define defaults
-charset = "UTF-8"       # default encoding protocol
-count = 0               # line counter for hostfile
 
 
 
