@@ -325,7 +325,7 @@ except KeyError :
     print (error_message)
     sys.exit ("Exiting Program")
 
-# declare argparse type variable 
+# declare argparse type variable
 try :
     args = parser.parse_args()
 except SystemExit :
@@ -338,31 +338,53 @@ except SystemExit :
 print ('hostfile : ' + str(args.hostfile))
 print ('linenum : ' + str(args.linenum))
 
-
+sys.exit()
 
 
 # open file and assign to list
 hostTable = {}
-with open (args.hostfile[0], 'r') as file :
-    content = file.readlines()
+try :
+    with open (args.hostfile[0], 'r') as file :
+        content = file.readlines()
+except EOFError :
+    error_message = "ERROR: No data in file"
+    print (error_message)
+    file.close()
+    sys.exit ("Exiting Program")
 file.close()
 
 
 
 
 # open the file and assign dictionary keys
-file = open(args.hostfile[0], 'r')
-for line in file.readlines() :
-    host, port = line.split()
-    port = int(port)
-    k = getID(host, port)
-    v = str(content[count])
-    d = {k : v}
-    hostTable.update(d)
-    count += 1
+try :
+    file = open(args.hostfile[0], 'r')
+except AttributeError :
+    error_message = "ERROR: Assignment from file failed"
+    print (error_message)
+    file.close()
+    sys.exit ("Exiting Program")
+
+#  assign dictionary keys
+try :
+    for line in file.readlines() :
+        host, port = line.split()
+        port = int(port)
+        k = getID(host, port)
+        v = str(content[count])
+        d = {k : v}
+        hostTable.update(d)
+        count += 1
+except IndexError :
+    error_message = "ERROR: Assignment from file failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    file.close()
+    sys.exit ("Exiting Program")
 file.close()
 
-
+AttributeError
 
 
 # make a sorted dictionary from the hostTable
