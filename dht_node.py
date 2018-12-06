@@ -292,9 +292,16 @@ count = 0               # line counter for hostfile
 
 
 
-# parse and assign command-line input
+# launch argparse
 try :
     parser = argparse.ArgumentParser()
+except SystemExit :
+    print ('ERROR: Invalid Command Line Input: Please Re-run the Program')
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ('Exiting Program')
+
+# parse first command line argument
 try :
     parser.add_argument('hostfile', type=str, nargs=1)
 except IndexError :
@@ -306,6 +313,7 @@ except KeyError :
     print (error_message)
     sys.exit ("Exiting Program")
 
+# parse second command line argument
 try :
     parser.add_argument('linenum', type=int, nargs=1)
 except IndexError :
@@ -317,7 +325,14 @@ except KeyError :
     print (error_message)
     sys.exit ("Exiting Program")
 
-args = parser.parse_args()
+# declare argparse type variable 
+try :
+    args = parser.parse_args()
+except SystemExit :
+    print ('ERROR: Invalid Command Line Input: Please Re-run the Program')
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ('Exiting Program')
 
 #  *** prints args as list elements *** #
 print ('hostfile : ' + str(args.hostfile))
