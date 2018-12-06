@@ -467,7 +467,7 @@ for jj in (hostTable) :
 for j in (addressList) :
     print ("addressList : " + str(j))
 
-sys.exit()
+
 
 
 # split addr port info of my node
