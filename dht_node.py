@@ -263,14 +263,15 @@ def putValue (k, v) :
 # determine if put contains a valid value or a delete parameter
 def switch(v) :
     # if newline
-    if v == CASE.get('a', 'default') :
+    if v == NEWLINE :
         return 0
     # if whitespace
-    elif v == CASE.get('b', 'default') :
+    elif v == WHITESPACE :
         return 0
     # if empty string
-    elif v == CASE.get('c', 'default') :
+    elif v == EMPTY :
         return 0
+    # or else there is no delete request
     else :
         return 1
 
@@ -289,7 +290,6 @@ INVALID = 'INVALID'
 WHITESPACE = ' '
 NEWLINE = '\n'
 EMPTY = ''
-CASE = {'a' : NEWLINE, 'b' : WHITESPACE, 'c' : EMPTY }
 
 # define defaults
 charset = "UTF-8"       # default encoding protocol
