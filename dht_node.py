@@ -278,7 +278,8 @@ count = 0               # line counter for hostfile
 try :
     parser = argparse.ArgumentParser()
 except SystemExit :
-    print ('ERROR: Invalid Command Line Input: Please Re-run the Program')
+    error_message = "ERROR: Invalid Command Line Input : Re-run the Program"
+    print (error_message)
     exc = sys.exc_info()[1]
     print (exc)
     sys.exit ('Exiting Program')
@@ -289,10 +290,14 @@ try :
 except IndexError :
     error_message = "ERROR No Valid Command Line Input"
     print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
     sys.exit ("Exiting Program")
 except KeyError :
     error_message = "ERROR Invalid Command Line Entry"
     print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
     sys.exit ("Exiting Program")
 
 # parse second command line argument
@@ -301,10 +306,14 @@ try :
 except IndexError :
     error_message = "ERROR No Valid Command Line Input"
     print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
     sys.exit ("Exiting Program")
 except KeyError :
     error_message = "ERROR Invalid Command Line Entry"
     print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
     sys.exit ("Exiting Program")
 
 # declare argparse type variable
@@ -331,6 +340,8 @@ try :
 except EOFError :
     error_message = "ERROR: No data in file"
     print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
     file.close()
     sys.exit ("Exiting Program")
 file.close()
@@ -344,6 +355,8 @@ try :
 except AttributeError :
     error_message = "ERROR: Assignment from file failed"
     print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
     file.close()
     sys.exit ("Exiting Program")
 
@@ -468,7 +481,7 @@ except AttributeError :
 
 # assign to tuple
 sc = host_addr, host_port
-print ('host address and port from content : \n' + str(sc))
+print ('host address and port from file contents : ' + str(sc))
 
 
 
@@ -559,11 +572,18 @@ print ("predecessor_index : " + str(predecessor_index))
 print ("predecessor_addr : " + predecessor_addr)
 print ("predecessor_port : " + str(predecessor_port))
 
-sys.exit()
+
 
 
 # create a udp socket
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+try :
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+except ConnectionError :
+    error_message = "ERROR Establishing a Socket"
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
 sock.bind((host_addr, host_port))
 print ("Listening on Address, Port : " + str((host_addr, host_port)))
 
