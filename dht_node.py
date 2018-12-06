@@ -384,20 +384,63 @@ except IndexError :
     sys.exit ("Exiting Program")
 file.close()
 
-AttributeError
+
 
 
 # make a sorted dictionary from the hostTable
-addressTable = OrderedDict(sorted(hostTable.items()))
+try :
+    addressTable = OrderedDict(sorted(hostTable.items()))
+except KeyError :
+    error_message = "ERROR: Ordered Dictionary Assignment Failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
 # make an iterable list of the sorted keys
-keyList = list(addressTable.keys())
+try :
+    keyList = list(addressTable.keys())
+except AttributeError :
+    error_message = "ERROR: KeyList from Ordered Dictionary Assignment Failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
 # make an iterable list of the sorted values
-valueList = list(addressTable.values())
+try :
+    valueList = list(addressTable.values())
+except AttributeError :
+    error_message = "ERROR: valueList from Ordered Dictionary Assignment Failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
 # make an ordered dictionary from the key list
-fullTable = OrderedDict.fromkeys(keyList)  # change to hostTable
+try :
+    fullTable = OrderedDict.fromkeys(keyList)  # change to hostTable
+except KeyError :
+    error_message = "ERROR: Ordered Dictionary from KeyList Assignment Failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
 # make an ordered list from the key list
-fullList = list(fullTable.keys())
-# ts print of fingerTable
+try :
+    fullList = list(fullTable.keys())
+except AttributeError :
+    error_message = "ERROR: fullList from Ordered Dictionary Assignment Failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
+
+
+
+# ts print of dictionarys and lists compiled from the hostfile
 for ii in (addressTable) :
     print ("addressTable : " + str(ii))
 for i in (keyList) :
