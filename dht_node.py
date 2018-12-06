@@ -32,21 +32,6 @@ from collections import OrderedDict # for dictionary sorting
 
 
 
-# DEFINE CONSTANTS
-GET = 'get'
-PUT = 'put'
-INVALID = 'INVALID'
-WHITESPACE = ' '
-NEWLINE = '\n'
-EMPTY = ''
-CASE = {'a' : NEWLINE, 'b' : WHITESPACE, 'c' : EMPTY }
-
-# define defaults
-charset = "UTF-8"       # default encoding protocol
-count = 0               # line counter for hostfile
-
-
-
 #   ***************     function definitions     ***************   #
 
 
@@ -273,7 +258,18 @@ def switch(v) :
 
 
 
+# DEFINE CONSTANTS
+GET = 'get'
+PUT = 'put'
+INVALID = 'INVALID'
+WHITESPACE = ' '
+NEWLINE = '\n'
+EMPTY = ''
+CASE = {'a' : NEWLINE, 'b' : WHITESPACE, 'c' : EMPTY }
 
+# define defaults
+charset = "UTF-8"       # default encoding protocol
+count = 0               # line counter for hostfile
 
 
 
