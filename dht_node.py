@@ -584,7 +584,22 @@ except ConnectionError :
     exc = sys.exc_info()[1]
     print (exc)
     sys.exit ("Exiting Program")
-sock.bind((host_addr, host_port))
+
+# bind the socket
+try :
+    sock.bind((host_addr, host_port))
+except ConnectionError :
+    error_message = "ERROR ConnectionError Binding the Host and Port"
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+except OSError :
+    error_message = "ERROR Port Already in Use"
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
 print ("Listening on Address, Port : " + str((host_addr, host_port)))
 
 
@@ -592,7 +607,17 @@ print ("Listening on Address, Port : " + str((host_addr, host_port)))
 
 # listen for communication
 while True :
-    message, address = sock.recvfrom(4096)
+
+    # receive message
+    try :
+        message, address = sock.recvfrom(4096)
+    except ConnectionError :
+        error_message = "ERROR Receiving Client Message"
+        status = "Invalid Message"
+        print (error_message)
+        exc = sys.exc_info()[1]
+        print (exc)
+
     request = pickle.loads(message)
     print ('\nreceived {} bytes from {}'.format(len(message), address))
     print ('request received : ' + str(request))
