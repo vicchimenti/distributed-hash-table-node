@@ -181,24 +181,6 @@ def getAddress(ID, d) :
 
 
 
-# return the full address of the node from the node id
-def getNodeAddr(kl, vl, nd) :
-    # get the index of the node from the sorted keyList
-    i = kl.index(nd)
-    # make a shallow copy of the value list
-    temp = vl.copy()
-    # pop element and get value
-    v = temp.pop(i)
-    # split the contents on whitespace and scrub
-    host_addr, host_port_str = v.split()
-    # cast portno to int
-    host_port = int(host_port_str)
-    # return the address and port that matches the node
-    return host_addr, host_port
-
-
-
-
 #make a finger table from the full table
 def makeFingers(idx, s_idx) :
     list2 = []
