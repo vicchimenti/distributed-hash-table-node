@@ -258,7 +258,8 @@ def putValue (k, v) :
         # ensure no delete command
         if switch(v) == 1 :
             # if valid value, put new value into dictionary
-            crud.update(k, v)
+            crud.update(k)
+            crud[k] = v
         else :
             # if delete parameter found then delete the key and return its value
             try :
