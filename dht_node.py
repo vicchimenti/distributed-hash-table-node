@@ -242,18 +242,33 @@ def getValue(k) :
 
 # or put the value when correct node ID is already found
 def putValue (k, v) :
-    # ensure no delete command
-    if switch(v) == 1 :
-        # if valid value, put value into dictionary
-        crud.update(d)
+    # see if key already exists
+    if k in crud :
+        # ensure no delete command
+        if switch(v) == 1 :
+            # if valid value, overwrite existing value into dictionary
+            crud[k] = v
+        else :
+            # if delete parameter found then delete the key and return its value
+            try :
+                confirm_deleted = crud.pop(k)
+            except KeyError :
+                print ('value deleted : ' + confirm_deleted)
+                exc = sys.exc_info()[1]
+                print (exc)
     else :
-        # if delete parameter found then delete the key and return its value
-        try :
-            confirm_deleted = crud.pop(k)
-        except KeyError :
-            print ('value deleted : ' + confirm_deleted)
-            exc = sys.exc_info()[1]
-            print (exc)
+        # ensure no delete command
+        if switch(v) == 1 :
+            # if valid value, put new value into dictionary
+            crud.update(k, v)
+        else :
+            # if delete parameter found then delete the key and return its value
+            try :
+                confirm_deleted = crud.pop(k)
+            except KeyError :
+                print ('value deleted : ' + confirm_deleted)
+                exc = sys.exc_info()[1]
+                print (exc)
 
 
 
