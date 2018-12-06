@@ -533,7 +533,7 @@ except AttributeError :
 
 # get successor address information
 try :
-    successor_addr, successor_port = getAddr(valueList, successor_index)
+    successor_addr, successor_port = getAddr(addressList, successor_index)
 except AttributeError :
     error_message = "ERROR: Successor Path Assignment from list failed : "
     print (error_message)
@@ -553,13 +553,13 @@ print ("successor_port : " + str(successor_port))
 # get predecessor information for *** TroubleShooting Purposes Only ********* #
 predecessor_ID = getPredecessor(keyList, my_index, count)
 predecessor_index = keyList.index(predecessor_ID)
-predecessor_addr, predecessor_port = getAddr(valueList, predecessor_index)
+predecessor_addr, predecessor_port = getAddr(addressList, predecessor_index)
 print ("predecessor_ID : " + str(predecessor_ID))
 print ("predecessor_index : " + str(predecessor_index))
 print ("predecessor_addr : " + predecessor_addr)
 print ("predecessor_port : " + str(predecessor_port))
 
-
+sys.exit()
 
 
 # create a udp socket
