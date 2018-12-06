@@ -338,7 +338,7 @@ except SystemExit :
 print ('hostfile : ' + str(args.hostfile))
 print ('linenum : ' + str(args.linenum))
 
-sys.exit()
+
 
 
 # open file and assign to list
@@ -386,6 +386,7 @@ file.close()
 
 
 
+# *******  Make lists and dictionaries from the original dictionary   ******** #
 
 # make a sorted dictionary from the hostTable
 try :
@@ -407,11 +408,11 @@ except AttributeError :
     print (exc)
     sys.exit ("Exiting Program")
 
-# make an iterable list of the sorted values
+# make an iterable list of the sorted addresses
 try :
-    valueList = list(addressTable.values())
+    addressList = list(addressTable.values())
 except AttributeError :
-    error_message = "ERROR: valueList from Ordered Dictionary Assignment Failed : "
+    error_message = "ERROR: addressList from Ordered Dictionary Assignment Failed : "
     print (error_message)
     exc = sys.exc_info()[1]
     print (exc)
@@ -437,6 +438,16 @@ except AttributeError :
     print (exc)
     sys.exit ("Exiting Program")
 
+# make an ordered list of empty values from the key list
+try :
+    valueList = list(fullTable.keys())
+except AttributeError :
+    error_message = "ERROR: valueList from Ordered Dictionary Assignment Failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
 
 
 
@@ -449,12 +460,14 @@ for k in (fullTable) :
     print ("fullTable: " + str(k))
 for kk in (fullList) :
     print ("fullList: " + str(kk))
+for jjj in (addressList) :
+    print ("addressList : " + str(jjj))
 for jj in (hostTable) :
     print ("hostTable: " + str(jj))
-for j in (valueList) :
-    print ("valueList : " + str(j))
+for j in (addressList) :
+    print ("addressList : " + str(j))
 
-
+sys.exit()
 
 
 # split addr port info of my node
