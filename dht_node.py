@@ -621,7 +621,7 @@ while True :
     # unpickle the request
     try :
         request = pickle.loads(message)
-    except UnpicklingError :
+    except pickle.UnpicklingError :
         error_message = "ERROR: UnPickling the Message : "
         print (error_message)
         exc = sys.exc_info()[1]
@@ -761,7 +761,7 @@ while True :
         # pickle the valid response
         try :
             message = pickle.dumps(response)
-        except PickleError :
+        except pickle.PickleError :
             error_message = "ERROR: Pickling the Message : "
             print (error_message)
             exc = sys.exc_info()[1]
@@ -778,7 +778,7 @@ while True :
         # pickle the error message
         try :
             message = pickle.dumps(response)
-        except PickleError :
+        except pickle.PickleError :
             error_message = "ERROR: Pickling the Response : "
             print (error_message)
             exc = sys.exc_info()[1]
