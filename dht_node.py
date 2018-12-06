@@ -238,24 +238,6 @@ def getValue(k) :
         return v
 
 
-# # or put the value when correct node ID is already found
-# def getValue(idx, li) :
-#     # get the value from the node pair
-#     try :
-#         v = li[idx]
-#     except KeyError :
-#         # if the key is missing throw an error message
-#         v = 'ERROR: The Requested Search Key Does Not Exist'
-#         exc = sys.exc_info()[1]
-#         print (v + '\n' + exc)
-#     finally :
-#         # return whatever is in value:
-#             # either a true value
-#             # or an empty and-or whitespace/newline
-#             # or the error message
-#         return v
-
-
 
 
 # or put the value when correct node ID is already found
@@ -274,19 +256,6 @@ def putValue (k, v) :
             print (exc)
 
 
-# # or put the value when correct node ID is already found
-# def putValue (idx, v, lk, lv) :
-#     # assign the correct node ID
-#     node = idx
-#     # search for delete command
-#     if switch(v) == 1 :
-#         # if valid value, put value into dictionary
-#         lv[node] = v
-#     else :
-#         # if delete parameter found then delete the key and return its value
-#         v = lv.pop(node)
-#         ignore = lk.pop(node)
-#         #del d[node]
 
 
 # *** TODO : Switch Case ERROR ******************
@@ -739,7 +708,7 @@ while True :
 
         # get the finger list index
         try :
-            idx = findFinger(client_key, fingerTable)
+            idx = findFinger(client_key, my_index, fingerTable)
         except Exception :
             error_message = "ERROR: Finger Index Assignment failed : "
             print (error_message)
