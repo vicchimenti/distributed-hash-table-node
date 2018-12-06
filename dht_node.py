@@ -183,23 +183,38 @@ def getAddress(ID, d) :
 
 
 #make a finger table from the full table
-def makeFingers(p_idx, idx, s_idx) :
+def makeFingers(p_id, id, s_id) :
     list2 = []
-    list2.append(p_idx)
-    list2.append(idx)
-    list2.append(s_idx)
+    # the predecessor node
+    list2.append(p_id)
+    # my node
+    list2.append(id)
+    # the successor node
+    list2.append(s_id)
     return list2
 
 
 
 
 # find the node index in a list of two
-def findFinger(key, my_index, successor_index, li) :
+def findFinger(key, idx, li) :
+    # when my node is the first node compare to the largest node (predecessor)
+    if idx == 0 :
+        # when the key is greater than the largest node
         if key > li[0] :
-            # send to the successor
+            # store the value now in node 0
+            return 0
+        else :
+            # call the successor
+            return 1
+    # or else my node is not the first node
+    else :
+        # compare to my node
+        if key > li[1] :
+            # call the successor
             return 1
         else :
-            # store the value myself
+            # store the value now
             return 0
 
 
