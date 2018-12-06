@@ -718,7 +718,7 @@ while True :
             elif operation.lower() == PUT :
                 # put the value
                 try :
-                    putValue(idx, value, valueList, keyList)
+                    putValue(idx, value, keyList, valueList)
                 except Exception :
                     error_message = "ERROR: Put Value on Fingertable failed : "
                     print (error_message)
