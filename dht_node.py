@@ -735,6 +735,7 @@ while True :
                 print (error_message)
                 exc = sys.exc_info()[1]
                 print (exc)
+
             # return to client cli-hex, node-hex, hops, key_str, value_str
             response = client_hex_key, my_hex_ID, hops, key, str(value)
 
@@ -750,8 +751,13 @@ while True :
 
 
         # pickle the valid response
-        message = pickle.dumps(response)
-
+        try :
+            message = pickle.dumps(response)
+        except PickleError :
+            error_message = "ERROR: Pickling the Message : "
+            print (error_message)
+            exc = sys.exc_info()[1]
+            print (exc)
 
 
 
@@ -762,7 +768,14 @@ while True :
         # attempt to retreive receive from address for error reply
         next_addr = address
         # pickle the error message
-        message = pickle.dumps(response)
+        try :
+            message = pickle.dumps(response)
+        except PickleError :
+            error_message = "ERROR: Pickling the Response : "
+            print (error_message)
+            exc = sys.exc_info()[1]
+            print (exc)
+
 
 
 
