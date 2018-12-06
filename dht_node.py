@@ -471,7 +471,16 @@ for j in (addressList) :
 
 
 # split addr port info of my node
-host_addr, host_port = getPath(content, args.linenum[0])
+try :
+    host_addr, host_port = getPath(content, args.linenum[0])
+except AttributeError :
+    error_message = "ERROR: Path Assignment from file contents failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
+# assign to tuple
 sc = host_addr, host_port
 print ('host address and port from content : \n' + str(sc))
 
@@ -479,12 +488,26 @@ print ('host address and port from content : \n' + str(sc))
 
 
 
-# calculate my current node hash value digest and hex
-my_ID = getID(host_addr, host_port)
-my_hex_ID = hexID(host_addr, host_port)
-ha, hp = getNodeAddr(keyList, valueList, my_ID)
-sa = ha, hp
-print ('host address and port from fulllist : \n' + str(sa))
+# calculate my current node hash value digest
+try :
+    my_ID = getID(host_addr, host_port)
+except Exception :
+    error_message = "ERROR: Host ID Hash digest failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
+# calculate my current node hex value digest
+try :
+    my_hex_ID = hexID(host_addr, host_port)
+except Exception :
+    error_message = "ERROR: Host ID Hash Hex failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
 
 
 
