@@ -742,7 +742,7 @@ while True :
             if operation.lower() == GET :
                 # get the value
                 try :
-                    value = getValue(idx, valueList)
+                    value = getValue(client_key)
                 except Exception :
                     error_message = "ERROR: Value Assignment from Fingertable failed : "
                     print (error_message)
@@ -756,7 +756,7 @@ while True :
             elif operation.lower() == PUT :
                 # put the value
                 try :
-                    putValue(idx, value, keyList, valueList)
+                    putValue(client_key, value)
                 except Exception :
                     error_message = "ERROR: Put Value on Fingertable failed : "
                     print (error_message)
