@@ -618,7 +618,16 @@ while True :
         exc = sys.exc_info()[1]
         print (exc)
 
-    request = pickle.loads(message)
+    # unpickle the request
+    try :
+        request = pickle.loads(message)
+    except UnpicklingError :
+        error_message = "ERROR: UnPickling the Message : "
+        print (error_message)
+        exc = sys.exc_info()[1]
+        print (exc)
+
+    # display the connection details
     print ('\nreceived {} bytes from {}'.format(len(message), address))
     print ('request received : ' + str(request))
 
@@ -627,18 +636,60 @@ while True :
 
     # if a valid message arrived
     if message :
-        # assign request components to local varariables
-        cli_addr, cli_port, hops, operation, key, value = getRequest(request)
+        # assign request components to local variables
+        try :
+            cli_addr, cli_port, hops, operation, key, value = getRequest(request)
+        except Exception :
+            error_message = "ERROR: Parsing the Client Request : "
+            print (error_message)
+            exc = sys.exc_info()[1]
+            print (exc)
+
+        # display the client address
         print ("cli_addr : " + str(cli_addr))
+
         # get hash and hex value of user key value pair
-        client_hex_key = getHashHex(key, value)
+        try :
+            client_hex_key = getHashHex(key, value)
+        except Exception :
+            error_message = "ERROR: Client ID Hash Hex failed : "
+            print (error_message)
+            exc = sys.exc_info()[1]
+            print (exc)
+
+        # display the client hash hex
         print ("client_hex_key : " + str(client_hex_key))
-        client_key = getHash(key, value)
+
+        # get the client key hash
+        try :
+            client_key = getHash(key, value)
+        except Exception :
+            error_message = "ERROR: Client Key Hash failed : "
+            print (error_message)
+            exc = sys.exc_info()[1]
+            print (exc)
+
+        # display the client key hash
         print ("client_key : " + str(client_key))
 
         # make fingerTable as a list of two nodes
-        fingerTable = makeFingers(my_ID, successor_ID)
-        idx = findFinger(client_key, fingerTable)
+        try :
+            fingerTable = makeFingers(my_ID, successor_ID)
+        except Exception :
+            error_message = "ERROR: FingerTable Assignment failed : "
+            print (error_message)
+            exc = sys.exc_info()[1]
+            print (exc)
+
+        # get the finger list index
+        try :
+            idx = findFinger(client_key, fingerTable)
+        except Exception :
+            error_message = "ERROR: Finger Index Assignment failed : "
+            print (error_message)
+            exc = sys.exc_info()[1]
+            print (exc)
+
 
         # increment each hop
         hops += 1
@@ -652,12 +703,24 @@ while True :
             # determine operation
             if operation.lower() == GET :
                 # get the value
-                value = getValue(idx, valueList)
+                try :
+                    value = getValue(idx, valueList)
+                except Exception :
+                    error_message = "ERROR: Value Assignment from Fingertable failed : "
+                    print (error_message)
+                    exc = sys.exc_info()[1]
+                    print (exc)
 
             # or else put the value
             elif operation.lower() == PUT :
                 # put the value
-                putValue(idx, value, valueList, keyList)
+                try :
+                    putValue(idx, value, valueList, keyList)
+                except Exception :
+                    error_message = "ERROR: Put Value on Fingertable failed : "
+                    print (error_message)
+                    exc = sys.exc_info()[1]
+                    print (exc)
 
             # or else the operation is invalid so prepare error message for client
             else :
@@ -665,8 +728,13 @@ while True :
                 print ('ERROR : ' + key)
 
             # gather client address for response
-            next_addr = getClient(request)
-
+            try :
+                next_addr = getClient(request)
+            except Exception :
+                error_message = "ERROR: Client Return Address failed : "
+                print (error_message)
+                exc = sys.exc_info()[1]
+                print (exc)
             # return to client cli-hex, node-hex, hops, key_str, value_str
             response = client_hex_key, my_hex_ID, hops, key, str(value)
 
