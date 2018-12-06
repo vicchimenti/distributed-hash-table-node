@@ -203,13 +203,15 @@ def findFinger(key, li) :
 
 
 # or put the value when correct node ID is already found
-def getValue(idx, li) :
+def getValue(k) :
     # get the value from the node pair
     try :
-        v = li[idx]
+        v = crud.get(k)
     except KeyError :
         # if the key is missing throw an error message
         v = 'ERROR: The Requested Search Key Does Not Exist'
+        exc = sys.exc_info()[1]
+        print (v + '\n' + exc)
     finally :
         # return whatever is in value:
             # either a true value
@@ -218,21 +220,55 @@ def getValue(idx, li) :
         return v
 
 
+# # or put the value when correct node ID is already found
+# def getValue(idx, li) :
+#     # get the value from the node pair
+#     try :
+#         v = li[idx]
+#     except KeyError :
+#         # if the key is missing throw an error message
+#         v = 'ERROR: The Requested Search Key Does Not Exist'
+#         exc = sys.exc_info()[1]
+#         print (v + '\n' + exc)
+#     finally :
+#         # return whatever is in value:
+#             # either a true value
+#             # or an empty and-or whitespace/newline
+#             # or the error message
+#         return v
+
+
 
 
 # or put the value when correct node ID is already found
-def putValue (idx, v, lk, lv) :
-    # assign the correct node ID
-    node = idx
-    # search for delete command
+def putValue (k, v) :
+    # ensure no delete command
     if switch(v) == 1 :
         # if valid value, put value into dictionary
-        lv[node] = v
+        crud.update(d)
     else :
         # if delete parameter found then delete the key and return its value
-        v = lv.pop(node)
-        ignore = lk.pop(node)
-        #del d[node]
+        try :
+            confirm_deleted = crud.pop(k)
+        except KeyError :
+            print ('value deleted : ' + confirm_deleted)
+            exc = sys.exc_info()[1]
+            print (exc)
+
+
+# # or put the value when correct node ID is already found
+# def putValue (idx, v, lk, lv) :
+#     # assign the correct node ID
+#     node = idx
+#     # search for delete command
+#     if switch(v) == 1 :
+#         # if valid value, put value into dictionary
+#         lv[node] = v
+#     else :
+#         # if delete parameter found then delete the key and return its value
+#         v = lv.pop(node)
+#         ignore = lk.pop(node)
+#         #del d[node]
 
 
 # *** TODO : Switch Case ERROR ******************
@@ -271,6 +307,7 @@ CASE = {'a' : NEWLINE, 'b' : WHITESPACE, 'c' : EMPTY }
 # define defaults
 charset = "UTF-8"       # default encoding protocol
 count = 0               # line counter for hostfile
+crud = {}               # data dictionary to store requested key:value pairs
 
 
 
