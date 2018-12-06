@@ -626,10 +626,10 @@ while True :
         print (error_message)
         exc = sys.exc_info()[1]
         print (exc)
-
-    # display the connection details
-    print ('\nreceived {} bytes from {}'.format(len(message), address))
-    print ('request received : ' + str(request))
+    finally :
+        # display the connection details
+        print ('\nreceived {} bytes from {}'.format(len(message), address))
+        print ('request received : ' + str(request))
 
 
 # ****************** ENSURE GET OPERATION WITH NO VALUE IS VALID *********** #
@@ -644,9 +644,9 @@ while True :
             print (error_message)
             exc = sys.exc_info()[1]
             print (exc)
-
-        # display the client address
-        print ("cli_addr : " + str(cli_addr))
+        finally :
+            # display the client address
+            print ("cli_addr : " + str(cli_addr))
 
         # get hash and hex value of user key value pair
         try :
@@ -656,9 +656,9 @@ while True :
             print (error_message)
             exc = sys.exc_info()[1]
             print (exc)
-
-        # display the client hash hex
-        print ("client_hex_key : " + str(client_hex_key))
+        finally :
+            # display the client hash hex
+            print ("client_hex_key : " + str(client_hex_key))
 
         # get the client key hash
         try :
@@ -668,9 +668,9 @@ while True :
             print (error_message)
             exc = sys.exc_info()[1]
             print (exc)
-
-        # display the client key hash
-        print ("client_key : " + str(client_key))
+        finally :
+            # display the client key hash
+            print ("client_key : " + str(client_key))
 
         # make fingerTable as a list of two nodes
         try :
@@ -735,9 +735,9 @@ while True :
                 print (error_message)
                 exc = sys.exc_info()[1]
                 print (exc)
-
-            # return to client cli-hex, node-hex, hops, key_str, value_str
-            response = client_hex_key, my_hex_ID, hops, key, str(value)
+            finally :
+                # return to client cli-hex, node-hex, hops, key_str, value_str
+                response = client_hex_key, my_hex_ID, hops, key, str(value)
 
         # or else get the address of the successor node
         else :
@@ -781,9 +781,17 @@ while True :
 
 
     # send the message
-    bytes_sent = sock.sendto(message, next_addr)
-    print ('\nsent {} bytes to {}'.format(bytes_sent, next_addr))
-    print ('response sent : ' + str(response))
+    try :
+        bytes_sent = sock.sendto(message, next_addr)
+    except OSError :
+        error_message = "ERROR: Sending Requested Value : "
+        print (error_message)
+        exc = sys.exc_info()[1]
+        print (exc)
+    finally :
+        # display message sent
+        print ('\nsent {} bytes to {}'.format(bytes_sent, next_addr))
+        print ('response sent : ' + str(response))
 
 
 
