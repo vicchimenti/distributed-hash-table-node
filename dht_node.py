@@ -293,9 +293,30 @@ count = 0               # line counter for hostfile
 
 
 # parse and assign command-line input
-parser = argparse.ArgumentParser()
-parser.add_argument('hostfile', type=str, nargs=1)
-parser.add_argument('linenum', type=int, nargs=1)
+try :
+    parser = argparse.ArgumentParser()
+try :
+    parser.add_argument('hostfile', type=str, nargs=1)
+except IndexError :
+    error_message = "ERROR No Valid Command Line Input"
+    print (error_message)
+    sys.exit ("Exiting Program")
+except KeyError :
+    error_message = "ERROR Invalid Command Line Entry"
+    print (error_message)
+    sys.exit ("Exiting Program")
+
+try :
+    parser.add_argument('linenum', type=int, nargs=1)
+except IndexError :
+    error_message = "ERROR No Valid Command Line Input"
+    print (error_message)
+    sys.exit ("Exiting Program")
+except KeyError :
+    error_message = "ERROR Invalid Command Line Entry"
+    print (error_message)
+    sys.exit ("Exiting Program")
+
 args = parser.parse_args()
 
 #  *** prints args as list elements *** #
