@@ -10,14 +10,31 @@
 
 
 
- # *********** TODO : Error checking : Try except
- #      IN node please check for 0 and deletes of values
- #      In node please return false when value not found
- #      check that successor index does not go out of bounds and instead wraps to zero
- #      ensure parallel list sytem stores and retreives values correctly
- # Once Done :
- #      Implement O(logn) solutions
- # ready to try
+#  **** ATTN PROF L:
+#      This program currently runs in O(n) using a fingertable of 3 items:
+#           1. The predecessor node
+#           2. The current node
+#           3. The successor node
+#       The fingerTable is a list data structure
+#       The storage data structure for the (key, value) pairs is a Dictionary
+#       The Dictionary is defined globally and called 'crud'
+#       All Hash functions are in this dht_node.py program
+#       The client is essentially a dummy program that just sends and receives
+#
+#       As this program is not yet complete, all of my debugging print()s remain
+#
+#
+#
+#
+
+
+
+
+ # ***********  TODO :
+ #      Ensure that empty keys and deleted keys respond the same to the client
+ # ***********  Once Done :
+ #      Implement O(logn) solution
+
 
 
 
@@ -29,12 +46,14 @@ import pickle                       # for sending a list over socket
 import argparse                     # for parsing command line arguments
 import hashlib                      # SHA1 hash functionality
 from collections import OrderedDict # for dictionary sorting
-from collections import Mapping
+
 
 
 
 
 #   ***************     function definitions     ***************   #
+
+
 
 
 # get the address and port for next node from hosfile contents
@@ -69,7 +88,7 @@ def getClient(r) :
 
 
 
-# calculate the node ID in hex
+# calculate the node ID hash
 def getID(a, p) :
     p = socket.htonl(p)
     mh = hashlib.sha1()
@@ -91,7 +110,7 @@ def hexID(a, p) :
 
 
 
-# calculate the node ID in hex
+# calculate the key hash
 def getHash(k) :
     #v = socket.htonl(v)
     mh = hashlib.sha1()
@@ -101,7 +120,7 @@ def getHash(k) :
 
 
 
-# calculate the node ID in hex
+# calculate the key hash in hex
 def getHashHex(k) :
     #v = socket.htonl(v)
     mh = hashlib.sha1()
@@ -181,7 +200,7 @@ def getAddress(ID, d) :
 
 
 
-#make a finger table from the full table
+# make a finger table (list)
 def makeFingers(p_id, id, s_id) :
     list2 = []
     # the predecessor node
@@ -195,7 +214,7 @@ def makeFingers(p_id, id, s_id) :
 
 
 
-# find the node index in a list of two
+# find the node in a fingerTable of three items
 def findFinger(key, idx, li) :
     # when my node is the first node compare to the largest node (predecessor)
     if idx == 0 :
@@ -219,7 +238,7 @@ def findFinger(key, idx, li) :
 
 
 
-# or put the value when correct node ID is already found
+# get the value when correct node ID is already found
 def getValue(k) :
     # get the value from the node pair
     try :
@@ -239,7 +258,7 @@ def getValue(k) :
 
 
 
-# or put the value when correct node ID is already found
+# put the value when correct node ID is already found
 def putValue (k, v) :
     # assign the key value pair to a map item
     d = {k : v}
@@ -276,10 +295,6 @@ def putValue (k, v) :
 
 
 
-
-
-
-# *** TODO : Switch Case ERROR ******************
 
 # determine if put contains a valid value or a delete parameter
 def switch(v) :
@@ -330,6 +345,9 @@ except SystemExit :
     print (exc)
     sys.exit ('Exiting Program')
 
+
+
+
 # parse first command line argument
 try :
     parser.add_argument('hostfile', type=str, nargs=1)
@@ -345,6 +363,9 @@ except KeyError :
     exc = sys.exc_info()[1]
     print (exc)
     sys.exit ("Exiting Program")
+
+
+
 
 # parse second command line argument
 try :
@@ -362,6 +383,9 @@ except KeyError :
     print (exc)
     sys.exit ("Exiting Program")
 
+
+
+
 # declare argparse type variable
 try :
     args = parser.parse_args()
@@ -370,6 +394,9 @@ except SystemExit :
     exc = sys.exc_info()[1]
     print (exc)
     sys.exit ('Exiting Program')
+
+
+
 
 #  *** prints args as list elements *** #
 print ('hostfile : ' + str(args.hostfile))
@@ -494,9 +521,12 @@ except AttributeError :
     sys.exit ("Exiting Program")
 
 
+# **** End of Makeing lists and dictionaries from the original Dictionary **** #
 
 
-# ts print of dictionarys and lists compiled from the hostfile
+
+
+# ts print of dictionaries and lists compiled from the hostfile
 for ii in (addressTable) :
     print ("addressTable : " + str(ii))
 for i in (keyList) :
@@ -532,7 +562,6 @@ print ('host address and port from file contents : ' + str(sc))
 
 
 
-
 # calculate my current node hash value digest
 try :
     my_ID = getID(host_addr, host_port)
@@ -542,6 +571,9 @@ except Exception :
     exc = sys.exc_info()[1]
     print (exc)
     sys.exit ("Exiting Program")
+
+
+
 
 # calculate my current node hex value digest
 try :
@@ -580,6 +612,9 @@ except Exception :
     print (exc)
     sys.exit ("Exiting Program")
 
+
+
+
 # get successor index
 try :
     successor_index = keyList.index(successor_ID)
@@ -590,6 +625,9 @@ except AttributeError :
     print (exc)
     sys.exit ("Exiting Program")
 
+
+
+
 # get successor address information
 try :
     successor_addr, successor_port = getAddr(addressList, successor_index)
@@ -599,6 +637,9 @@ except AttributeError :
     exc = sys.exc_info()[1]
     print (exc)
     sys.exit ("Exiting Program")
+
+
+
 
 # print successor information
 print ("successor_ID : " + str(successor_ID))
@@ -621,7 +662,7 @@ print ("predecessor_port : " + str(predecessor_port))
 
 
 
-# create a udp socket
+# ****    create a udp socket    ****
 try :
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 except ConnectionError :
@@ -630,6 +671,9 @@ except ConnectionError :
     exc = sys.exc_info()[1]
     print (exc)
     sys.exit ("Exiting Program")
+
+
+
 
 # bind the socket
 try :
@@ -651,7 +695,7 @@ print ("Listening on Address, Port : " + str((host_addr, host_port)))
 
 
 
-# listen for communication
+# ****    listen for communication    ****
 while True :
 
     # receive message
@@ -677,8 +721,6 @@ while True :
         print ('\nreceived {} bytes from {}'.format(len(message), address))
         print ('request received : ' + str(request))
 
-
-# ************TODO : ENSURE GET OPERATION WITH NO VALUE IS VALID *********** #
 
     # if a valid message arrived
     if message :
@@ -757,9 +799,6 @@ while True :
                     exc = sys.exc_info()[1]
                     print (exc)
 
-
-
-#  ***** TODO : ERROR PUT name 'a' is not defined in switch case
             # or else put the value
             elif operation.lower() == PUT :
                 # put the value
@@ -776,11 +815,6 @@ while True :
                 value = "ERROR Invalid Operation Requested : OP : " + operation
                 print ('ERROR : ' + key)
 
-
-
-# ********** TODO : Ensrure that error value prints when necessary to client
-
-
             # gather client address for response
             try :
                 next_addr = getClient(request)
@@ -795,7 +829,6 @@ while True :
 
         # or else get the address of the successor node
         else :
-
             # set the next address for outgoing response
             next_addr = successor_addr, successor_port
             # forward to next node hash-key, hash-node, hops, key_str, value_str
@@ -815,6 +848,7 @@ while True :
 
 
 
+
     # or else there was no valid message received
     else :
         # generate error message
@@ -829,7 +863,6 @@ while True :
             print (error_message)
             exc = sys.exc_info()[1]
             print (exc)
-
 
 
 
