@@ -242,14 +242,14 @@ def getValue(k) :
 # or put the value when correct node ID is already found
 def putValue (k, v) :
     # assign the key value pair to a map item
-    #d = {k : v}
-    map(key, value)[(k, v)]
+    d = {k : v}
+    #map(key, value)[(k, v)]
     # ensure key does not already exist
     if k not in crud.keys() :
         # ensure no delete command
         if switch(v) == 1 :
             # if valid value, put new value into dictionary
-            crud.update(map(key, value))
+            crud.update(d)
             for k, v in crud.items() :
                 print(k, v)
         else :
