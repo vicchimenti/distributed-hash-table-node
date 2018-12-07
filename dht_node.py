@@ -29,7 +29,7 @@ import pickle                       # for sending a list over socket
 import argparse                     # for parsing command line arguments
 import hashlib                      # SHA1 hash functionality
 from collections import OrderedDict # for dictionary sorting
-#from collections.abc import Mapping
+from collections import Mapping
 
 
 
@@ -241,7 +241,8 @@ def getValue(k) :
 
 # or put the value when correct node ID is already found
 def putValue (k, v) :
-    # map the key value pair
+    # assign the key value pair to a map item
+    #d = {k : v}
     value = range(1)
     map(key, value)[(k, v)]
     # ensure key does not already exist
@@ -401,7 +402,7 @@ file.close()
 try :
     file = open(args.hostfile[0], 'r')
 except AttributeError :
-    error_message = "ERROR: Assignment from file failed"
+    error_message = "ERROR: Assignment of file variable failed"
     print (error_message)
     exc = sys.exc_info()[1]
     print (exc)
@@ -754,7 +755,7 @@ while True :
                 try :
                     value = getValue(client_key)
                 except Exception :
-                    error_message = "ERROR: Value Assignment from Fingertable failed : "
+                    error_message = "ERROR: Value Assignment from CRUD failed : "
                     print (error_message)
                     exc = sys.exc_info()[1]
                     print (exc)
@@ -768,7 +769,7 @@ while True :
                 try :
                     putValue(client_key, value)
                 except Exception :
-                    error_message = "ERROR: Put Value on Fingertable failed : "
+                    error_message = "ERROR: Put Value on CRUD failed : "
                     print (error_message)
                     exc = sys.exc_info()[1]
                     print (exc)
