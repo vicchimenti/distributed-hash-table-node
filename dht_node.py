@@ -245,11 +245,13 @@ def putValue (k, v) :
     value = range(1)
     map(key, value)[(k, v)]
     # ensure key does not already exist
-    if k not in crud :
+    if k not in crud.keys() :
         # ensure no delete command
         if switch(v) == 1 :
             # if valid value, put new value into dictionary
             crud.update(map(key, value))
+            for k, v in crud.items() :
+                print(k, v)
         else :
             # if delete parameter found then delete the key and return its value
             try :
