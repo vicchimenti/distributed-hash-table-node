@@ -243,7 +243,6 @@ def getValue(k) :
 def putValue (k, v) :
     # assign the key value pair to a map item
     #d = {k : v}
-    value = range(1)
     map(key, value)[(k, v)]
     # ensure key does not already exist
     if k not in crud.keys() :
