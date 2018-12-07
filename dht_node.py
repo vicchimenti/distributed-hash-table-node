@@ -250,8 +250,6 @@ def putValue (k, v) :
         if switch(v) == 1 :
             # if valid value, put new value into dictionary
             crud.update(d)
-            for k, v in crud.items() :
-                print(k, v)
         else :
             # if delete parameter found then delete the key and return its value
             try :
@@ -266,7 +264,7 @@ def putValue (k, v) :
         if switch(v) == 1 :
             # if valid value, put new value into dictionary
             del crud[k]
-            crud.update(map(key, value))
+            crud.update(d)
         else :
             # if delete parameter found then delete the key and return its value
             try :
