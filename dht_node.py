@@ -3,14 +3,40 @@
 #   p2 Distributed Hash Table
 #   dht_node.py
 #   created         11/26/2018
-#   last modified   12/5/2018
+#   last modified   12/6/2018
 #   Distributed Hash Table Node
 #   /usr/local/python3/bin/python3
 
 
- # *********** TODO : Error checking : Try except
- #      IN node please check for 0 and deletes of values
- #      In node please return false when value not found
+
+
+#  **** ATTN PROF L:
+#      This program currently runs in O(n) using a fingertable of 3 items:
+#           1. The predecessor node
+#           2. The current node
+#           3. The successor node
+#       The fingerTable is a list data structure
+#       The storage data structure for the (key, value) pairs is a Dictionary
+#       The Dictionary is defined globally and called 'crud'
+#       All Hash functions are in this dht_node.py program
+#       The client is essentially a dummy program that just sends and receives
+#
+#       As this program is not yet complete, all of my debugging print()s remain
+#
+#
+#
+#
+
+
+
+
+ # ***********  TODO :
+ #      Ensure that empty keys and deleted keys respond the same to the client
+ # ***********  Once Done :
+ #      Implement O(logn) solution
+
+
+
 
 
 
@@ -22,11 +48,12 @@ import hashlib                      # SHA1 hash functionality
 from collections import OrderedDict # for dictionary sorting
 
 
-#***TODO make sure it will work even badly
-#   check that successor index does not go out of bounds and instead wraps to zero
+
 
 
 #   ***************     function definitions     ***************   #
+
+
 
 
 # get the address and port for next node from hosfile contents
@@ -34,6 +61,8 @@ def getPath(c, v) :
     host_addr, host_port_str = c[v].split()
     host_port = int(host_port_str)
     return host_addr, host_port
+
+
 
 
 # extract the request attributes
@@ -47,6 +76,8 @@ def getRequest(r) :
     return a, p, h, op, k, v
 
 
+
+
 # extract the client address from the request
 def getClient(r) :
     a = str(r[0])
@@ -55,13 +86,17 @@ def getClient(r) :
     return cli
 
 
-# calculate the node ID in hex
+
+
+# calculate the node ID hash
 def getID(a, p) :
     p = socket.htonl(p)
     mh = hashlib.sha1()
     mh.update(repr(a).encode(charset))
     mh.update(repr(p).encode(charset))
     return mh.digest()
+
+
 
 
 # calculate the node ID in hex
@@ -73,28 +108,34 @@ def hexID(a, p) :
     return mh.hexdigest()
 
 
-# calculate the node ID in hex
-def getHash(k, v) :
+
+
+# calculate the key hash
+def getHash(k) :
     #v = socket.htonl(v)
     mh = hashlib.sha1()
     mh.update(repr(k).encode(charset))
-    mh.update(repr(v).encode(charset))
     return mh.digest()
 
 
-# calculate the node ID in hex
-def getHashHex(k, v) :
+
+
+# calculate the key hash in hex
+def getHashHex(k) :
     #v = socket.htonl(v)
     mh = hashlib.sha1()
     mh.update(repr(k).encode(charset))
-    mh.update(repr(v).encode(charset))
     return mh.hexdigest()
+
+
 
 
 # find current place in the ring
 def getIndex(li, id) :
     i = li.index(id)
     return i
+
+
 
 
 # get successors ID
@@ -111,18 +152,22 @@ def getSuccessor(li, i, c) :
     return s
 
 
+
+
 # get predecessors ID
 def getPredecessor(li, i, c) :
     # make a shallow copy of the list
     temp = li.copy()
-    # confirm that node is not the largest
+    # confirm that node is not the smallest
     if i > 0 :
         p = temp.pop((i - 1))
-    # or else pop the first element
+    # or else pop the last element
     else :
         p = temp.pop(c - 1)
     # return the predecessor ID
     return p
+
+
 
 
 # get a full address from the value list with an index
@@ -139,6 +184,8 @@ def getAddr(vl, i) :
     return host_addr, host_port
 
 
+
+
 # get a full address using the node_ID from the address dictionary
 def getAddress(ID, d) :
     # get the value from the adress table
@@ -151,164 +198,56 @@ def getAddress(ID, d) :
     return node_addr, node_port
 
 
-# return the full address of the node from the node id
-def getNodeAddr(kl, vl, nd) :
-    # get the index of the node from the sorted keyList
-    i = kl.index(nd)
-    # make a shallow copy of the value list
-    temp = vl.copy()
-    # pop element and get value
-    v = temp.pop(i)
-    # split the contents on whitespace and scrub
-    host_addr, host_port_str = v.split()
-    # cast portno to int
-    host_port = int(host_port_str)
-    # return the address and port that matches the node
-    return host_addr, host_port
 
 
-# def getValue(fingerList, my_index) :
-#     try :
-#         value = fingerList[my_index]
-#     except OSError :
-#         value = "ERROR : There value is empty"
-#     finally :
-#         return value
-
-
-# put the value
-# def putValue(fingerList, my_index, value) :
-#     fingerList[my_index] = value
-
-
-# def findNode(kl, key) :
-#     i = 0
-#     print ('i2 : ' + str(i))
-#     while i < (count - 1) :
-#         print ('i3 : ' + str(i))
-#         if key > kl[i] :
-#             print ('i4 : ' + str(i))
-#             i += 1
-#         else :
-#             print ('i5 : ' + str(i))
-#             break
-#
-#     return i
-
-
-# # for the target key
-# def findNode(start, key):
-#     current=start
-#     while distance(current.id, key) > \
-#           distance(current.next.id, key):
-#         current=current.next
-#     return current
-
-
-# # The largest possible node id is 2**k.
-# def distance(a, b):
-#     if a==b:
-#         return 0
-#     elif a<b:
-#         return b-a;
-#     else:
-#         return (2**k)+(b-a);
-
-
-# exclusive either-or bit comaparison to determine the ring distance
-# def distance(node, key, d):
-#     return (d[node] ^ key)
-
-#TODO ***** not comparing KEY values, comparing key to value directly, need key
-# the ring distance
-def distance(a, b, c, li) :
-    if (li[a] == b) :
-        return 0
-    elif (li[a] < b) :
-        return (b - li[a])
-    else :
-        return ((2**c) + (b - li[a]))
-
-
-# find the node from the full dictionary
-def findNode(ID, key, successor, c, d) :
-    # assign the current node
-    node = ID
-    # compare the search key to the current and successor IDs
-    while distance (d[node], key, c, d) > distance (d[successor], key, c, d) :
-        # assign the success to the node when the key is greater than current
-        node = successor
-    return node
-
-
-# return the highest-key-value possible of the furthest node reachable
-def findFurthest(i, s, c, l) :
-    num = getHash(2**c)
-    return (num + (s - l[i]))
-
-
-
-
-def getNode(f, c, lk) :
-    current = (c-1)
-    next = (c-2)
-    while lk[current] > f :
-        current = next
-        if next == 0 : break
-        else : next -= 1
-    idx = getIndex(lk, lk[current])
-    return idx
-
-
-# find the furtherest node available 2**m
-def getFurthest(ID, successor, c, lk) :
-    furthest = findFurthest(ID, successor, c, lk)
-    idx = getNode(furthest, c, lk)
-    return idx
-
-
-#make a finger table from the full table
-def makeFingers(idx, s_idx) :
+# make a finger table (list)
+def makeFingers(p_id, id, s_id) :
     list2 = []
-    list2.append(idx)
-    list2.append(s_idx)
+    # the predecessor node
+    list2.append(p_id)
+    # my node
+    list2.append(id)
+    # the successor node
+    list2.append(s_id)
     return list2
 
 
-# find the node index in a list of two
-def findFinger(key, li) :
-    if key < li[1] :
-        return 0
+
+
+# find the node in a fingerTable of three items
+def findFinger(key, idx, li) :
+    # when my node is the first node compare to the largest node (predecessor)
+    if idx == 0 :
+        # when the key is greater than the largest node
+        if key > li[0] :
+            # store the value now in node 0
+            return 0
+        else :
+            # call the successor
+            return 1
+    # or else my node is not the first node
     else :
-        return 1
+        # compare to my node
+        if key > li[1] :
+            # call the successor
+            return 1
+        else :
+            # store the value now
+            return 0
 
 
-# get the value when the node is not found yet
-def getValue(ID, key, successor, c, d) :
-    # find the correct node ID
-    node = findNode(ID, key, successor, c, d)
+
+
+# get the value when correct node ID is already found
+def getValue(k) :
     # get the value from the node pair
     try :
-        value = d[node]
-    except KeyError :
-        # if the key is missing throw an error message
-        value = 'ERROR: The Requested Search Key Does Not Exist'
-    finally :
-        # return whatever is in value:
-            # either a true value
-            # or an empty and-or whitespace/newline
-            # or the error message
-        return value
-
-
-# or put the value when correct node ID is already found
-def getValue(idx, li) :
-    # get the value from the node pair
-    try :
-        v = li[idx]
+        v = crud.get(k)
     except KeyError :
         # if the key is missing throw an error message
         v = 'ERROR: The Requested Search Key Does Not Exist'
+        exc = sys.exc_info()[1]
+        print (v + '\n' + exc)
     finally :
         # return whatever is in value:
             # either a true value
@@ -317,50 +256,60 @@ def getValue(idx, li) :
         return v
 
 
-# put the value when the node is not found yet
-def putValue(ID, key, successor, c, d, v) :
-    # find the correct node ID
-    node = findNode(ID, key, successor, c, d)
-    # search for delete command
-    if switch(v) == 1 :
-        # if valid value, put value into dictionary
-        d[node] = v
-    else :
-        # if delete parameter found then delete the key and return its value
-        #value = d.pop(node)
-        del d[node]
 
 
-# or put the value when correct node ID is already found
-def putValue (idx, v, lk, lv) :
-    # assign the correct node ID
-    node = idx
-    # search for delete command
-    if switch(v) == 1 :
-        # if valid value, put value into dictionary
-        lv[node] = v
+# put the value when correct node ID is already found
+def putValue (k, v) :
+    # assign the key value pair to a map item
+    d = {k : v}
+    #map(key, value)[(k, v)]
+    # ensure key does not already exist
+    if k not in crud.keys() :
+        # ensure no delete command
+        if switch(v) == 1 :
+            # if valid value, put new value into dictionary
+            crud.update(d)
+        else :
+            # if delete parameter found then delete the key and return its value
+            try :
+                confirm_deleted = crud.pop(map(key, value))
+            except KeyError :
+                print ('value deleted : ' + confirm_deleted)
+                exc = sys.exc_info()[1]
+                print (exc)
+    # or else the key already exists
     else :
-        # if delete parameter found then delete the key and return its value
-        v = lv.pop(node)
-        ignore = lk.pop(node)
-        #del d[node]
+        # ensure no delete command
+        if switch(v) == 1 :
+            # if valid value, put new value into dictionary
+            del crud[k]
+            crud.update(d)
+        else :
+            # if delete parameter found then delete the key and return its value
+            try :
+                confirm_deleted = crud.pop(map(key, value))
+            except KeyError :
+                print ('value deleted : ' + confirm_deleted)
+                exc = sys.exc_info()[1]
+                print (exc)
+
 
 
 
 # determine if put contains a valid value or a delete parameter
 def switch(v) :
     # if newline
-    if v == CASE.get(a, 'default') :
+    if v == NEWLINE :
         return 0
     # if whitespace
-    elif v == CASE.get(b, 'default') :
+    elif v == WHITESPACE :
         return 0
     # if empty string
-    elif v == CASE.get(c, 'default') :
+    elif v == EMPTY :
         return 0
+    # or else there is no delete request
     else :
         return 1
-
 
 
 
@@ -377,20 +326,77 @@ INVALID = 'INVALID'
 WHITESPACE = ' '
 NEWLINE = '\n'
 EMPTY = ''
-CASE = {'a' : NEWLINE, 'b' : WHITESPACE, 'c' : EMPTY }
 
 # define defaults
 charset = "UTF-8"       # default encoding protocol
 count = 0               # line counter for hostfile
+crud = {}               # data dictionary to store requested key:value pairs
 
 
 
 
-# parse and assign command-line input
-parser = argparse.ArgumentParser()
-parser.add_argument('hostfile', type=str, nargs=1)
-parser.add_argument('linenum', type=int, nargs=1)
-args = parser.parse_args()
+# launch argparse
+try :
+    parser = argparse.ArgumentParser()
+except SystemExit :
+    error_message = "ERROR: Invalid Command Line Input : Re-run the Program"
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ('Exiting Program')
+
+
+
+
+# parse first command line argument
+try :
+    parser.add_argument('hostfile', type=str, nargs=1)
+except IndexError :
+    error_message = "ERROR No Valid Command Line Input"
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+except KeyError :
+    error_message = "ERROR Invalid Command Line Entry"
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
+
+
+
+# parse second command line argument
+try :
+    parser.add_argument('linenum', type=int, nargs=1)
+except IndexError :
+    error_message = "ERROR No Valid Command Line Input"
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+except KeyError :
+    error_message = "ERROR Invalid Command Line Entry"
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
+
+
+
+# declare argparse type variable
+try :
+    args = parser.parse_args()
+except SystemExit :
+    print ('ERROR: Invalid Command Line Input: Please Re-run the Program')
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ('Exiting Program')
+
+
+
 
 #  *** prints args as list elements *** #
 print ('hostfile : ' + str(args.hostfile))
@@ -401,40 +407,126 @@ print ('linenum : ' + str(args.linenum))
 
 # open file and assign to list
 hostTable = {}
-with open (args.hostfile[0], 'r') as file :
-    content = file.readlines()
+try :
+    with open (args.hostfile[0], 'r') as file :
+        content = file.readlines()
+except EOFError :
+    error_message = "ERROR: No data in file"
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    file.close()
+    sys.exit ("Exiting Program")
 file.close()
 
 
 
 
-# open the file and assign dictionary keys
-file = open(args.hostfile[0], 'r')
-for line in file.readlines() :
-    host, port = line.split()
-    port = int(port)
-    k = getID(host, port)
-    v = str(content[count])
-    d = {k : v}
-    hostTable.update(d)
-    count += 1
+# open the file to assign dictionary keys
+try :
+    file = open(args.hostfile[0], 'r')
+except AttributeError :
+    error_message = "ERROR: Assignment of file variable failed"
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    file.close()
+    sys.exit ("Exiting Program")
+
+
+
+
+#  assign dictionary keys
+try :
+    for line in file.readlines() :
+        host, port = line.split()
+        port = int(port)
+        k = getID(host, port)
+        v = str(content[count])
+        d = {k : v}
+        hostTable.update(d)
+        count += 1
+except IndexError :
+    error_message = "ERROR: Assignment from file failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    file.close()
+    sys.exit ("Exiting Program")
 file.close()
 
 
-#TODO *********** consider only one list and one OrderedDict
-# or no list and dict for address lookup and dict for storage
+
+
+# *******  Make lists and dictionaries from the original dictionary   ******** #
 
 # make a sorted dictionary from the hostTable
-addressTable = OrderedDict(sorted(hostTable.items()))
+try :
+    addressTable = OrderedDict(sorted(hostTable.items()))
+except KeyError :
+    error_message = "ERROR: Ordered Dictionary Assignment Failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
 # make an iterable list of the sorted keys
-keyList = list(addressTable.keys())
-# make an iterable list of the sorted values
-valueList = list(addressTable.values())
+try :
+    keyList = list(addressTable.keys())
+except AttributeError :
+    error_message = "ERROR: KeyList from Ordered Dictionary Assignment Failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
+# make an iterable list of the sorted addresses
+try :
+    addressList = list(addressTable.values())
+except AttributeError :
+    error_message = "ERROR: addressList from Ordered Dictionary Assignment Failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
 # make an ordered dictionary from the key list
-fullTable = OrderedDict.fromkeys(keyList)  # change to hostTable
+try :
+    fullTable = OrderedDict.fromkeys(keyList)  # change to hostTable
+except KeyError :
+    error_message = "ERROR: Ordered Dictionary from KeyList Assignment Failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
 # make an ordered list from the key list
-fullList = list(fullTable.keys())
-# ts print of fingerTable
+try :
+    fullList = list(fullTable.keys())
+except AttributeError :
+    error_message = "ERROR: fullList from Ordered Dictionary Assignment Failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
+# make an ordered list of empty values from the key list
+try :
+    valueList = list(fullTable.values())
+except AttributeError :
+    error_message = "ERROR: valueList from Ordered Dictionary Assignment Failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
+
+# **** End of Makeing lists and dictionaries from the original Dictionary **** #
+
+
+
+
+# ts print of dictionaries and lists compiled from the hostfile
 for ii in (addressTable) :
     print ("addressTable : " + str(ii))
 for i in (keyList) :
@@ -443,43 +535,113 @@ for k in (fullTable) :
     print ("fullTable: " + str(k))
 for kk in (fullList) :
     print ("fullList: " + str(kk))
+for jjj in (valueList) :
+    print ("valueList : " + str(jjj))
 for jj in (hostTable) :
     print ("hostTable: " + str(jj))
-for j in (valueList) :
-    print ("valueList : " + str(j))
+for j in (addressList) :
+    print ("addressList : " + str(j))
 
 
 
 
 # split addr port info of my node
-host_addr, host_port = getPath(content, args.linenum[0])
+try :
+    host_addr, host_port = getPath(content, args.linenum[0])
+except AttributeError :
+    error_message = "ERROR: Path Assignment from file contents failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
+# assign to tuple
 sc = host_addr, host_port
-print ('host address and port from content : \n' + str(sc))
+print ('host address and port from file contents : ' + str(sc))
 
 
 
 
+# calculate my current node hash value digest
+try :
+    my_ID = getID(host_addr, host_port)
+except Exception :
+    error_message = "ERROR: Host ID Hash digest failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
 
-# calculate my current node hash value digest and hex
-my_ID = getID(host_addr, host_port)
-my_hex_ID = hexID(host_addr, host_port)
-ha, hp = getNodeAddr(keyList, valueList, my_ID)
-sa = ha, hp
-print ('host address and port from fulllist : \n' + str(sa))
+
+
+
+# calculate my current node hex value digest
+try :
+    my_hex_ID = hexID(host_addr, host_port)
+except Exception :
+    error_message = "ERROR: Host ID Hash Hex failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
 
 
 
 # find my place in the ring
-my_index = keyList.index(my_ID)
+try :
+    my_index = keyList.index(my_ID)
+except AttributeError :
+    error_message = "ERROR: Assigning Index from list failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
 print ("my_index : " + str(my_index))
 
 
 
 
-# get successor information
-successor_ID = getSuccessor(keyList, my_index, count)
-successor_index = keyList.index(successor_ID)
-successor_addr, successor_port = getAddr(valueList, successor_index)
+# get successor ID
+try :
+    successor_ID = getSuccessor(keyList, my_index, count)
+except Exception :
+    error_message = "ERROR: Successor ID Hash Hex failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
+
+
+
+# get successor index
+try :
+    successor_index = keyList.index(successor_ID)
+except AttributeError :
+    error_message = "ERROR: Assigning Successor Index from list failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
+
+
+
+# get successor address information
+try :
+    successor_addr, successor_port = getAddr(addressList, successor_index)
+except AttributeError :
+    error_message = "ERROR: Successor Path Assignment from list failed : "
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
+
+
+
+# print successor information
 print ("successor_ID : " + str(successor_ID))
 print ("successor_index : " + str(successor_index))
 print ("successor_addr : " + successor_addr)
@@ -488,10 +650,10 @@ print ("successor_port : " + str(successor_port))
 
 
 
-# get predecessor information
+# get predecessor information for *** TroubleShooting Purposes Only ********* #
 predecessor_ID = getPredecessor(keyList, my_index, count)
 predecessor_index = keyList.index(predecessor_ID)
-predecessor_addr, predecessor_port = getAddr(valueList, predecessor_index)
+predecessor_addr, predecessor_port = getAddr(addressList, predecessor_index)
 print ("predecessor_ID : " + str(predecessor_ID))
 print ("predecessor_index : " + str(predecessor_index))
 print ("predecessor_addr : " + predecessor_addr)
@@ -500,59 +662,153 @@ print ("predecessor_port : " + str(predecessor_port))
 
 
 
-# create a udp socket
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind((host_addr, host_port))
+# ****    create a udp socket    ****
+try :
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+except ConnectionError :
+    error_message = "ERROR Establishing a Socket"
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+
+
+
+
+# bind the socket
+try :
+    sock.bind((host_addr, host_port))
+except ConnectionError :
+    error_message = "ERROR ConnectionError Binding the Host and Port"
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
+except OSError :
+    error_message = "ERROR Port Already in Use"
+    print (error_message)
+    exc = sys.exc_info()[1]
+    print (exc)
+    sys.exit ("Exiting Program")
 print ("Listening on Address, Port : " + str((host_addr, host_port)))
 
 
 
 
-# listen for communication
+# ****    listen for communication    ****
 while True :
-    message, address = sock.recvfrom(4096)
-    request = pickle.loads(message)
-    print ('\nreceived {} bytes from {}'.format(len(message), address))
-    print ('request received : ' + str(request))
 
+    # receive message
+    try :
+        message, address = sock.recvfrom(4096)
+    except ConnectionError :
+        error_message = "ERROR Receiving Client Message"
+        status = "Invalid Message"
+        print (error_message)
+        exc = sys.exc_info()[1]
+        print (exc)
 
-# ****************** ENSURE GET OPERATION WITH NO VALUE IS VALID *********** #
+    # unpickle the request
+    try :
+        request = pickle.loads(message)
+    except pickle.UnpicklingError :
+        error_message = "ERROR: UnPickling the Message : "
+        print (error_message)
+        exc = sys.exc_info()[1]
+        print (exc)
+    finally :
+        # display the connection details
+        print ('\nreceived {} bytes from {}'.format(len(message), address))
+        print ('request received : ' + str(request))
+
 
     # if a valid message arrived
     if message :
-        # assign request components to local varariables
-        cli_addr, cli_port, hops, operation, key, value = getRequest(request)
-        print ("cli_addr : " + str(cli_addr))
+        # assign request components to local variables
+        try :
+            cli_addr, cli_port, hops, operation, key, value = getRequest(request)
+        except Exception :
+            error_message = "ERROR: Parsing the Client Request : "
+            print (error_message)
+            exc = sys.exc_info()[1]
+            print (exc)
+        finally :
+            # display the client address
+            print ("cli_addr : " + str(cli_addr))
+
         # get hash and hex value of user key value pair
-        client_hex_key = getHashHex(key, value)
-        print ("client_hex_key : " + str(client_hex_key))
-        client_key = getHash(key, value)
-        print ("client_key : " + str(client_key))
+        try :
+            client_hex_key = getHashHex(key)
+        except Exception :
+            error_message = "ERROR: Client ID Hash Hex failed : "
+            print (error_message)
+            exc = sys.exc_info()[1]
+            print (exc)
+        finally :
+            # display the client hash hex
+            print ("client_hex_key : " + str(client_hex_key))
 
-        # get the node_ID
-        #node_ID = findNode(my_ID, client_key, successor_ID, count, fullTable) #(keyList, client_key)
+        # get the client key hash
+        try :
+            client_key = getHash(key)
+        except Exception :
+            error_message = "ERROR: Client Key Hash failed : "
+            print (error_message)
+            exc = sys.exc_info()[1]
+            print (exc)
+        finally :
+            # display the client key hash
+            print ("client_key : " + str(client_key))
 
-        # make fingerTable as a list of two nodes
-        fingerTable = makeFingers(my_ID, successor_ID)
-        idx = findFinger(client_key, fingerTable)
-        #print ("node_index : " + str(node_ID))
+        # make fingerTable as a list of three nodes
+        try :
+            fingerTable = makeFingers(predecessor_ID, my_ID, successor_ID)
+        except Exception :
+            error_message = "ERROR: FingerTable Assignment failed : "
+            print (error_message)
+            exc = sys.exc_info()[1]
+            print (exc)
+
+        # get the finger list index
+        try :
+            idx = findFinger(client_key, my_index, fingerTable)
+        except Exception :
+            error_message = "ERROR: Finger Index Assignment failed : "
+            print (error_message)
+            exc = sys.exc_info()[1]
+            print (exc)
+
+
         # increment each hop
         hops += 1
 
 
-# **** This logic may have to change with chord ****** #
+
 
         # if the value matches current node return directly to the client
-        if idx == 0 : #node_ID == my_ID :
+        if idx == 0 :
 
             # determine operation
             if operation.lower() == GET :
-                value = getValue(idx, valueList)#(fingerList, my_index)
+                # get the value
+                try :
+                    value = getValue(client_key)
+                except Exception :
+                    error_message = "ERROR: Value Assignment from CRUD failed : "
+                    print (error_message)
+                    exc = sys.exc_info()[1]
+                    print (exc)
 
             # or else put the value
             elif operation.lower() == PUT :
                 # put the value
-                putValue(idx, value, valueList, keyList)#(fingerList, my_index, value)
+                try :
+                    putValue(client_key, value)
+                except Exception :
+                    error_message = "ERROR: Put Value on CRUD failed : "
+                    print (error_message)
+                    exc = sys.exc_info()[1]
+                    print (exc)
 
             # or else the operation is invalid so prepare error message for client
             else :
@@ -560,35 +816,35 @@ while True :
                 print ('ERROR : ' + key)
 
             # gather client address for response
-            next_addr = getClient(request)
-
-            # return to client cli-hex, node-hex, hops, key_str, value_str
-            response = client_hex_key, my_hex_ID, hops, key, str(value)
+            try :
+                next_addr = getClient(request)
+            except Exception :
+                error_message = "ERROR: Client Return Address failed : "
+                print (error_message)
+                exc = sys.exc_info()[1]
+                print (exc)
+            finally :
+                # return to client cli-hex, node-hex, hops, key_str, value_str
+                response = client_hex_key, my_hex_ID, hops, key, str(value)
 
         # or else get the address of the successor node
-        elif idx == 1 : #node_ID == successor_ID :
-
+        else :
             # set the next address for outgoing response
             next_addr = successor_addr, successor_port
             # forward to next node hash-key, hash-node, hops, key_str, value_str
             response = cli_addr, cli_port, hops, operation, key, value
 
-        # or else get the address of the next node
-        else :
-            print ('oops : ')
-        #
-        #     # call for the address of the correct node ID
-        #     n_addr, n_port = getAddress(node_ID, addressTable)#(valueList, node_index)
-        #     # set the next address for outgoing response
-        #     next_addr = n_addr, n_port
-        #     # forward to next node hash-key, hash-node, hops, key_str, value_str
-        #     response = cli_addr, cli_port, hops, operation, key, value
-
 
 
 
         # pickle the valid response
-        message = pickle.dumps(response)
+        try :
+            message = pickle.dumps(response)
+        except pickle.PickleError :
+            error_message = "ERROR: Pickling the Message : "
+            print (error_message)
+            exc = sys.exc_info()[1]
+            print (exc)
 
 
 
@@ -600,15 +856,29 @@ while True :
         # attempt to retreive receive from address for error reply
         next_addr = address
         # pickle the error message
-        message = pickle.dumps(response)
+        try :
+            message = pickle.dumps(response)
+        except pickle.PickleError :
+            error_message = "ERROR: Pickling the Response : "
+            print (error_message)
+            exc = sys.exc_info()[1]
+            print (exc)
 
 
 
 
     # send the message
-    bytes_sent = sock.sendto(message, next_addr)
-    print ('\nsent {} bytes to {}'.format(bytes_sent, next_addr))
-    print ('response sent : ' + str(response))
+    try :
+        bytes_sent = sock.sendto(message, next_addr)
+    except OSError :
+        error_message = "ERROR: Sending Requested Value : "
+        print (error_message)
+        exc = sys.exc_info()[1]
+        print (exc)
+    finally :
+        # display message sent
+        print ('\nsent {} bytes to {}'.format(bytes_sent, next_addr))
+        print ('response sent : ' + str(response))
 
 
 
@@ -616,52 +886,5 @@ while True :
 # close socket and exit program
 sock.close
 sys.exit()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#  ***************** Functions for updating tables after joins/leaves ******** #
-# update finger table
-# def update(node):
-#     for x in range(k):
-#         oldEntry=node.finger[x]
-#         node.finger[x]=findNode(oldEntry,
-#                           (node.id+(2**x)) % (2**k))
-#
-# # find the correct finger
-# def findFinger(node, key):
-#     current=node
-#     for x in range(k):
-#         if distance(current.id, key) > \
-#            distance(node.finger[x].id, key):
-#             current=node.finger[x]
-#     return current
-#
-# # look up the correct finger
-# def lookup(start, key):
-#     current=findFinger(start, key)
-#     next=findFinger(current, key)
-#     while distance(current.id, key) > \
-#           distance(next.id, key):
-#         current=next
-#         next=findFinger(current, key)
-#     return current
 
 #   eof
