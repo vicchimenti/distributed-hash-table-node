@@ -1,0 +1,4 @@
+cs1.seattleu.edu 10100
+cs1.seattleu.edu 10101
+cs1.seattleu.edu 10102
+cs1.seattleu.edu 10103
