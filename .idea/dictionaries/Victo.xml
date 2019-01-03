@@ -7,6 +7,7 @@
       <w>hostfile</w>
       <w>htonl</w>
       <w>linenum</w>
+      <w>logn</w>
       <w>portno</w>
     </words>
   </dictionary>

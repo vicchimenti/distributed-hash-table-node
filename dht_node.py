@@ -9,7 +9,7 @@
 
 
 #  **** ATTN PROF L:
-#      This program currently runs in O(n) using a fingertable of 3 items:
+#      This program currently runs in O(n) using a fingerTable of 3 items:
 #           1. The predecessor node
 #           2. The current node
 #           3. The successor node
