@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24f60fae-3b77-4e1e-abe3-93152f0ea81c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/Victo.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dht_node.py" beforeDir="false" afterPath="$PROJECT_DIR$/dht_node.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,8 +20,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dht_node.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-554">
-              <caret line="699" column="39" selection-start-line="699" selection-start-column="39" selection-end-line="699" selection-end-column="39" />
+            <state relative-caret-position="136">
+              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
             </state>
           </provider>
         </entry>
@@ -118,7 +119,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1544118349179</updated>
-      <workItem from="1546546742470" duration="2886000" />
+      <workItem from="1546546742470" duration="2972000" />
     </task>
     <task id="LOCAL-00001" summary="update from pycharm 12/6 begin">
       <created>1544118523474</created>
@@ -176,11 +177,18 @@
       <option name="project" value="LOCAL" />
       <updated>1546546795131</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="update from pycharm 12/6 begin">
+      <created>1546554659373</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1546554659373</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2886000" />
+    <option name="totallyTimeSpent" value="2972000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="848" extended-state="6" />
@@ -261,8 +269,8 @@
     <entry file="file://$PROJECT_DIR$/localhost.txt" />
     <entry file="file://$PROJECT_DIR$/dht_node.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-554">
-          <caret line="699" column="39" selection-start-line="699" selection-start-column="39" selection-end-line="699" selection-end-column="39" />
+        <state relative-caret-position="136">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
         </state>
       </provider>
     </entry>

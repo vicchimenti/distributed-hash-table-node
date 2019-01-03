@@ -610,7 +610,7 @@ while True:
     if message:
         # assign request components to local variables
         try:
-            cli_addr, cli_port, hops, operation, key, value = getRequest(request)
+            cli_addr, cli_port, hops, operation, key, value = get_request(request)
         except Exception:
             error_message = "ERROR: Parsing the Client Request : "
             print(error_message)
